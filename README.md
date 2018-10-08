@@ -1,0 +1,2 @@
+# EddieBot
+Discord bot 
