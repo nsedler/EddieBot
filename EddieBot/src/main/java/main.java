@@ -26,7 +26,7 @@ public class main extends ListenerAdapter  {
         } catch (LoginException | IllegalArgumentException | InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         discord.addEventListener(new Misc());
         discord.addEventListener(new NoSwearing());
         discord.addEventListener(new Help());
