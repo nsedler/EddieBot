@@ -2,6 +2,6 @@ package main.java;
 
 public class Constants{
 
-    public static final String discordToken = "this_is_a_test";
+    public static final String discordToken = "haha";
 }
 
