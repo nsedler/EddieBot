@@ -26,7 +26,8 @@ public class Help extends ListenerAdapter {
                 String mess = ".help - Shows commands\n" +
                         ".hacks - Shows l33t haxor code code\n" +
                         ".ping - Pong!\n" +
-                        ".retard - He really is";
+                        ".retard - He really is\n" +
+                        ".insult @<member> - Make them cry";
 
                 EmbedBuilder embed = new EmbedBuilder();
 

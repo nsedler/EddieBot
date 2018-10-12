@@ -1,9 +1,6 @@
 package main.java;
 
-import main.java.Commands.Help;
-import main.java.Commands.Misc;
-import main.java.Commands.NoSwearing;
-import main.java.Commands.Player;
+import main.java.Commands.*;
 
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -30,6 +27,7 @@ public class main extends ListenerAdapter  {
         discord.addEventListener(new NoSwearing());
         discord.addEventListener(new Help());
         discord.addEventListener(new Player());
+        discord.addEventListener(new Insult());
 
         discord.getPresence().setGame(Game.playing(".help"));
     }
