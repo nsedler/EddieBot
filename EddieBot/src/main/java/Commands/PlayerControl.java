@@ -1,5 +1,6 @@
 package main.java.Commands;
 
+import main.java.Helpful.EmbedMsg;
 import main.java.audio.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -104,9 +105,31 @@ public class PlayerControl extends ListenerAdapter {
         GuildMusicManager mng = getMusicManager(guild);
         AudioPlayer player = mng.player;
         TrackScheduler scheduler = mng.scheduler;
+        EmbedMsg embed = new EmbedMsg();
 
+        String msg = ".play <link> - Plays youtube link or unpauses if paused\n" +
+                ".pplay <link> - Plays youtube playlist link\n" +
+                ".ytplay <song> - Plays youtube song\n" +
+                ".leave - Leaves the voice channel\n" +
+                ".pause - Pauses current song\n" +
+                ".stop - Stops current song and skips\n" +
+                ".skip - Skips current song starting the next\n" +
+                ".nowplaying - Shows details on current song\n" +
+                ".list - Shows queue\n" +
+                ".volume <10 - 100> - Lets you set the volume of the bot DEFAULT = 35\n" +
+                ".restart - Restarts the song\n" +
+                ".repeat - Repeats the current song\n" +
+                ".reset - Resets the player\n";
 
-        if (".leave".equals(command[0]) || ".fuckoff".equals(command[0])) {
+        if(".music".equalsIgnoreCase(command[0])){
+
+            event.getChannel().sendMessage(embed.sendEmbed(msg)).queue();
+        }
+        else if(".join".equalsIgnoreCase(command[0])){
+
+            joinChannel(event);
+        }
+        else if (".leave".equals(command[0]) || ".fuckoff".equals(command[0])) {
 
             guild.getAudioManager().setSendingHandler(null);
             guild.getAudioManager().closeAudioConnection();
