@@ -33,18 +33,16 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 
-public class PlayerControl extends ListenerAdapter
-{
-    private class MyAction extends ListenerAdapter {
-        // This class can access everything from its parent...
-    }
+public class PlayerControl extends ListenerAdapter {
+
+
     public static final int DEFAULT_VOLUME = 35; //(0 - 150, where 100 is default max volume)
 
     private final AudioPlayerManager playerManager;
     private final Map<String, GuildMusicManager> musicManagers;
 
-    public PlayerControl()
-    {
+    public PlayerControl() {
+
         java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies").setLevel(Level.OFF);
 
         this.playerManager = new DefaultAudioPlayerManager();
@@ -55,7 +53,6 @@ public class PlayerControl extends ListenerAdapter
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
         playerManager.registerSourceManager(new HttpAudioSourceManager());
         playerManager.registerSourceManager(new LocalAudioSourceManager());
-
 
 
         musicManagers = new HashMap<String, GuildMusicManager>();
@@ -81,23 +78,20 @@ public class PlayerControl extends ListenerAdapter
     // repeat       - Makes the player repeat the currently playing song
     // reset        - Completely resets the player, fixing all errors and clearing the queue.
     @Override
-    public void onMessageReceived(MessageReceivedEvent event)
+    public void onMessageReceived(MessageReceivedEvent event) {
 
-
-    {
 
         VoiceChannel connectedChannel = event.getMember().getVoiceState().getChannel();
         if (!event.isFromType(ChannelType.TEXT))
             return;
 
-        try
-        {
+        try {
+
             List<String> allowedIds = Files.readAllLines(Paths.get("admins.txt"));
             if (!allowedIds.contains(event.getAuthor().getId()))
                 return;
-        }
-        catch (IOException ignored)
-        {
+        } catch (IOException ignored) {
+
             //If we encounter an ioe, it is due to the file not existing.
             //In that case, we treat the music system as not having admin restrictions.
         }
@@ -112,56 +106,52 @@ public class PlayerControl extends ListenerAdapter
         TrackScheduler scheduler = mng.scheduler;
 
 
-        if (".leave".equals(command[0]) || ".fuckoff".equals(command[0]))
-        {
+        if (".leave".equals(command[0]) || ".fuckoff".equals(command[0])) {
+
             guild.getAudioManager().setSendingHandler(null);
             guild.getAudioManager().closeAudioConnection();
-        }
-        else if (".play".equals(command[0]))
-        {
+        } else if (".play".equals(command[0])) {
+
             if (command.length == 1) //It is only the command to start playback (probably after pause)
             {
-                if (player.isPaused())
-                {
+
+                if (player.isPaused()) {
+
                     player.setPaused(false);
                     event.getChannel().sendMessage("Playback as been resumed.").queue();
-                }
-                else if (player.getPlayingTrack() != null)
-                {
+                } else if (player.getPlayingTrack() != null) {
+
                     event.getChannel().sendMessage("Player is already playing!").queue();
-                }
-                else if (scheduler.queue.isEmpty())
-                {
+                } else if (scheduler.queue.isEmpty()) {
+
                     event.getChannel().sendMessage("The current audio queue is empty! Add something to the queue first!").queue();
                 }
-            }
-            else    //Commands has 2 parts, .play and url.
+            } else    //Commands has 2 parts, .play and url.
             {
+
                 joinChannel(event);
                 loadAndPlay(mng, event.getChannel(), command[1], false);
             }
-        }
-        else if (".pplay".equals(command[0]) && command.length == 2)
-        {
-            
+        } else if (".pplay".equals(command[0]) && command.length == 2) {
+
+
             joinChannel(event);
             loadAndPlay(mng, event.getChannel(), command[1], true);
-        } else if(".ytplay".equals(command[0])){
+        } else if (".ytplay".equals(command[0])) {
+
 
             String input = "ytsearch: " + command[1];
 
             joinChannel(event);
             loadAndPlay(mng, event.getChannel(), input, false);
-        }
-        else if (".skip".equals(command[0]))
-        {
+        } else if (".skip".equals(command[0])) {
+
             scheduler.nextTrack();
             event.getChannel().sendMessage("The current track was skipped.").queue();
-        }
-        else if (".pause".equals(command[0]))
-        {
-            if (player.getPlayingTrack() == null)
-            {
+        } else if (".pause".equals(command[0])) {
+
+            if (player.getPlayingTrack() == null) {
+
                 event.getChannel().sendMessage("Cannot pause or resume player because no track is loaded for playing.").queue();
                 return;
             }
@@ -171,60 +161,52 @@ public class PlayerControl extends ListenerAdapter
                 event.getChannel().sendMessage("The player has been paused.").queue();
             else
                 event.getChannel().sendMessage("The player has resumed playing.").queue();
-        }
-        else if (".stop".equals(command[0]))
-        {
+        } else if (".stop".equals(command[0])) {
+
             scheduler.queue.clear();
             player.stopTrack();
             player.setPaused(false);
             event.getChannel().sendMessage("Playback has been completely stopped and the queue has been cleared.").queue();
-        }
-        else if (".volume".equals(command[0]))
-        {
-            if (command.length == 1)
-            {
+        } else if (".volume".equals(command[0])) {
+
+            if (command.length == 1) {
+
                 event.getChannel().sendMessage("Current player volume: **" + player.getVolume() + "**").queue();
-            }
-            else
-            {
-                try
-                {
+            } else {
+
+                try {
+
                     int newVolume = Math.max(10, Math.min(100, Integer.parseInt(command[1])));
                     int oldVolume = player.getVolume();
                     player.setVolume(newVolume);
                     event.getChannel().sendMessage("Player volume changed from `" + oldVolume + "` to `" + newVolume + "`").queue();
-                }
-                catch (NumberFormatException e)
-                {
+                } catch (NumberFormatException e) {
+
                     event.getChannel().sendMessage("`" + command[1] + "` is not a valid integer. (10 - 100)").queue();
                 }
             }
-        }
-        else if (".restart".equals(command[0]))
-        {
+        } else if (".restart".equals(command[0])) {
+
             AudioTrack track = player.getPlayingTrack();
             if (track == null)
                 track = scheduler.lastTrack;
 
-            if (track != null)
-            {
+            if (track != null) {
+
                 event.getChannel().sendMessage("Restarting track: " + track.getInfo().title).queue();
                 player.playTrack(track.makeClone());
-            }
-            else
-            {
+            } else {
+
                 event.getChannel().sendMessage("No track has been previously started, so the player cannot replay a track!").queue();
             }
-        }
-        else if (".repeat".equals(command[0]))
-        {
+        } else if (".repeat".equals(command[0])) {
+
             scheduler.setRepeating(!scheduler.isRepeating());
             event.getChannel().sendMessage("Player was set to: **" + (scheduler.isRepeating() ? "repeat" : "not repeat") + "**").queue();
-        }
-        else if (".reset".equals(command[0]))
-        {
-            synchronized (musicManagers)
-            {
+        } else if (".reset".equals(command[0])) {
+
+            synchronized (musicManagers) {
+
                 scheduler.queue.clear();
                 player.destroy();
                 guild.getAudioManager().setSendingHandler(null);
@@ -235,12 +217,11 @@ public class PlayerControl extends ListenerAdapter
             guild.getAudioManager().setSendingHandler(mng.sendHandler);
             event.getChannel().sendMessage("The player has been completely reset!").queue();
 
-        }
-        else if (".nowplaying".equals(command[0]) || ".np".equals(command[0]))
-        {
+        } else if (".nowplaying".equals(command[0]) || ".np".equals(command[0])) {
+
             AudioTrack currentTrack = player.getPlayingTrack();
-            if (currentTrack != null)
-            {
+            if (currentTrack != null) {
+
                 String title = currentTrack.getInfo().title;
                 String position = getTimestamp(currentTrack.getPosition());
                 String duration = getTimestamp(currentTrack.getDuration());
@@ -249,30 +230,27 @@ public class PlayerControl extends ListenerAdapter
                         title, position, duration);
 
                 event.getChannel().sendMessage(nowplaying).queue();
-            }
-            else
+            } else
                 event.getChannel().sendMessage("The player is not currently playing anything!").queue();
-        }
-        else if (".list".equals(command[0]))
-        {
+        } else if (".list".equals(command[0])) {
+
             Queue<AudioTrack> queue = scheduler.queue;
-            synchronized (queue)
-            {
-                if (queue.isEmpty())
-                {
+            synchronized (queue) {
+
+                if (queue.isEmpty()) {
+
                     event.getChannel().sendMessage("The queue is currently empty!").queue();
-                }
-                else
-                {
+                } else {
+
                     int trackCount = 0;
                     long queueLength = 0;
                     StringBuilder sb = new StringBuilder();
                     sb.append("Current Queue: Entries: ").append(queue.size()).append("\n");
-                    for (AudioTrack track : queue)
-                    {
+                    for (AudioTrack track : queue) {
+
                         queueLength += track.getDuration();
-                        if (trackCount < 10)
-                        {
+                        if (trackCount < 10) {
+
                             sb.append("`[").append(getTimestamp(track.getDuration())).append("]` ");
                             sb.append(track.getInfo().title).append("\n");
                             trackCount++;
@@ -283,11 +261,10 @@ public class PlayerControl extends ListenerAdapter
                     event.getChannel().sendMessage(sb.toString()).queue();
                 }
             }
-        }
-        else if (".shuffle".equals(command[0]))
-        {
-            if (scheduler.queue.isEmpty())
-            {
+        } else if (".shuffle".equals(command[0])) {
+
+            if (scheduler.queue.isEmpty()) {
+
                 event.getChannel().sendMessage("The queue is currently empty!").queue();
                 return;
             }
@@ -297,8 +274,8 @@ public class PlayerControl extends ListenerAdapter
         }
     }
 
-    private void loadAndPlay(GuildMusicManager mng, final MessageChannel channel, String url, final boolean addPlaylist)
-    {
+    private void loadAndPlay(GuildMusicManager mng, final MessageChannel channel, String url, final boolean addPlaylist) {
+
         final String trackUrl;
 
         //Strip <>'s that prevent discord from embedding link resources
@@ -307,11 +284,11 @@ public class PlayerControl extends ListenerAdapter
         else
             trackUrl = url;
 
-        playerManager.loadItemOrdered(mng, trackUrl, new AudioLoadResultHandler()
-        {
+        playerManager.loadItemOrdered(mng, trackUrl, new AudioLoadResultHandler() {
+
             @Override
-            public void trackLoaded(AudioTrack track)
-            {
+            public void trackLoaded(AudioTrack track) {
+
                 String msg = "Adding to queue: " + track.getInfo().title;
                 if (mng.player.getPlayingTrack() == null)
                     msg += "\nand the Player has started playing;";
@@ -321,53 +298,53 @@ public class PlayerControl extends ListenerAdapter
             }
 
             @Override
-            public void playlistLoaded(AudioPlaylist playlist)
-            {
+            public void playlistLoaded(AudioPlaylist playlist) {
+
                 AudioTrack firstTrack = playlist.getSelectedTrack();
                 List<AudioTrack> tracks = playlist.getTracks();
 
 
                 if (firstTrack == null) {
+
                     firstTrack = playlist.getTracks().get(0);
                 }
 
-                if (addPlaylist)
-                {
-                    channel.sendMessage("Adding **" + playlist.getTracks().size() +"** tracks to queue from playlist: " + playlist.getName()).queue();
+                if (addPlaylist) {
+
+                    channel.sendMessage("Adding **" + playlist.getTracks().size() + "** tracks to queue from playlist: " + playlist.getName()).queue();
                     tracks.forEach(mng.scheduler::queue);
-                }
-                else
-                {
+                } else {
+
                     channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
                     mng.scheduler.queue(firstTrack);
                 }
             }
 
             @Override
-            public void noMatches()
-            {
+            public void noMatches() {
+
                 channel.sendMessage("Nothing found by " + trackUrl).queue();
             }
 
             @Override
-            public void loadFailed(FriendlyException exception)
-            {
+            public void loadFailed(FriendlyException exception) {
+
                 channel.sendMessage("Could not play: " + exception.getMessage()).queue();
             }
         });
     }
 
-    private GuildMusicManager getMusicManager(Guild guild)
-    {
+    private GuildMusicManager getMusicManager(Guild guild) {
+
         String guildId = guild.getId();
         GuildMusicManager mng = musicManagers.get(guildId);
-        if (mng == null)
-        {
-            synchronized (musicManagers)
-            {
+        if (mng == null) {
+
+            synchronized (musicManagers) {
+
                 mng = musicManagers.get(guildId);
-                if (mng == null)
-                {
+                if (mng == null) {
+
                     mng = new GuildMusicManager(playerManager);
                     mng.player.setVolume(DEFAULT_VOLUME);
                     musicManagers.put(guildId, mng);
@@ -377,11 +354,11 @@ public class PlayerControl extends ListenerAdapter
         return mng;
     }
 
-    private static String getTimestamp(long milliseconds)
-    {
-        int seconds = (int) (milliseconds / 1000) % 60 ;
+    private static String getTimestamp(long milliseconds) {
+
+        int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
-        int hours   = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+        int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
 
         if (hours > 0)
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
@@ -389,7 +366,8 @@ public class PlayerControl extends ListenerAdapter
             return String.format("%02d:%02d", minutes, seconds);
     }
 
-    public void joinChannel(MessageReceivedEvent event){
+    public void joinChannel(MessageReceivedEvent event) {
+
 
         VoiceChannel connectedChannel = event.getMember().getVoiceState().getChannel();
         Guild guild = event.getGuild();
@@ -401,22 +379,20 @@ public class PlayerControl extends ListenerAdapter
 
         if (chan == null)
             chan = guild.getVoiceChannelsByName("test", true).stream().findFirst().orElse(null);
-        if (chan == null)
-        {
+        if (chan == null) {
+
             event.getChannel().sendMessage("Could not find VoiceChannel by name: ").queue();
-        }
-        else
-        {
+        } else {
+
             guild.getAudioManager().setSendingHandler(mng.sendHandler);
 
-            try
-            {
+            try {
+
                 guild.getAudioManager().openAudioConnection(connectedChannel);
-            }
-            catch (PermissionException e)
-            {
-                if (e.getPermission() == Permission.VOICE_CONNECT)
-                {
+            } catch (PermissionException e) {
+
+                if (e.getPermission() == Permission.VOICE_CONNECT) {
+
                     event.getChannel().sendMessage("Yui does not have permission to connect to: " + chan.getName()).queue();
                 }
             }

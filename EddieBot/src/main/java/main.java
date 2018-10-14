@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.security.auth.login.LoginException;
 
-public class main extends ListenerAdapter  {
+public class main extends ListenerAdapter {
     public static void main(@Nullable String[] args) throws RateLimitedException {
 
         JDA discord = null;

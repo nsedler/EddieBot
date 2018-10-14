@@ -1,9 +1,6 @@
 package main.java.Commands;
 
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
@@ -225,34 +222,26 @@ public class Insult extends ListenerAdapter {
                 "If you were anymore inbred you'd be a sandwich."};
 
         String[] command = event.getMessage().getContentRaw().split(" ", 2);
-        String message = event.getMessage().getContentDisplay();
-        final TextChannel botChannel = event.getGuild().getTextChannelsByName("eddie-bot-testing", true).get(0);
         MessageChannel channel = event.getChannel();
         Random rng = new Random();
-        Guild guild = event.getGuild();
-        VoiceChannel chan = null;
-        VoiceChannel connectedChannel = event.getMember().getVoiceState().getChannel();
 
-        if (channel == botChannel) {
+        if (".insult".equalsIgnoreCase(command[0])) {
 
-            if(".insult".equalsIgnoreCase(command[0])){
+            String response = "";
+            String user = event.getAuthor().getId();
 
-                String response = "";
-                String user = event.getAuthor().getId();
+            if (command[1].equalsIgnoreCase("<@498609510751928330>") || command[1].equalsIgnoreCase("<@394930557076897804>")) {
 
+                int index = rng.nextInt(insults.length);
+                response = "<@" + user + "> " + insults[index];
+                channel.sendMessage(response).queue();
+            } else {
 
-                if(command[1].equalsIgnoreCase("<@498609510751928330>") || command[1].equalsIgnoreCase("<@394930557076897804>")){
-
-                    int index = rng.nextInt(insults.length);
-                    response = "<@" + user + "> " + insults[index];
-                    channel.sendMessage(response).queue();
-                } else{
-
-                    int index = rng.nextInt(insults.length);
-                    response = command[1] + " " + insults[index];
-                    channel.sendMessage(response).queue();
-                }
+                int index = rng.nextInt(insults.length);
+                response = command[1] + " " + insults[index];
+                channel.sendMessage(response).queue();
             }
         }
     }
 }
+

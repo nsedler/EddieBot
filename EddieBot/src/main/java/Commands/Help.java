@@ -19,30 +19,28 @@ public class Help extends ListenerAdapter {
         final TextChannel botChannel = event.getGuild().getTextChannelsByName("eddie-bot-testing", true).get(0);
         MessageChannel channel = event.getChannel();
 
-        if (channel == botChannel) {
 
-            if (message.startsWith(".help")) {
+        if (message.startsWith(".help")) {
 
-                String mess = ".help - Shows commands\n" +
-                        ".hacks - Shows l33t haxor code code\n" +
-                        ".ping - Pong!\n" +
-                        ".retard - He really is\n" +
-                        ".insult @<member> - Make them cry";
+            String mess = ".help - Shows commands\n" +
+                    ".hacks - Shows l33t haxor code code\n" +
+                    ".ping - Pong!\n" +
+                    ".retard - He really is\n" +
+                    ".insult @<member> - Make them cry";
 
-                EmbedBuilder embed = new EmbedBuilder();
+            EmbedBuilder embed = new EmbedBuilder();
 
-                embed.setAuthor("Eddie [BOT]");
-                embed.setColor(Color.red);
-                embed.setTitle("Commands: ");
-                embed.setDescription(mess);
+            embed.setAuthor("Eddie [BOT]");
+            embed.setColor(Color.red);
+            embed.setTitle("Commands: ");
+            embed.setDescription(mess);
 
-                MessageEmbed me = embed.build();
-                MessageBuilder mb = new MessageBuilder();
-                mb.setEmbed(me);
-                Message m = mb.build();
+            MessageEmbed me = embed.build();
+            MessageBuilder mb = new MessageBuilder();
+            mb.setEmbed(me);
+            Message m = mb.build();
 
-                botChannel.sendMessage(m).queue();
-            }
+            botChannel.sendMessage(m).queue();
         }
     }
 }

@@ -24,7 +24,7 @@ public class Misc extends ListenerAdapter {
 
                 String response = "<@394930557076897804> is a fucking retard!";
                 botChannel.sendMessage(response).queue();
-            } else if(message.startsWith(".hacks")){
+            } else if (message.startsWith(".hacks")) {
 
                 String response = "```java\n" +
                         "public class Hacker{\n" +
