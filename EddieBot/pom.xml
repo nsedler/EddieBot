@@ -33,6 +33,13 @@
             <version>3.5.1</version>
             <type>maven-plugin</type>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.mashape.unirest/unirest-java -->
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+
     </dependencies>
 
 
@@ -59,6 +66,10 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
@@ -71,7 +82,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>/home/nsedler/Documents/EddieBot/EddieBot/src/main/java/main.java</mainClass> <!-- You have to replace this with a path to your main class like my.path.Main -->
+                            <mainClass>main.java.main</mainClass> <!-- You have to replace this with a path to your main class like my.path.Main -->
                         </manifest>
                     </archive>
                     <descriptorRefs>
