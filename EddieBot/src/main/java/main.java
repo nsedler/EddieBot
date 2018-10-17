@@ -12,6 +12,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
 
 public class main extends ListenerAdapter {
     public static void main(@Nullable String[] args) throws RateLimitedException {
@@ -29,6 +30,7 @@ public class main extends ListenerAdapter {
         discord.addEventListener(new Help());
         discord.addEventListener(new PlayerControl());
         discord.addEventListener(new Insult());
+        discord.addEventListener(new TWSS());
 
         discord.getPresence().setGame(Game.playing(".help"));
     }

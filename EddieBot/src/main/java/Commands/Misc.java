@@ -1,50 +1,55 @@
 package main.java.Commands;
 
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 public class Misc extends ListenerAdapter {
 
-    public void onMessageReceived(MessageReceivedEvent event) {
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event){
 
         String message = event.getMessage().getContentDisplay();
-        final TextChannel botChannel = event.getGuild().getTextChannelsByName("eddie-bot-testing", true).get(0);
         MessageChannel channel = event.getChannel();
+        String[] command = event.getMessage().getContentDisplay().split(" ", 2);
 
-        if (channel == botChannel) {
+        if (message.equalsIgnoreCase(".ping") || message.equalsIgnoreCase("ping")) {
 
-            if (message.equalsIgnoreCase(".ping") || message.equalsIgnoreCase("ping")) {
+            String response = "Pong!";
 
-                String response = "Pong!";
+            channel.sendMessage(response).queue();
+        } else if (message.startsWith(".retard")) {
 
-                botChannel.sendMessage(response).queue();
-            } else if (message.startsWith(".retard")) {
+            String response = "<@394930557076897804> is a fucking retard!";
+            channel.sendMessage(response).queue();
+        } else if (message.startsWith(".hacks")) {
 
-                String response = "<@394930557076897804> is a fucking retard!";
-                botChannel.sendMessage(response).queue();
-            } else if (message.startsWith(".hacks")) {
+            String response = "```java\n" +
+                    "public class Hacker{\n" +
+                    "\n" +
+                    "    private int hax;\n" +
+                    "\n" +
+                    "    public Hacker(){\n" +
+                    "\n" +
+                    "        hax = 1337;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    public void hacked(String recipient){\n" +
+                    "\n" +
+                    "        System.out.println(recipient + \" has been l33t haxored\" + hax);\n" +
+                    "    }\n" +
+                    "}\n" +
+                    "```";
 
-                String response = "```java\n" +
-                        "public class Hacker{\n" +
-                        "\n" +
-                        "    private int hax;\n" +
-                        "\n" +
-                        "    public Hacker(){\n" +
-                        "\n" +
-                        "        hax = 1337;\n" +
-                        "    }\n" +
-                        "\n" +
-                        "    public void hacked(String recipient){\n" +
-                        "\n" +
-                        "        System.out.println(recipient + \" has been l33t haxored\" + hax);\n" +
-                        "    }\n" +
-                        "}\n" +
-                        "```";
+            channel.sendMessage(response).queue();
+        } else if(message.equalsIgnoreCase("long")){
 
-                botChannel.sendMessage(response).queue();
-            }
+            String response = "That's what she said :joy: ";
+            channel.sendMessage(response).queue();
         }
     }
 }
+

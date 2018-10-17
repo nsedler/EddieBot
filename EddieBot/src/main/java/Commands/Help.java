@@ -20,7 +20,7 @@ public class Help extends ListenerAdapter {
                 ".hacks - Shows l33t haxor code code\n" +
                 ".ping - Pong!\n" +
                 ".retard - He really is\n" +
-                ".insult @<member> - Make them cry" +
+                ".insult @<member> - Make them cry\n" +
                 ".music - List of all music commands";
 
         String message = event.getMessage().getContentDisplay();

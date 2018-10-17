@@ -25,7 +25,7 @@ public class NoSwearing extends ListenerAdapter {
                 break;
             } else {
 
-                if (message.contains(swearWords[i])) {
+                if (message.equalsIgnoreCase(swearWords[i]) || message.contains(swearWords[i])) {
 
                     String response = "Hey <@" + id + "> ! That's a *no no* word!  This is a christan minecraft server!";
                     event.getMessage().delete().queue();

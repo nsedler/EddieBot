@@ -167,6 +167,12 @@ public class PlayerControl extends ListenerAdapter {
 
             joinChannel(event);
             loadAndPlay(mng, event.getChannel(), input, false);
+        } else if(".tplay".equalsIgnoreCase(command[0])){
+
+            String input = "tsearch: " + command[1];
+
+            joinChannel(event);
+            loadAndPlay(mng, event.getChannel(), input, false);
         } else if (".skip".equals(command[0])) {
 
             scheduler.nextTrack();
