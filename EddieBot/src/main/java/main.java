@@ -12,10 +12,10 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.security.auth.login.LoginException;
-import java.io.IOException;
+
 
 public class main extends ListenerAdapter {
-    public static void main(@Nullable String[] args) throws RateLimitedException {
+    public static void main(@Nullable String[] args){
 
         JDA discord = null;
 
