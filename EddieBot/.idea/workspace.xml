@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9abc849b-2544-4c55-90ad-bdf44114ff00" name="Default Changelist" comment="" />
+    <list default="true" id="9abc849b-2544-4c55-90ad-bdf44114ff00" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Commands/Help.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Commands/Help.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -72,7 +75,7 @@
           <entry key="Procfile" value="2" />
           <entry key="class" value="3" />
           <entry key="gitignore" value="1" />
-          <entry key="java" value="24" />
+          <entry key="java" value="25" />
           <entry key="png" value="1" />
           <entry key="xml" value="2" />
         </counts>
@@ -81,7 +84,7 @@
         <counts>
           <entry key="CLASS" value="3" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="24" />
+          <entry key="JAVA" value="25" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="XML" value="2" />
         </counts>
@@ -89,13 +92,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Procfile" value="36" />
-          <entry key="java" value="3750" />
+          <entry key="java" value="3812" />
           <entry key="txt" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3750" />
+          <entry key="JAVA" value="3812" />
           <entry key="PLAIN_TEXT" value="55" />
         </counts>
       </usages-collector>
@@ -115,11 +118,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Administrator/Purge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="69">
+              <caret line="3" column="45" lean-forward="true" selection-start-line="3" selection-start-column="45" selection-end-line="3" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Help.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="14" column="44" lean-forward="true" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -167,12 +179,12 @@
         <option value="$PROJECT_DIR$/src/main/java/Commands/WordArt.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/AsciiArt.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/Misc.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Commands/Help.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/NoSwearing.java" />
         <option value="$PROJECT_DIR$/src/main/java/Commands/PlayerControl.java" />
         <option value="$PROJECT_DIR$/src/main/java/main.java" />
         <option value="$PROJECT_DIR$/src/main/java/Administrator/Purge.java" />
         <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/src/main/java/Commands/Help.java" />
       </list>
     </option>
   </component>
@@ -245,6 +257,22 @@
               <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="main.java.Administrator" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
+            <path>
+              <item name="EddieBot" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="EddieBot" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main.java.Commands" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="EddieBot" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="EddieBot" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main.java.Helpful" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -252,7 +280,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539842098041" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539842483285" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
@@ -429,13 +457,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Help.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="5" column="50" selection-start-line="5" selection-start-column="50" selection-end-line="5" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Helpful/EmbedMsg.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="69">
@@ -490,8 +511,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Administrator/Purge.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="69">
+          <caret line="3" column="45" lean-forward="true" selection-start-line="3" selection-start-column="45" selection-end-line="3" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Commands/Help.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="14" column="44" lean-forward="true" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

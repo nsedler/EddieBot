@@ -14,7 +14,8 @@ public class Help extends ListenerAdapter {
                 ".ping - Pong!\n" +
                 ".retard - He really is\n" +
                 ".insult @<member> - Make them cry\n" +
-                ".music - List of all music commands";
+                ".music - List of all music commands\n" +
+                ".purge <2 - 100> - Deletes messages (admins only)";
 
         String message = event.getMessage().getContentDisplay();
         MessageChannel channel = event.getChannel();
