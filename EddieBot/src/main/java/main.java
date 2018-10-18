@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.Administrator.Purge;
 import main.java.Commands.*;
 
 import main.java.Commands.PlayerControl;
@@ -31,6 +32,7 @@ public class main extends ListenerAdapter {
         discord.addEventListener(new PlayerControl());
         discord.addEventListener(new Insult());
         discord.addEventListener(new TWSS());
+        discord.addEventListener(new Purge());
 
         discord.getPresence().setGame(Game.playing(".help"));
     }
