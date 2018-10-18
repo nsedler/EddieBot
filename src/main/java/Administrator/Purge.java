@@ -12,7 +12,6 @@ public class Purge extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent event) {
 
-        Boolean isBot = event.getAuthor().isBot();
         Boolean isAdmin = event.getMember().hasPermission(Permission.ADMINISTRATOR);
         Boolean isOwner = event.getMember().isOwner();
         MessageChannel channel = event.getChannel();
@@ -31,7 +30,7 @@ public class Purge extends ListenerAdapter {
                     channel.sendMessage("<@" + event.getAuthor().getId() + "> You must provide at least 2 or at most 100 messages to be deleted.").queue();
                 }
             }
-        } else {
+        } else if (!isAdmin){
 
             channel.sendMessage("<@" + event.getAuthor().getId() + "> This command is for administrators only.");
         }
