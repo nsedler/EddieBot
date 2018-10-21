@@ -23,8 +23,10 @@ public class Jail extends ListenerAdapter {
 
         if(".jail".equalsIgnoreCase(command[0])){
 
-            event.getGuild().getController().removeRolesFromMember(toMute);
-            event.getGuild().getController().addSingleRoleToMember(toMute, role);
+            event.getGuild().getController().removeRolesFromMember(toMute).queue();
+            event.getGuild().getController().addSingleRoleToMember(toMute, role).queue();
+
+            channel.sendMessage(toMute + " was muted by " + event.getAuthor()).queue();
         }
     }
 }
