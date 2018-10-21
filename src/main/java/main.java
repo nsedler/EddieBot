@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.Administrator.Jail;
+import main.java.Administrator.NoSwearing;
 import main.java.Administrator.Purge;
 import main.java.Commands.*;
 
@@ -17,12 +19,10 @@ import javax.security.auth.login.LoginException;
 public class main extends ListenerAdapter {
     public static void main(@Nullable String[] args){
 
-        System.getenv();
-
         JDA discord = null;
 
         try {
-            discord = new JDABuilder(AccountType.BOT).setToken(System.getenv("token")).buildBlocking();
+            discord = new JDABuilder(AccountType.BOT).setToken("token").buildBlocking();
         } catch (LoginException | IllegalArgumentException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -34,6 +34,7 @@ public class main extends ListenerAdapter {
         discord.addEventListener(new Insult());
         discord.addEventListener(new TWSS());
         discord.addEventListener(new Purge());
+        discord.addEventListener(new Jail());
 
         discord.getPresence().setGame(Game.playing(".help"));
     }

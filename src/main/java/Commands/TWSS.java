@@ -69,7 +69,7 @@ public class TWSS extends ListenerAdapter {
                 break;
             } else {
 
-                if (message.equalsIgnoreCase(twss[i])) {
+                if (message.equalsIgnoreCase(twss[i]) || message.contains(twss[i])) {
 
                     String response = "<@" + id + "> That's what she said!";
                     channel.sendMessage(response).queue();
