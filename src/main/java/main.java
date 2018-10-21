@@ -19,10 +19,12 @@ import javax.security.auth.login.LoginException;
 public class main extends ListenerAdapter {
     public static void main(@Nullable String[] args){
 
+
         JDA discord = null;
 
+
         try {
-            discord = new JDABuilder(AccountType.BOT).setToken(System.getenv("token")).buildBlocking();
+            discord = new JDABuilder(AccountType.BOT).setToken(System.getenv("test_token")).buildBlocking();
         } catch (LoginException | IllegalArgumentException | InterruptedException e) {
             e.printStackTrace();
         }
