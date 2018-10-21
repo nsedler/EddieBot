@@ -18,12 +18,12 @@ public class Jail extends ListenerAdapter {
         MessageChannel channel = event.getChannel();
         Member toMute = event.getMessage().getMentionedMembers().get(0);
         Role role = event.getGuild().getRoleById("499676837316919316");
+        List<Role> roles = event.getMember().getRoles();
         String[] command = event.getMessage().getContentDisplay().split(" ", 2);
 
 
         if(".jail".equalsIgnoreCase(command[0])){
-
-            event.getGuild().getController().removeRolesFromMember(toMute).queue();
+            event.getGuild().getController().removeRolesFromMember(toMute, roles).queue();
             event.getGuild().getController().addSingleRoleToMember(toMute, role).queue();
 
             channel.sendMessage(toMute + " was muted by " + event.getAuthor()).queue();
