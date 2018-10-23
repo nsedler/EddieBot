@@ -37,6 +37,7 @@ public class main extends ListenerAdapter {
         discord.addEventListener(new TWSS());
         discord.addEventListener(new Purge());
         discord.addEventListener(new Jail());
+        discord.addEventListener(new Joke());
 
         discord.getPresence().setGame(Game.playing(".help"));
     }

@@ -5,8 +5,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-
 public class Misc extends ListenerAdapter {
 
     @Override

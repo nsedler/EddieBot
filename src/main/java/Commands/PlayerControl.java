@@ -42,7 +42,7 @@ public class PlayerControl extends ListenerAdapter {
     private final AudioPlayerManager playerManager;
     private final Map<String, GuildMusicManager> musicManagers;
 
-    public PlayerControl() {
+    public PlayerControl() throws IndexOutOfBoundsException{
 
         java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies").setLevel(Level.OFF);
 
