@@ -4,5 +4,6 @@
 /.idea/
 *.iml
 /out/
+.idea/
 
 *.class
