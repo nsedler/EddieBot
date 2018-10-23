@@ -230,7 +230,7 @@ public class Insult extends ListenerAdapter {
             String response = "";
             String user = event.getAuthor().getId();
 
-            if (command[1].equalsIgnoreCase("<@498609510751928330>") || command[1].equalsIgnoreCase("<@394930557076897804>")) {
+            if (command[1].equalsIgnoreCase("<@498609510751928330>") || command[1].equalsIgnoreCase("<@185063150557593600>")) {
 
                 int index = rng.nextInt(insults.length);
                 response = "<@" + user + "> " + insults[index];
