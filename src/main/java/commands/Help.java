@@ -1,6 +1,6 @@
-package main.java.Commands;
+package main.java.commands;
 
-import main.java.Helpful.EmbedMsg;
+import main.java.helpful.EmbedMsg;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;

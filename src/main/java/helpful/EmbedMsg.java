@@ -1,4 +1,4 @@
-package main.java.Helpful;
+package main.java.helpful;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
@@ -19,12 +19,6 @@ public class EmbedMsg {
         Color color[];
         Random rng = new Random();
 
-//        ".help - Shows commands\n" +
-//                ".hacks - Shows l33t haxor code code\n" +
-//                ".ping - Pong!\n" +
-//                ".retard - He really is\n" +
-//                ".insult @<member> - Make them cry"
-
         color = new Color[]{
                 Color.red, Color.BLACK, Color.WHITE, Color.green, Color.pink
         };
@@ -35,7 +29,7 @@ public class EmbedMsg {
 
         embed.setAuthor("Eddie [BOT]");
         embed.setColor(color[c]);
-        embed.setTitle("Commands: ");
+        embed.setTitle("commands: ");
         embed.setDescription(message);
 
         MessageEmbed me = embed.build();

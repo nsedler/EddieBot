@@ -1,4 +1,4 @@
-package main.java.Commands;
+package main.java.commands;
 
 
 import com.google.gson.JsonElement;

@@ -1,11 +1,9 @@
 package main.java;
 
-import main.java.Administrator.Jail;
-import main.java.Administrator.NoSwearing;
-import main.java.Administrator.Purge;
-import main.java.Commands.*;
+import main.java.administrator.*;
+import main.java.commands.*;
 
-import main.java.Commands.PlayerControl;
+import main.java.commands.PlayerControl;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -24,13 +22,13 @@ public class main extends ListenerAdapter {
 
 
         try {
-            discord = new JDABuilder(AccountType.BOT).setToken(System.getenv("token")).buildBlocking();
+            discord = new JDABuilder(AccountType.BOT).setToken(System.getenv("test_token")).buildBlocking();
         } catch (LoginException | IllegalArgumentException | InterruptedException e) {
             e.printStackTrace();
         }
 
         discord.addEventListener(new Misc());
-        discord.addEventListener(new NoSwearing());
+        discord.addEventListener(new SwearFilter());
         discord.addEventListener(new Help());
         discord.addEventListener(new PlayerControl());
         discord.addEventListener(new Insult());
@@ -38,6 +36,7 @@ public class main extends ListenerAdapter {
         discord.addEventListener(new Purge());
         discord.addEventListener(new Jail());
         discord.addEventListener(new Joke());
+        discord.addEventListener(new Woof());
 
         discord.getPresence().setGame(Game.playing(".help"));
     }

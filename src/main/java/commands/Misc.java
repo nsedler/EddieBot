@@ -1,4 +1,4 @@
-package main.java.Commands;
+package main.java.commands;
 
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;

@@ -1,6 +1,6 @@
-package main.java.Commands;
+package main.java.commands;
 
-import main.java.Helpful.EmbedMsg;
+import main.java.helpful.EmbedMsg;
 import main.java.audio.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -149,7 +149,7 @@ public class PlayerControl extends ListenerAdapter {
 
                     event.getChannel().sendMessage("The current audio queue is empty! Add something to the queue first!").queue();
                 }
-            } else    //Commands has 2 parts, .play and url.
+            } else    //commands has 2 parts, .play and url.
             {
 
                 joinChannel(event);

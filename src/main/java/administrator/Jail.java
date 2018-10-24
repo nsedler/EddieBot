@@ -1,4 +1,4 @@
-package main.java.Administrator;
+package main.java.administrator;
 
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -10,15 +10,24 @@ public class Jail extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent event) {
 
-        String message = event.getMessage().getContentDisplay();
+        Member toMute = null;
         MessageChannel channel = event.getChannel();
-        Member toMute = event.getMessage().getMentionedMembers().get(0);
         Role role = event.getGuild().getRoleById("499676837316919316");
+        try {
+            toMute = event.getMessage().getMentionedMembers().set(0, toMute);
+        } catch(UnsupportedOperationException e){
+
+        }
         String[] command = event.getMessage().getContentDisplay().split(" ", 2);
 
-
         if(".jail".equalsIgnoreCase(command[0])){
-            event.getGuild().getController().addSingleRoleToMember(toMute, role).complete();
+
+            try {
+                event.getGuild().getController().addSingleRoleToMember(toMute, role).complete();
+            } catch(IndexOutOfBoundsException  | UnsupportedOperationException e){
+
+                e.printStackTrace();
+            }
 
             channel.sendMessage(command[1] + " was muted by " + event.getAuthor().getName()).queue();
         }
