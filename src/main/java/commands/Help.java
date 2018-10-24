@@ -17,7 +17,8 @@ public class Help extends ListenerAdapter {
                 ".music - List of all music commands\n" +
                 ".purge <2 - 100> - Deletes messages (admins only)\n" +
                 ".jail <@user> - Jails them\n" +
-                ".joke - Dad joke";
+                ".joke - Dad joke\n" +
+                ".woof - Doges";
 
         String message = event.getMessage().getContentDisplay();
         MessageChannel channel = event.getChannel();
