@@ -30,6 +30,7 @@ public class main extends ListenerAdapter {
         }
 
         // administrator
+        assert discord != null;
         discord.addEventListener(new SwearFilter());
         discord.addEventListener(new Purge());
         discord.addEventListener(new Jail());
