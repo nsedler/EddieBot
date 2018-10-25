@@ -24,23 +24,32 @@ public class main extends ListenerAdapter {
 
 
         try {
-            discord = new JDABuilder(AccountType.BOT).setToken(System.getenv("token")).buildBlocking();
+            discord = new JDABuilder(AccountType.BOT).setToken(System.getenv("test_token")).buildBlocking();
         } catch (LoginException | IllegalArgumentException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        discord.addEventListener(new Misc());
+        // administrator
         discord.addEventListener(new SwearFilter());
-        discord.addEventListener(new Help());
-        discord.addEventListener(new PlayerControl());
-        discord.addEventListener(new Insult());
-        discord.addEventListener(new TWSS());
         discord.addEventListener(new Purge());
         discord.addEventListener(new Jail());
+
+        // fun
+        discord.addEventListener(new Insult());
+        discord.addEventListener(new TWSS());
         discord.addEventListener(new Joke());
         discord.addEventListener(new Woof());
+        discord.addEventListener(new Meow());
         discord.addEventListener(new ChuckNorris());
 
+        // misc
+        discord.addEventListener(new Misc());
+        discord.addEventListener(new Help());
+
+        // music
+        discord.addEventListener(new PlayerControl());
+
+        // discord integration
         discord.getPresence().setGame(Game.playing(".help"));
     }
 }
