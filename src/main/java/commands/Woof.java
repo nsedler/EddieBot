@@ -64,8 +64,9 @@ public class Woof extends ListenerAdapter {
                     Files.copy(in, path);
                 } else if(doge.contains(".gif")){
 
-                    restart();
-                    request.connect();
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\main\\java\\commands\\doge.gif");
+                    file = new File(String.valueOf(path));
+                    Files.copy(in, path);
                 } else if(doge.contains(".jpg") || doge.contains(".JPG")){
 
                     path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\main\\java\\commands\\doge.jpg");
