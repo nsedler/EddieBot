@@ -19,6 +19,7 @@ public class Help extends ListenerAdapter {
                 ".jail <@user> - Jails them\n" +
                 ".joke - Dad joke\n" +
                 ".woof - Doges\n" +
+                ".meow - Cats\n" +
                 ".chuck - Chuck Norris";
 
         String message = event.getMessage().getContentDisplay();
