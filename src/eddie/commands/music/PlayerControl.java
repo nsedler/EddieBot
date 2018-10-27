@@ -106,9 +106,8 @@ public class PlayerControl extends ListenerAdapter {
         TrackScheduler scheduler = mng.scheduler;
         EmbedMsg embed = new EmbedMsg();
 
-        String msg = ".play <link> - Plays youtube link or unpauses if paused\n" +
+        String msg = ".play <link> or query - Plays youtube link or query search\n" +
                 ".pplay <link> - Plays youtube playlist link\n" +
-                ".ytplay <song> - Plays youtube song\n" +
                 ".leave - Leaves the voice channel\n" +
                 ".pause - Pauses current song\n" +
                 ".stop - Stops current song and skips\n" +
@@ -152,21 +151,23 @@ public class PlayerControl extends ListenerAdapter {
             {
 
                 joinChannel(event);
-                loadAndPlay(mng, event.getChannel(), command[1], false);
+
+                if(command[0].contains("youtube.com")) {
+                    loadAndPlay(mng, event.getChannel(), command[1], false);
+                } else {
+
+                    String input = "ytsearch: " + command[1];
+
+                    joinChannel(event);
+                    loadAndPlay(mng, event.getChannel(), input, false);
+                }
             }
         } else if (".pplay".equals(command[0]) && command.length == 2) {
 
 
             joinChannel(event);
             loadAndPlay(mng, event.getChannel(), command[1], true);
-        } else if (".ytplay".equals(command[0])) {
-
-
-            String input = "ytsearch: " + command[1];
-
-            joinChannel(event);
-            loadAndPlay(mng, event.getChannel(), input, false);
-        } else if (".skip".equals(command[0])) {
+        }else if (".skip".equals(command[0])) {
 
             scheduler.nextTrack();
             event.getChannel().sendMessage("The current track was skipped.").queue();
@@ -415,7 +416,7 @@ public class PlayerControl extends ListenerAdapter {
 
                 if (e.getPermission() == Permission.VOICE_CONNECT) {
 
-                    event.getChannel().sendMessage("Yui does not have permission to connect to: " + chan.getName()).queue();
+                    event.getChannel().sendMessage("Eddie does not have permission to connect to: " + chan.getName()).queue();
                 }
             }
         }
