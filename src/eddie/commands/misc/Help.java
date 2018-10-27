@@ -20,8 +20,7 @@ public class Help extends ListenerAdapter {
                 ".joke - Dad joke\n" +
                 ".woof - Doges\n" +
                 ".meow - Cats\n" +
-                ".chuck - Chuck Norris\n" +
-                ".fakename - Generates a random ui name";
+                ".chuck - Chuck Norris\n";
 
         String message = event.getMessage().getContentDisplay();
         MessageChannel channel = event.getChannel();

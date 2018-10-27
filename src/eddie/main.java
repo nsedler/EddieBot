@@ -41,7 +41,6 @@ public class main extends ListenerAdapter {
         discord.addEventListener(new Woof());
         discord.addEventListener(new Meow());
         discord.addEventListener(new ChuckNorris());
-        discord.addEventListener(new FakeName());
 
         // misc
         discord.addEventListener(new Misc());
