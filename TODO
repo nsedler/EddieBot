@@ -3,11 +3,11 @@ List of JSON APIs - https://github.com/toddmotto/public-apis
 TODO:
   
   APIs to add:
-    https://github.com/15Dkatz/official_joke_api
-    https://api.chucknorris.io/ -- done
-    https://developers.giphy.com/docs/
-    https://github.com/r-spacex/SpaceX-API
-    https://random.dog/woof.json -- done
-    https://aws.random.cat/meow -- done
-    https://www.boredapi.com/api/activity/
-    
+    https://developers.giphy.com/docs/ 
+    https://newton.now.sh/
+
+  Ideos to implement:
+    Make eddie leave the voice channel after 3-5 mins of inactivity
+    search the office gifs
+    search parks and rec gifs
+    redo help commands / embed look
