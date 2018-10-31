@@ -43,12 +43,8 @@ public class main extends ListenerAdapter {
         // music
         discord.addEventListener(new PlayerControl());
 
-        List<Guild> guilds = discord.getGuilds();
-        int guildNum = guilds.size();
-        guildNum++;
-
         // discord integration
-        discord.getPresence().setGame(Game.playing(".help" + "| Helping " + guildNum + " servers."));
+        discord.getPresence().setGame(Game.playing(".help"));
     }
 }
 
