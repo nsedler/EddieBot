@@ -45,7 +45,7 @@ public class JSONInfo {
 
             mb.append(text);
 
-        } catch (JsonSyntaxException | IOException e) {
+        } catch (JsonSyntaxException | IOException | NullPointerException e) {
 
             e.printStackTrace();
         }

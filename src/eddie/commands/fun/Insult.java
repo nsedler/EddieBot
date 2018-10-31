@@ -239,7 +239,6 @@ public class Insult extends ListenerAdapter {
 
                 int index = rng.nextInt(insults.length);
                 response = command[1] + " " + insults[index];
-                System.out.println(command[1]);
                 channel.sendMessage(response).queue();
             }
         }

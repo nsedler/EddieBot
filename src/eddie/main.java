@@ -6,28 +6,21 @@ import eddie.commands.fun.*;
 import eddie.commands.misc.Help;
 import eddie.commands.misc.Misc;
 import eddie.commands.music.PlayerControl;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.security.auth.login.LoginException;
+import java.util.List;
 
 
 public class main extends ListenerAdapter {
-    public static void main(@Nullable String[] args){
+    public static void main(@Nullable String[] args) throws LoginException {
 
-
-        JDA discord = null;
-
-
-        try {
-            discord = new JDABuilder(AccountType.BOT).setToken(System.getenv("token")).buildBlocking();
-        } catch (LoginException | IllegalArgumentException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        JDA discord = new JDABuilder().setToken(System.getenv("token")).build();
 
         // administrator
         discord.addEventListener(new SwearFilter());
@@ -41,6 +34,7 @@ public class main extends ListenerAdapter {
         discord.addEventListener(new Woof());
         discord.addEventListener(new Meow());
         discord.addEventListener(new ChuckNorris());
+        discord.addEventListener(new TheOffice());
 
         // misc
         discord.addEventListener(new Misc());
@@ -49,8 +43,12 @@ public class main extends ListenerAdapter {
         // music
         discord.addEventListener(new PlayerControl());
 
+        List<Guild> guilds = discord.getGuilds();
+        int guildNum = guilds.size();
+        guildNum++;
+
         // discord integration
-        discord.getPresence().setGame(Game.playing(".help"));
+        discord.getPresence().setGame(Game.playing(".help" + "| Helping " + guildNum + " servers."));
     }
 }
 

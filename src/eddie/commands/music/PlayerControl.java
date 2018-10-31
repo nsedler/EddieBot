@@ -131,6 +131,14 @@ public class PlayerControl extends ListenerAdapter {
 
             guild.getAudioManager().setSendingHandler(null);
             guild.getAudioManager().closeAudioConnection();
+
+            synchronized (musicManagers) {
+
+                scheduler.queue.clear();
+                player.destroy();
+                guild.getAudioManager().setSendingHandler(null);
+                musicManagers.remove(guild.getId());
+            }
         } else if (".play".equals(command[0])) {
 
             if (command.length == 1) //It is only the command to start playback (probably after pause)
@@ -150,20 +158,19 @@ public class PlayerControl extends ListenerAdapter {
             } else    //commands has 2 parts, .play and url.
             {
 
-                joinChannel(event);
-
                 if(command[0].contains("youtube.com")) {
                     loadAndPlay(mng, event.getChannel(), command[1], false);
+                    joinChannel(event);
                 } else {
 
                     String input = "ytsearch: " + command[1];
 
-                    joinChannel(event);
+
                     loadAndPlay(mng, event.getChannel(), input, false);
+                    joinChannel(event);
                 }
             }
         } else if (".pplay".equals(command[0]) && command.length == 2) {
-
 
             joinChannel(event);
             loadAndPlay(mng, event.getChannel(), command[1], true);
@@ -400,11 +407,9 @@ public class PlayerControl extends ListenerAdapter {
 
         VoiceChannel chan = connectedChannel;
 
-        if (chan == null)
-            chan = guild.getVoiceChannelsByName("test", true).stream().findFirst().orElse(null);
         if (chan == null) {
 
-            event.getChannel().sendMessage("Could not find VoiceChannel by name: ").queue();
+            event.getChannel().sendMessage("You need to be in a voice channel.").queue();
         } else {
 
             guild.getAudioManager().setSendingHandler(mng.sendHandler);

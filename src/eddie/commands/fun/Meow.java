@@ -22,7 +22,6 @@ public class Meow extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent event) {
 
-
         String message = event.getMessage().getContentDisplay();
         MessageChannel channel = event.getChannel();
 
