@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,28 +23,25 @@ public class TheOffice extends ListenerAdapter {
         String message = event.getMessage().getContentDisplay();
         MessageChannel channel = event.getChannel();
 
-        if(message.equalsIgnoreCase(".theoffice")) try {
+        if (message.equalsIgnoreCase(".theoffice")) try {
 
-            // Connect to the URL using java's native library
-            URL url = new URL("http://api.giphy.com/v1/gifs/random?tag=the+office&api_key=Bxx5K3s6bY2XymQ3zxsap4KDcNbDxLT6");
-            URLConnection request = url.openConnection();
-            request.setRequestProperty("User-Agent", "Mozilla/5.0");
-            request.setRequestProperty("Accept", "application/json");
-            request.connect();
+            URL loginurl = new URL("https://api.giphy.com/v1/gifs/random?tag=the+office&api_key=Bxx5K3s6bY2XymQ3zxsap4KDcNbDxLT6");
+            URLConnection yc = loginurl.openConnection();
+            yc.setRequestProperty("Accept", "application/json");
+            yc.setConnectTimeout(10 * 1000);
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(
+                            yc.getInputStream()));
+            String inputLine = in.readLine();
+            JsonParser parser = new JsonParser();
+            JsonObject array = parser.parse(inputLine).getAsJsonObject();
+            System.out.println(array);
+            String gif = array.get("data.url").toString();
 
-            // Convert to a JSON object to print data
-            JsonParser jp = new JsonParser(); //from gson
-            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-            JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
-//            System.out.println(rootobj);
-            String text = rootobj.get("data.url").toString();
+            channel.sendMessage("hi").queue();
+            channel.sendMessage(gif).queue();
 
-            System.out.println(text);
-
-            channel.sendMessage(text).queue();
-
-
-        } catch (JsonSyntaxException | IOException | NullPointerException e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
         }

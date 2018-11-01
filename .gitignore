@@ -1,9 +1,0 @@
-.env
-
-# intellij #
-/.idea/
-*.iml
-/out/
-.idea/
-
-*.class
