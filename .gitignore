@@ -1,0 +1,12 @@
+# intellij files
+/.idea/
+*.iml
+*.ipr
+*.iws
+
+# gradle
+/build/classes
+/.gradle/
+/out/
+
+.class
