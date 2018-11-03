@@ -159,13 +159,14 @@ public class PlayerControl extends ListenerAdapter {
             {
 
                 if(command[0].contains("youtube.com")) {
+
                     loadAndPlay(mng, event.getChannel(), command[1], false);
                     joinChannel(event);
                 } else {
 
                     String input = "ytsearch: " + command[1];
 
-
+                    System.out.println(command[1]);
                     loadAndPlay(mng, event.getChannel(), input, false);
                     joinChannel(event);
                 }

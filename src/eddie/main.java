@@ -18,7 +18,7 @@ import javax.security.auth.login.LoginException;
 public class main extends ListenerAdapter {
     public static void main(@Nullable String[] args) throws LoginException {
 
-        JDA discord = new JDABuilder().setToken(System.getenv("token")).build();
+        JDA discord = new JDABuilder().setToken(System.getenv("test_token")).build();
 
         // administrator
         discord.addEventListener(new SwearFilter());
