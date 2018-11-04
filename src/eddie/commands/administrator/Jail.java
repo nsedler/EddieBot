@@ -1,17 +1,23 @@
 package eddie.commands.administrator;
 
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-public class Jail extends ListenerAdapter {
+public class Jail extends Command {
 
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public Jail(Category c){
 
+        this.name = "jail";
+        this.arguments = "<user>";
+        this.help = "Jails a user";
+        this.category = c;
+    }
 
-
+    @Override
+    protected void execute(CommandEvent event) {
 
         String[] command = event.getMessage().getContentDisplay().split(" ", 2);
 
@@ -30,5 +36,6 @@ public class Jail extends ListenerAdapter {
 
             channel.sendMessage(command[1] + " was muted by " + event.getAuthor().getName()).queue();
         }
+
     }
 }

@@ -4,9 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,14 +19,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Meow extends ListenerAdapter {
+public class Meow extends Command {
 
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public Meow(Category c){
 
-        String message = event.getMessage().getContentDisplay();
-        MessageChannel channel = event.getChannel();
+        this.name = "meow";
+        this.help = "Gives a random pictures/videos of cats";
+        this.category = c;
+    }
 
-        if (message.equalsIgnoreCase(".meow")) {
+    @Override
+    protected void execute(CommandEvent event) {
+
+
+        TextChannel channel = event.getTextChannel();
 
             try {
 
@@ -58,27 +65,27 @@ public class Meow extends ListenerAdapter {
 
                 if (cat.contains(".mp4")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\cat.mp4");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\cat.mp4");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
                 } else if (cat.contains(".gif")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\cat.gif");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\cat.gif");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
                 } else if (cat.contains(".jpg") || cat.contains(".JPG") || cat.contains(".jpeg")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\cat.jpg");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\cat.jpg");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
                 } else if (cat.contains(".png")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\cat.png");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\cat.png");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
                 } else if (cat.contains(".webm")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\cat.webm");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\cat.webm");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
                 }
@@ -93,4 +100,4 @@ public class Meow extends ListenerAdapter {
             }
         }
     }
-}
+

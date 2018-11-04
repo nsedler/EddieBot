@@ -1,14 +1,23 @@
 package eddie.commands.fun;
 
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.Random;
 
-public class Insult extends ListenerAdapter {
+public class Insult extends Command {
 
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public Insult(Category c){
+
+        this.name = "nsult";
+        this.arguments = "<user>";
+        this.help = "Insults a user";
+        this.category = c;
+    }
+
+    @Override
+    protected void execute(CommandEvent event) {
 
         String insults[] = new String[]{"Yo Mama so fat she sued Xbox 360 for guessing her weight.",
                 "You're so fat that when you were diagnosed with a flesh eating bacteria - the doctors gave you 87 years to live.",

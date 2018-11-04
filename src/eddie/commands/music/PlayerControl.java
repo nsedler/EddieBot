@@ -1,6 +1,7 @@
 package eddie.commands.music;
 
-import eddie.helpful.*;
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -15,14 +16,14 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import eddie.helpful.EmbedMsg;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,15 +34,19 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 
-public class PlayerControl extends ListenerAdapter {
-
+public class PlayerControl extends Command {
 
     public static final int DEFAULT_VOLUME = 35; //(0 - 150, where 100 is default max volume)
 
     private final AudioPlayerManager playerManager;
     private final Map<String, GuildMusicManager> musicManagers;
 
-    public PlayerControl() throws IndexOutOfBoundsException{
+    public PlayerControl(Category c) throws IndexOutOfBoundsException {
+
+        this.name = "music";
+        this.aliases = new String[]{"play", "join", "skip", "leave", "fuckoff", "np", "nowplaying", "list", "pause", "stop", "shuffle", "pplay", "volume", "reset", "restart", "repeat"};
+        this.help = "Shows all music commands";
+        this.category = c;
 
         java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies").setLevel(Level.OFF);
 
@@ -54,47 +59,14 @@ public class PlayerControl extends ListenerAdapter {
         playerManager.registerSourceManager(new HttpAudioSourceManager());
         playerManager.registerSourceManager(new LocalAudioSourceManager());
 
-
         musicManagers = new HashMap<String, GuildMusicManager>();
     }
 
-    //Prefix for all commands: .
-    //Example:  .play
-    //Current commands
-    // join [name]  - Joins a voice channel that has the provided name
-    // join [id]    - Joins a voice channel based on the provided id.
-    // leave        - Leaves the voice channel that the bot is currently in.
-    // play         - Plays songs from the current queue. Starts playing again if it was previously paused
-    // play [url]   - Adds a new song to the queue and starts playing if it wasn't playing already
-    // pplay        - Adds a playlist to the queue and starts playing if not already playing
-    // pause        - Pauses music playback
-    // stop         - Completely stops music playback, skipping the current song.
-    // skip         - Skips the current song, automatically starting the next
-    // nowplaying   - Prints information about the currently playing song (title, current time)
-    // np           - alias for nowplaying
-    // list         - Lists the songs in the queue
-    // volume [val] - Sets the volume of the MusicPlayer [10 - 100]
-    // restart      - Restarts the current song or restarts the previous song if there is no current song playing.
-    // repeat       - Makes the player repeat the currently playing song
-    // reset        - Completely resets the player, fixing all errors and clearing the queue.
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
+    protected void execute(CommandEvent event) {
 
-
-        VoiceChannel connectedChannel = event.getMember().getVoiceState().getChannel();
         if (!event.isFromType(ChannelType.TEXT))
             return;
-
-        try {
-
-            List<String> allowedIds = Files.readAllLines(Paths.get("admins.txt"));
-            if (!allowedIds.contains(event.getAuthor().getId()))
-                return;
-        } catch (IOException ignored) {
-
-            //If we encounter an ioe, it is due to the file not existing.
-            //In that case, we treat the music system as not having admin restrictions.
-        }
 
         String[] command = event.getMessage().getContentDisplay().split(" ", 2);
         if (!command[0].startsWith("."))    //message doesn't start with prefix.
@@ -104,30 +76,31 @@ public class PlayerControl extends ListenerAdapter {
         GuildMusicManager mng = getMusicManager(guild);
         AudioPlayer player = mng.player;
         TrackScheduler scheduler = mng.scheduler;
-        EmbedMsg embed = new EmbedMsg();
 
-        String msg = ".play <link> or query - Plays youtube link or query search\n" +
-                ".pplay <link> - Plays youtube playlist link\n" +
-                ".leave - Leaves the voice channel\n" +
-                ".pause - Pauses current song\n" +
-                ".stop - Stops current song and skips\n" +
-                ".skip - Skips current song starting the next\n" +
-                ".nowplaying - Shows details on current song\n" +
-                ".list - Shows queue\n" +
-                ".volume <10 - 100> - Lets you set the volume of the bot DEFAULT = 35\n" +
-                ".restart - Restarts the song\n" +
-                ".repeat - Repeats the current song\n" +
-                ".reset - Resets the player\n";
+        if (".music".equalsIgnoreCase(command[0])) {
 
-        if(".music".equalsIgnoreCase(command[0])){
+            EmbedBuilder em = new EmbedBuilder();
 
-            event.getChannel().sendMessage(embed.sendEmbed(msg)).queue();
+            em.setTitle("__**Music Commands**__");
+            em.appendDescription("`.play <query> <link>` - Plays youtube songs\n\n");
+            em.appendDescription("`.pplay <link>` - Plays youtube playlists\n\n");
+            em.appendDescription("`.leave` - Leaves the voice channel\n\n");
+            em.appendDescription("`.pause` - Pauses current song\n\n");
+            em.appendDescription("`.stop` - Stops the current song and skips\n\n");
+            em.appendDescription("`.skip` - Skips current song and starts the next\n\n");
+            em.appendDescription("`.nowplaying` - Shows details on the current song\n\n");
+            em.appendDescription("`.list` - Shows queue\n\n");
+            em.appendDescription("`.volume <10> - <100>` - Sets the volume of EddieBot (Default is 35)\n\n");
+            em.appendDescription("`.restart` - Restarts the current song\n\n");
+            em.appendDescription("`.repeat` - Repeats the current song\n\n");
+            em.appendDescription("`.reset` - Resets the player");
+
+            event.reply(em.build());
         }
-        else if(".join".equalsIgnoreCase(command[0])){
+        if (".join".equalsIgnoreCase(command[0])) {
 
             joinChannel(event);
-        }
-        else if (".leave".equals(command[0]) || ".fuckoff".equals(command[0])) {
+        } else if (".leave".equals(command[0]) || ".fuckoff".equals(command[0])) {
 
             guild.getAudioManager().setSendingHandler(null);
             guild.getAudioManager().closeAudioConnection();
@@ -158,7 +131,7 @@ public class PlayerControl extends ListenerAdapter {
             } else    //commands has 2 parts, .play and url.
             {
 
-                if(command[0].contains("youtube.com")) {
+                if (command[0].contains("youtube.com")) {
 
                     loadAndPlay(mng, event.getChannel(), command[1], false);
                     joinChannel(event);
@@ -166,7 +139,6 @@ public class PlayerControl extends ListenerAdapter {
 
                     String input = "ytsearch: " + command[1];
 
-                    System.out.println(command[1]);
                     loadAndPlay(mng, event.getChannel(), input, false);
                     joinChannel(event);
                 }
@@ -175,7 +147,7 @@ public class PlayerControl extends ListenerAdapter {
 
             joinChannel(event);
             loadAndPlay(mng, event.getChannel(), command[1], true);
-        }else if (".skip".equals(command[0])) {
+        } else if (".skip".equals(command[0])) {
 
             scheduler.nextTrack();
             event.getChannel().sendMessage("The current track was skipped.").queue();
@@ -305,6 +277,26 @@ public class PlayerControl extends ListenerAdapter {
         }
     }
 
+    //Prefix for all commands: .
+    //Example:  .play
+    //Current commands
+    // join [name]  - Joins a voice channel that has the provided name
+    // join [id]    - Joins a voice channel based on the provided id.
+    // leave        - Leaves the voice channel that the bot is currently in.
+    // play         - Plays songs from the current queue. Starts playing again if it was previously paused
+    // play [url]   - Adds a new song to the queue and starts playing if it wasn't playing already
+    // pplay        - Adds a playlist to the queue and starts playing if not already playing
+    // pause        - Pauses music playback
+    // stop         - Completely stops music playback, skipping the current song.
+    // skip         - Skips the current song, automatically starting the next
+    // nowplaying   - Prints information about the currently playing song (title, current time)
+    // np           - alias for nowplaying
+    // list         - Lists the songs in the queue
+    // volume [val] - Sets the volume of the MusicPlayer [10 - 100]
+    // restart      - Restarts the current song or restarts the previous song if there is no current song playing.
+    // repeat       - Makes the player repeat the currently playing song
+    // reset        - Completely resets the player, fixing all errors and clearing the queue.
+
     private void loadAndPlay(GuildMusicManager mng, final MessageChannel channel, String url, final boolean addPlaylist) {
 
         final String trackUrl;
@@ -397,7 +389,7 @@ public class PlayerControl extends ListenerAdapter {
             return String.format("%02d:%02d", minutes, seconds);
     }
 
-    public void joinChannel(MessageReceivedEvent event) {
+    private void joinChannel(CommandEvent event) {
 
 
         VoiceChannel connectedChannel = event.getMember().getVoiceState().getChannel();

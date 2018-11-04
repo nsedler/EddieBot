@@ -1,17 +1,25 @@
 package eddie.commands.administrator;
 
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.List;
 
-public class Purge extends ListenerAdapter {
+public class Purge extends Command {
 
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public Purge(Category c){
 
+        this.name = "purge";
+        this.arguments = "<x>";
+        this.help = "Purges the x amount of messages";
+        this.category = c;
+    }
+
+    @Override
+    protected void execute(CommandEvent event) {
         Boolean isAdmin = event.getMember().hasPermission(Permission.ADMINISTRATOR);
         Boolean isOwner = event.getMember().isOwner();
         MessageChannel channel = event.getChannel();
@@ -20,7 +28,7 @@ public class Purge extends ListenerAdapter {
         if (isAdmin || isOwner) {
             if (".purge".equalsIgnoreCase(command[0])) {
 
-                if (Integer.parseInt(command[1]) <= 100 && Integer.parseInt(command[1]) >=2) {
+                if (Integer.parseInt(command[1]) <= 100 && Integer.parseInt(command[1]) >= 2) {
                     List<Message> msg = channel.getHistory().retrievePast(Integer.parseInt(command[1])).complete();
                     event.getTextChannel().deleteMessages(msg).queue();
 
@@ -30,9 +38,13 @@ public class Purge extends ListenerAdapter {
                     channel.sendMessage("<@" + event.getAuthor().getId() + "> You must provide at least 2 or at most 100 messages to be deleted.").queue();
                 }
             }
-        } else if (!isAdmin){
+        } else if (!isAdmin) {
 
             channel.sendMessage("<@" + event.getAuthor().getId() + "> This command is for administrators only.");
         }
     }
 }
+
+
+
+

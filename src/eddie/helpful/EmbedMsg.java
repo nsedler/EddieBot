@@ -10,10 +10,6 @@ import java.util.Random;
 
 public class EmbedMsg {
 
-    public EmbedMsg(){
-
-    }
-
     public Message sendEmbed(String message){
 
         Color color[];

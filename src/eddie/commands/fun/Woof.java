@@ -4,10 +4,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import eddie.helpful.JSONInfo;
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +18,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Woof extends ListenerAdapter {
+public class Woof extends Command {
 
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public Woof(Category c){
 
+        this.name = "woof";
+        this.help = "Gives random pictures/videos of dogs";
+        this.category = c;
+    }
+
+    @Override
+    protected void execute(CommandEvent event) {
 
         String message = event.getMessage().getContentDisplay();
         MessageChannel channel = event.getChannel();
@@ -52,35 +58,35 @@ public class Woof extends ListenerAdapter {
                 Path path = null;
                 File file = new File(String.valueOf(path));
 
-                if(file.exists()){
+                if (file.exists()) {
 
                     file.delete();
                     Files.delete(path);
                 }
-                
-                if(doge.contains(".mp4")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\doge.mp4");
+                if (doge.contains(".mp4")) {
+
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\doge.mp4");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
-                } else if(doge.contains(".gif")){
+                } else if (doge.contains(".gif")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\doge.gif");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\doge.gif");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
-                } else if(doge.contains(".jpg") || doge.contains(".JPG")){
+                } else if (doge.contains(".jpg") || doge.contains(".JPG")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\doge.jpg");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\doge.jpg");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
-                } else if(doge.contains(".png")){
+                } else if (doge.contains(".png")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\doge.png");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\doge.png");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
-                } else if(doge.contains(".webm")){
+                } else if (doge.contains(".webm")) {
 
-                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\misc\\doge.webm");
+                    path = Paths.get("C:\\Users\\Nate Sedler\\Documents\\EddieBot\\src\\eddie\\commands\\essential\\doge.webm");
                     file = new File(String.valueOf(path));
                     Files.copy(in, path);
                 }

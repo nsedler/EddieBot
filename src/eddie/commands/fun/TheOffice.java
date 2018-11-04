@@ -1,30 +1,29 @@
 package eddie.commands.fun;
 
-import com.google.gson.*;
-import eddie.helpful.JSONInfo;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class TheOffice extends ListenerAdapter {
+public class TheOffice extends Command {
 
-    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+    public TheOffice(Category c) {
 
-        //http://api.giphy.com/v1/gifs/random?tag=the+office&api_key=Bxx5K3s6bY2XymQ3zxsap4KDcNbDxLT6
+        this.name = "theoffice";
+        this.help = "Gives a random gif from The Office";
+        this.category = c;
+    }
 
-        String message = event.getMessage().getContentDisplay();
-        MessageChannel channel = event.getChannel();
+    @Override
+    protected void execute(CommandEvent event) {
 
-        if (message.equalsIgnoreCase(".theoffice")) try {
-
+        try{
             String sURL = "https://api.giphy.com/v1/gifs/random?api_key=Bxx5K3s6bY2XymQ3zxsap4KDcNbDxLT6&tag=theoffice"; //just a string
 
             // Connect to the URL using java's native library
@@ -40,7 +39,7 @@ public class TheOffice extends ListenerAdapter {
             JsonObject rootobj = root.getAsJsonObject();
             JsonObject test = rootobj.get("data").getAsJsonObject();
 
-            channel.sendMessage(test.get("url").getAsString()).queue();
+            event.reply(test.get("url").getAsString());
 
         } catch (Exception e) {
 
@@ -48,3 +47,4 @@ public class TheOffice extends ListenerAdapter {
         }
     }
 }
+

@@ -1,14 +1,21 @@
 package eddie.commands.fun;
 
+import com.jagrosh.jdautilities.command.Command;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import eddie.helpful.JSONInfo;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-public class Joke extends ListenerAdapter {
+public class Joke extends Command {
 
-    public void onMessageReceived(MessageReceivedEvent event){
+    public Joke(Category c){
 
+        this.name = "joke";
+        this.help = "Gives a random dad joke";
+        this.category = c;
+    }
+
+    @Override
+    protected void execute(CommandEvent event) {
 
         String message = event.getMessage().getContentDisplay();
         MessageChannel channel = event.getChannel();
