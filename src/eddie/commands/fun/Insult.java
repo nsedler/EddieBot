@@ -10,7 +10,7 @@ public class Insult extends Command {
 
     public Insult(Category c){
 
-        this.name = "nsult";
+        this.name = "insult";
         this.arguments = "<user>";
         this.help = "Insults a user";
         this.category = c;
