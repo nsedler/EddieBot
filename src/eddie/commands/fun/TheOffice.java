@@ -39,7 +39,7 @@ public class TheOffice extends Command {
             JsonObject rootobj = root.getAsJsonObject();
             JsonObject test = rootobj.get("data").getAsJsonObject();
 
-            event.reply(test.get("url").getAsString());
+            event.reply(test.get("url").getAsString(), (message) -> message.addReaction(":theoffice:508728027278999552").queue());
 
         } catch (Exception e) {
 
