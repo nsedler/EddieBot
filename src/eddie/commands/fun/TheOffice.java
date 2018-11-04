@@ -5,6 +5,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import net.dv8tion.jda.core.entities.Emote;
+import net.dv8tion.jda.core.entities.ListedEmote;
+import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.core.requests.Route;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,7 +43,9 @@ public class TheOffice extends Command {
             JsonObject rootobj = root.getAsJsonObject();
             JsonObject test = rootobj.get("data").getAsJsonObject();
 
-            event.reply(test.get("url").getAsString(), (message) -> message.addReaction(":theoffice:508728027278999552").queue());
+            Emote e = event.getJDA().getEmoteById("508750047102369811");
+
+            event.reply(test.get("url").getAsString(), (message) -> message.addReaction(e).queue());
 
         } catch (Exception e) {
 
