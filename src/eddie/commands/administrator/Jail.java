@@ -2,18 +2,19 @@ package eddie.commands.administrator;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import eddie.helpful.Categories;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.Role;
 
 public class Jail extends Command {
 
-    public Jail(Category c){
+    public Jail(){
 
         this.name = "jail";
         this.arguments = "<user>";
         this.help = "Jails a user";
-        this.category = c;
+        this.category = Categories.Admin;
     }
 
     @Override

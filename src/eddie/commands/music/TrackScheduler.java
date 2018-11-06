@@ -4,11 +4,16 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import net.dv8tion.jda.core.entities.Guild;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class schedules tracks for the music player. It contains the queue of tracks.
@@ -19,6 +24,12 @@ public class TrackScheduler extends AudioEventAdapter {
     final AudioPlayer player;
     final Queue<AudioTrack> queue;
     AudioTrack lastTrack;
+
+    LeaveVoiceChannel lv = new LeaveVoiceChannel();
+
+    public static ScheduledExecutorService scheduledExecutorService = Executors
+            .newSingleThreadScheduledExecutor();
+    public static ScheduledFuture<?> trask;
 
     /**
      * @param player The music player this scheduler uses
@@ -43,6 +54,9 @@ public class TrackScheduler extends AudioEventAdapter {
         if (!player.startTrack(track, true)) {
 
             queue.offer(track);
+            scheduledExecutorService.shutdownNow();
+
+
         }
     }
 
@@ -54,6 +68,8 @@ public class TrackScheduler extends AudioEventAdapter {
         // Start the next track, regardless of if something is already playing or not. In case queue was empty, we are
         // giving null to startTrack, which is a valid argument and will simply stop the player.
         player.startTrack(queue.poll(), false);
+
+        System.out.println("timer shutdown");
     }
 
     @Override
@@ -63,10 +79,16 @@ public class TrackScheduler extends AudioEventAdapter {
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if (endReason.mayStartNext) {
 
-            if (repeating)
-                player.startTrack(lastTrack.makeClone(), false);
-            else
-                nextTrack();
+            if (queue.poll() != null) {
+                if (repeating)
+                    player.startTrack(lastTrack.makeClone(), false);
+                else
+                    nextTrack();
+            } else {
+
+                trask = scheduledExecutorService.scheduleAtFixedRate(lv, 3, 3,
+                        TimeUnit.MINUTES);
+            }
         }
 
     }
@@ -85,4 +107,5 @@ public class TrackScheduler extends AudioEventAdapter {
 
         Collections.shuffle((List<?>) queue);
     }
+
 }

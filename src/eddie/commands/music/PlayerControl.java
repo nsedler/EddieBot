@@ -16,18 +16,12 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import eddie.helpful.EmbedMsg;
+import eddie.helpful.Categories;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.ChannelType;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +35,17 @@ public class PlayerControl extends Command {
     private final AudioPlayerManager playerManager;
     private final Map<String, GuildMusicManager> musicManagers;
 
-    public PlayerControl(Category c) throws IndexOutOfBoundsException {
+    public static Guild guild;
+
+
+
+    public PlayerControl() throws IndexOutOfBoundsException {
 
         this.name = "music";
         this.aliases = new String[]{"play", "join", "skip", "leave", "fuckoff", "np", "nowplaying", "list", "pause", "stop", "shuffle", "pplay", "volume", "reset", "restart", "repeat"};
         this.help = "Shows all music commands";
-        this.category = c;
+        this.category = Categories.Music;
+
 
         java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies").setLevel(Level.OFF);
 
@@ -65,12 +64,12 @@ public class PlayerControl extends Command {
     @Override
     protected void execute(CommandEvent event) {
 
+        guild = event.getGuild();
         if (!event.isFromType(ChannelType.TEXT))
             return;
 
+//        guildID = event.getGuild().getIdLong();
         String[] command = event.getMessage().getContentDisplay().split(" ", 2);
-        if (!command[0].startsWith("."))    //message doesn't start with prefix.
-            return;
 
         Guild guild = event.getGuild();
         GuildMusicManager mng = getMusicManager(guild);
@@ -240,6 +239,7 @@ public class PlayerControl extends Command {
             Queue<AudioTrack> queue = scheduler.queue;
             synchronized (queue) {
 
+
                 if (queue.isEmpty()) {
 
                     event.getChannel().sendMessage("The queue is currently empty!").queue();
@@ -299,6 +299,16 @@ public class PlayerControl extends Command {
 
     private void loadAndPlay(GuildMusicManager mng, final MessageChannel channel, String url, final boolean addPlaylist) {
 
+        try {
+            if(!TrackScheduler.trask.isCancelled()) {
+
+                TrackScheduler.trask.cancel(true);
+            }
+        } catch (NullPointerException e){
+            // really don't care for this
+        }
+
+
         final String trackUrl;
 
         //Strip <>'s that prevent discord from embedding link resources
@@ -309,10 +319,12 @@ public class PlayerControl extends Command {
 
         playerManager.loadItemOrdered(mng, trackUrl, new AudioLoadResultHandler() {
 
+
+
             @Override
             public void trackLoaded(AudioTrack track) {
-
                 String msg = "Adding to queue: " + track.getInfo().title;
+
                 if (mng.player.getPlayingTrack() == null)
                     msg += "\nand the Player has started playing;";
 

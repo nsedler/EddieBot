@@ -2,14 +2,15 @@ package eddie.commands.essential;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import eddie.helpful.Categories;
 
 public class Ping extends Command {
 
-    public Ping(Category c){
+    public Ping(){
 
         this.name = "ping";
         this.help = "Shows ping of EddieBot";
-        this.category = c;
+        this.category = Categories.Misc;
     }
 
     @Override

@@ -21,8 +21,8 @@ public class Help extends Command {
 
         EmbedBuilder em = new EmbedBuilder();
 
-        em.setAuthor("EddieBot", null, "https://seeklogo.com/images/P/pearl-jam-alive-logo-8FA34991E4-seeklogo.com.png");
-        em.setColor(new Color(0xFF0000));
+        em.setAuthor(String.valueOf(event.getSelfMember().getEffectiveName()), null, "https://seeklogo.com/images/P/pearl-jam-alive-logo-8FA34991E4-seeklogo.com.png");
+        em.setColor(new Color(0,0,255));
 
         for (Command command : event.getClient().getCommands()) {
             String fieldTitle = "";

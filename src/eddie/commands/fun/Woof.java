@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import eddie.helpful.Categories;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.io.File;
@@ -20,11 +21,11 @@ import java.nio.file.Paths;
 
 public class Woof extends Command {
 
-    public Woof(Category c){
+    public Woof(){
 
         this.name = "woof";
         this.help = "Gives random pictures/videos of dogs";
-        this.category = c;
+        this.category = Categories.Fun;
     }
 
     @Override

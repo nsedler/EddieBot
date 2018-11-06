@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import eddie.helpful.Categories;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.ListedEmote;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -17,11 +19,11 @@ import java.net.URLConnection;
 
 public class TheOffice extends Command {
 
-    public TheOffice(Category c) {
+    public TheOffice() {
 
         this.name = "theoffice";
         this.help = "Gives a random gif from The Office";
-        this.category = c;
+        this.category = Categories.Fun;
     }
 
     @Override

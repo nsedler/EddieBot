@@ -2,6 +2,7 @@ package eddie.commands.administrator;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import eddie.helpful.Categories;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -10,12 +11,12 @@ import java.util.List;
 
 public class Purge extends Command {
 
-    public Purge(Category c){
+    public Purge(){
 
         this.name = "purge";
         this.arguments = "<x>";
         this.help = "Purges the x amount of messages";
-        this.category = c;
+        this.category = Categories.Admin;
     }
 
     @Override

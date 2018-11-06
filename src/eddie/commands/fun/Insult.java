@@ -2,18 +2,19 @@ package eddie.commands.fun;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import eddie.helpful.Categories;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.util.Random;
 
 public class Insult extends Command {
 
-    public Insult(Category c){
+    public Insult(){
 
         this.name = "insult";
         this.arguments = "<user>";
         this.help = "Insults a user";
-        this.category = c;
+        this.category = Categories.Fun;
     }
 
     @Override

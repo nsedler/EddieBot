@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import eddie.commands.administrator.Jail;
 import eddie.commands.administrator.Purge;
+import eddie.commands.essential.BotInfo;
 import eddie.commands.essential.Ping;
 import eddie.commands.fun.*;
 import eddie.commands.essential.Help;
@@ -20,14 +21,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
 
-
 public class EddieBot extends ListenerAdapter {
     public static void main(@Nullable String[] args) throws IOException, LoginException, IllegalArgumentException, RateLimitedException {
-
-        Command.Category Essential = new Command.Category("Essential");
-        Command.Category Fun = new Command.Category("Fun");
-        Command.Category Admin = new Command.Category("Admin");
-        Command.Category Music = new Command.Category("Music");
 
         String token = System.getenv("token");
 
@@ -41,23 +36,25 @@ public class EddieBot extends ListenerAdapter {
         client.addCommands(
 
                 // Administrator
-                new Purge(Admin),
-                new Jail(Admin),
+                new Purge(),
+                new Jail(),
 
                 // Fun
-                new ChuckNorris(Fun),
-                new Insult(Fun),
-                new Joke(Fun),
-                new Meow(Fun),
-                new TheOffice(Fun),
-                new Woof(Fun),
+                new ChuckNorris(),
+                new Gif(),
+                new Insult(),
+                new Joke(),
+                new Meow(),
+                new TheOffice(),
+                new Woof(),
 
                 // Essential
                 new Help(),
-                new Ping(Essential),
+                new Ping(),
+                new BotInfo(),
 
                 // Music
-                new PlayerControl(Music)
+                new PlayerControl()
                 );
 
         JDABuilder jda = new JDABuilder(AccountType.BOT);
