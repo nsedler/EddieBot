@@ -1,8 +1,9 @@
 package eddie;
 
-import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import eddie.commands.owner.Eval;
+import eddie.commands.owner.Kill;
 import eddie.commands.administrator.Jail;
 import eddie.commands.administrator.Purge;
 import eddie.commands.essential.BotInfo;
@@ -35,6 +36,10 @@ public class EddieBot extends ListenerAdapter {
         client.useDefaultGame();
         client.addCommands(
 
+                // Owner
+                new Kill(),
+                new Eval(),
+
                 // Administrator
                 new Purge(),
                 new Jail(),
@@ -55,7 +60,7 @@ public class EddieBot extends ListenerAdapter {
 
                 // Music
                 new PlayerControl()
-                );
+        );
 
         JDABuilder jda = new JDABuilder(AccountType.BOT);
 
