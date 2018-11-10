@@ -14,6 +14,7 @@ public class Help extends Command {
 
         this.name = "help";
         this.help = "Helps with commands";
+        this.hidden = true;
     }
 
     @Override

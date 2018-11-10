@@ -15,17 +15,11 @@ import java.net.URLConnection;
 
 public class JSONInfo {
 
-    public JSONInfo(){
-
-
-    }
-
-    public Message JSONText(String sURL, String element) {
+    public Message jsonText(String sURL, String element) {
 
         MessageBuilder mb = new MessageBuilder();
-        String text = null;
-        Message m = null;
-        
+        String text;
+
         try {
 
             // Connect to the URL using java's native library

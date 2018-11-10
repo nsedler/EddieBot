@@ -15,15 +15,13 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.security.auth.login.LoginException;
-import java.io.IOException;
 
 public class EddieBot extends ListenerAdapter {
-    public static void main(@Nullable String[] args) throws IOException, LoginException, IllegalArgumentException, RateLimitedException {
+    public static void main(@Nullable String[] args) throws LoginException, IllegalArgumentException {
 
         String token = System.getenv("token");
 

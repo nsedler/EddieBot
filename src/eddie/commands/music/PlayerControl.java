@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,6 @@ public class PlayerControl extends Command {
         if (!event.isFromType(ChannelType.TEXT))
             return;
 
-//        guildID = event.getGuild().getIdLong();
         String[] command = event.getMessage().getContentDisplay().split(" ", 2);
 
         Guild guild = event.getGuild();
@@ -79,6 +79,9 @@ public class PlayerControl extends Command {
         if (".music".equalsIgnoreCase(command[0])) {
 
             EmbedBuilder em = new EmbedBuilder();
+
+            em.setAuthor(String.valueOf(event.getSelfMember().getEffectiveName()), null, "https://seeklogo.com/images/P/pearl-jam-alive-logo-8FA34991E4-seeklogo.com.png");
+            em.setColor(new Color(0, 0, 255));
 
             em.setTitle("__**Music Commands**__");
             em.appendDescription("`.play <query> <link>` - Plays youtube songs\n\n");
@@ -113,7 +116,7 @@ public class PlayerControl extends Command {
             }
         } else if (".play".equals(command[0])) {
 
-            if (command.length == 1) //It is only the command to start playback (probably after pause)
+            if (command.length == 1)
             {
 
                 if (player.isPaused()) {
@@ -127,7 +130,7 @@ public class PlayerControl extends Command {
 
                     event.getChannel().sendMessage("The current music queue is empty! Add something to the queue first!").queue();
                 }
-            } else    //commands has 2 parts, .play and url.
+            } else
             {
 
                 if (command[0].contains("youtube.com")) {
@@ -277,26 +280,6 @@ public class PlayerControl extends Command {
         }
     }
 
-    //Prefix for all commands: .
-    //Example:  .play
-    //Current commands
-    // join [name]  - Joins a voice channel that has the provided name
-    // join [id]    - Joins a voice channel based on the provided id.
-    // leave        - Leaves the voice channel that the bot is currently in.
-    // play         - Plays songs from the current queue. Starts playing again if it was previously paused
-    // play [url]   - Adds a new song to the queue and starts playing if it wasn't playing already
-    // pplay        - Adds a playlist to the queue and starts playing if not already playing
-    // pause        - Pauses music playback
-    // stop         - Completely stops music playback, skipping the current song.
-    // skip         - Skips the current song, automatically starting the next
-    // nowplaying   - Prints information about the currently playing song (title, current time)
-    // np           - alias for nowplaying
-    // list         - Lists the songs in the queue
-    // volume [val] - Sets the volume of the MusicPlayer [10 - 100]
-    // restart      - Restarts the current song or restarts the previous song if there is no current song playing.
-    // repeat       - Makes the player repeat the currently playing song
-    // reset        - Completely resets the player, fixing all errors and clearing the queue.
-
     private void loadAndPlay(GuildMusicManager mng, final MessageChannel channel, String url, final boolean addPlaylist) {
 
         try {
@@ -407,8 +390,6 @@ public class PlayerControl extends Command {
         VoiceChannel connectedChannel = event.getMember().getVoiceState().getChannel();
         Guild guild = event.getGuild();
         GuildMusicManager mng = getMusicManager(guild);
-        AudioPlayer player = mng.player;
-        TrackScheduler scheduler = mng.scheduler;
 
         VoiceChannel chan = connectedChannel;
 

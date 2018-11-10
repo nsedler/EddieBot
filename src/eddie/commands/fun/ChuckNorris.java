@@ -25,7 +25,7 @@ public class ChuckNorris extends Command {
 
             JSONInfo json = new JSONInfo();
 
-            channel.sendMessage(json.JSONText("https://api.chucknorris.io/jokes/random", "value")).queue();
+            channel.sendMessage(json.jsonText("https://api.chucknorris.io/jokes/random", "value")).queue();
         }
     }
 }

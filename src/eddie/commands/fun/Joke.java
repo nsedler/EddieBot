@@ -19,7 +19,7 @@ public class Joke extends Command {
 
         JSONInfo json = new JSONInfo();
 
-        event.reply(json.JSONText("https://icanhazdadjoke.com/", "joke"));
+        event.reply(json.jsonText("https://icanhazdadjoke.com/", "joke"));
     }
 }
 
