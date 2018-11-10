@@ -1,0 +1,2 @@
+# EddieBot
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0178d36550a144359fb423ea787a4e12)](https://app.codacy.com/app/nsedler1/EddieBot?utm_source=github.com&utm_medium=referral&utm_content=nsedler/EddieBot&utm_campaign=Badge_Grade_Settings)
