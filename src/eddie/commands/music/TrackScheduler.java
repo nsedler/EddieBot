@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
-import net.dv8tion.jda.core.entities.Guild;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -20,12 +19,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class TrackScheduler extends AudioEventAdapter {
 
-    public boolean repeating = false;
-    final AudioPlayer player;
-    final Queue<AudioTrack> queue;
-    AudioTrack lastTrack;
+    private boolean repeating = false;
+    private final AudioPlayer player;
+    private final Queue<AudioTrack> queue;
+    private AudioTrack lastTrack;
 
-    LeaveVoiceChannel lv = new LeaveVoiceChannel();
+    private LeaveVoiceChannel lv = new LeaveVoiceChannel();
 
     public static ScheduledExecutorService scheduledExecutorService = Executors
             .newSingleThreadScheduledExecutor();

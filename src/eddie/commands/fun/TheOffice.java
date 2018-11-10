@@ -6,11 +6,7 @@ import com.google.gson.JsonParser;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import eddie.helpful.Categories;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Emote;
-import net.dv8tion.jda.core.entities.ListedEmote;
-import net.dv8tion.jda.core.requests.RestAction;
-import net.dv8tion.jda.core.requests.Route;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
