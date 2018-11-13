@@ -7,7 +7,6 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import java.awt.*;
 import java.util.Objects;
 
-
 public class Help extends Command {
 
     public Help() {
@@ -30,7 +29,7 @@ public class Help extends Command {
             String fieldDesc = "";
             if (command.getName().isEmpty() || command.getName().equals(" ")) continue;
             if (command.isHidden()) continue;
-            if (!command.isOwnerCommand() || event.isOwner() || event.isOwner()) {
+            if (!command.isOwnerCommand() || event.isOwner()) {
                 if (!Objects.equals(category, command.getCategory())) {
 
                     category = command.getCategory();

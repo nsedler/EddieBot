@@ -21,8 +21,8 @@ public class TrackScheduler extends AudioEventAdapter {
 
     private boolean repeating = false;
     private final AudioPlayer player;
-    private final Queue<AudioTrack> queue;
-    private AudioTrack lastTrack;
+    public final Queue<AudioTrack> queue;
+    public AudioTrack lastTrack;
 
     private LeaveVoiceChannel lv = new LeaveVoiceChannel();
 
@@ -54,8 +54,6 @@ public class TrackScheduler extends AudioEventAdapter {
 
             queue.offer(track);
             scheduledExecutorService.shutdownNow();
-
-
         }
     }
 

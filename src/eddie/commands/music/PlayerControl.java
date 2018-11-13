@@ -37,7 +37,7 @@ public class PlayerControl extends Command {
     private final Map<String, GuildMusicManager> musicManagers;
 
     public static Guild guild;
-
+    String botName;
 
 
     public PlayerControl() throws IndexOutOfBoundsException {
@@ -46,7 +46,6 @@ public class PlayerControl extends Command {
         this.aliases = new String[]{"play", "join", "skip", "leave", "fuckoff", "np", "nowplaying", "list", "pause", "stop", "shuffle", "pplay", "volume", "reset", "restart", "repeat"};
         this.help = "Shows all music commands";
         this.category = Categories.Music;
-
 
         java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies").setLevel(Level.OFF);
 
@@ -64,6 +63,8 @@ public class PlayerControl extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
+
+        botName = event.getSelfMember().getEffectiveName();
 
         guild = event.getGuild();
         if (!event.isFromType(ChannelType.TEXT))
@@ -116,8 +117,7 @@ public class PlayerControl extends Command {
             }
         } else if (".play".equals(command[0])) {
 
-            if (command.length == 1)
-            {
+            if (command.length == 1) {
 
                 if (player.isPaused()) {
 
@@ -130,8 +130,7 @@ public class PlayerControl extends Command {
 
                     event.getChannel().sendMessage("The current music queue is empty! Add something to the queue first!").queue();
                 }
-            } else
-            {
+            } else {
 
                 if (command[0].contains("youtube.com")) {
 
@@ -242,7 +241,6 @@ public class PlayerControl extends Command {
             Queue<AudioTrack> queue = scheduler.queue;
             synchronized (queue) {
 
-
                 if (queue.isEmpty()) {
 
                     event.getChannel().sendMessage("The queue is currently empty!").queue();
@@ -282,12 +280,17 @@ public class PlayerControl extends Command {
 
     private void loadAndPlay(GuildMusicManager mng, final MessageChannel channel, String url, final boolean addPlaylist) {
 
+        EmbedBuilder em = new EmbedBuilder();
+
+        em.setAuthor(botName, null, "https://seeklogo.com/images/P/pearl-jam-alive-logo-8FA34991E4-seeklogo.com.png");
+        em.setColor(new Color(0, 0, 255));
+
         try {
-            if(!TrackScheduler.trask.isCancelled()) {
+            if (!TrackScheduler.trask.isCancelled()) {
 
                 TrackScheduler.trask.cancel(true);
             }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             // really don't care for this
         }
 
@@ -303,16 +306,16 @@ public class PlayerControl extends Command {
         playerManager.loadItemOrdered(mng, trackUrl, new AudioLoadResultHandler() {
 
 
-
             @Override
             public void trackLoaded(AudioTrack track) {
-                String msg = "Adding to queue: " + track.getInfo().title;
+
+                em.setDescription("Adding to queue: " + track.getInfo().title);
 
                 if (mng.player.getPlayingTrack() == null)
-                    msg += "\nand the Player has started playing;";
+                    em.appendDescription("\nand the Player has started playing;");
 
                 mng.scheduler.queue(track);
-                channel.sendMessage(msg).queue();
+                channel.sendMessage(em.build()).queue();
             }
 
             @Override
@@ -329,11 +332,14 @@ public class PlayerControl extends Command {
 
                 if (addPlaylist) {
 
-                    channel.sendMessage("Adding **" + playlist.getTracks().size() + "** tracks to queue from playlist: " + playlist.getName()).queue();
+                    em.setDescription("Adding **" + playlist.getTracks().size() + "** tracks to queue from playlist: " + playlist.getName());
+
+                    channel.sendMessage(em.build()).queue();
                     tracks.forEach(mng.scheduler::queue);
                 } else {
 
-                    channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
+                    em.setDescription("Adding to queue " + firstTrack.getInfo().title);
+                    channel.sendMessage(em.build()).queue();
                     mng.scheduler.queue(firstTrack);
                 }
             }

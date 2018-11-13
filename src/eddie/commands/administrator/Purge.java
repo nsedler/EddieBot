@@ -3,46 +3,45 @@ package eddie.commands.administrator;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import eddie.helpful.Categories;
-import net.dv8tion.jda.core.Permission;
+import eddie.helpful.Permissions;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Purge extends Command {
 
-    public Purge(){
+    public Purge() {
 
         this.name = "purge";
-        this.arguments = "<x>";
+        this.arguments = "<number>";
         this.help = "Purges the x amount of messages";
         this.category = Categories.Admin;
+        this.botPermissions = Permissions.DeleteMessage;
+        this.userPermissions = Permissions.Admin;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        Boolean isAdmin = event.getMember().hasPermission(Permission.ADMINISTRATOR);
-        Boolean isOwner = event.getMember().isOwner();
-        MessageChannel channel = event.getChannel();
-        String[] command = event.getMessage().getContentDisplay().split(" ", 2);
 
-        if (isAdmin || isOwner) {
-            if (".purge".equalsIgnoreCase(command[0])) {
+        try {
+            if (Integer.parseInt(event.getArgs()) <= 100 && Integer.parseInt(event.getArgs()) >= 2) {
 
-                if (Integer.parseInt(command[1]) <= 100 && Integer.parseInt(command[1]) >= 2) {
-                    List<Message> msg = channel.getHistory().retrievePast(Integer.parseInt(command[1])).complete();
-                    event.getTextChannel().deleteMessages(msg).queue();
+                List<Message> msg = event.getTextChannel().getHistory().retrievePast(Integer.parseInt(event.getArgs())).complete();
+                event.getTextChannel().deleteMessages(msg).queue();
+                // deletes the message after 10 seconds
+                event.reply(event.getAuthor().getName() + " purged " + event.getArgs() + " messages from " + event.getTextChannel().getName(), (message) -> message.delete().queueAfter(10, TimeUnit.SECONDS));
+            } else {
 
-                    channel.sendMessage("Purged " + command[1] + " messages from " + channel.getName()).queue();
-                } else {
-
-                    channel.sendMessage("<@" + event.getAuthor().getId() + "> You must provide at least 2 or at most 100 messages to be deleted.").queue();
-                }
+                event.reply("The number must be between 2 and 100.");
             }
-        } else if (!isAdmin) {
-
-            channel.sendMessage("<@" + event.getAuthor().getId() + "> This command is for administrators only.");
+        } catch (NumberFormatException e) {
+            // if they type something wrong
+            event.reply("Uh oh! Looks like you typed something wrong! Try .purge 10");
         }
+
     }
 }
 
