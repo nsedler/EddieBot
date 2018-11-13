@@ -2,6 +2,7 @@ package eddie;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import eddie.commands.misc.Feedback;
 import eddie.commands.owner.Eval;
 import eddie.commands.owner.Kill;
 import eddie.commands.administrator.Jail;
@@ -50,6 +51,9 @@ public class EddieBot extends ListenerAdapter {
                 new Meow(),
                 new TheOffice(),
                 new Woof(),
+
+                // Misc
+                new Feedback(),
 
                 // Essential
                 new Help(),
