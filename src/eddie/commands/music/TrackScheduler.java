@@ -53,7 +53,7 @@ public class TrackScheduler extends AudioEventAdapter {
         if (!player.startTrack(track, true)) {
 
             queue.offer(track);
-            scheduledExecutorService.shutdownNow();
+            trask.cancel(true);
         }
     }
 
@@ -65,8 +65,6 @@ public class TrackScheduler extends AudioEventAdapter {
         // Start the next track, regardless of if something is already playing or not. In case queue was empty, we are
         // giving null to startTrack, which is a valid argument and will simply stop the player.
         player.startTrack(queue.poll(), false);
-
-        System.out.println("timer shutdown");
     }
 
     @Override
