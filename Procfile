@@ -1,1 +1,1 @@
-worker java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/EddieBot-1.0-all.jar
+worker java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/com.nate.eddiebot.EddieBot-1.0-all.jar
