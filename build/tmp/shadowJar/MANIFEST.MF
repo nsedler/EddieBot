@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: eddie.EddieBot
+Main-Class: com.nate.eddiebot.EddieBot
 
