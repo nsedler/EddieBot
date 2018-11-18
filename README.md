@@ -18,7 +18,7 @@
 | .woof | none | Gives random pictures/videos of dogs |
 | .ping | none | Shows ping of EddieBot |
 | .info | none | Shows basic info about EddieBot |
-
+| .feedback | type -> feedback | Sends feedback about the bot to the owner |
 
 ### Music Commands
 
