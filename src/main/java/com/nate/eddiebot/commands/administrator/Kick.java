@@ -11,6 +11,7 @@ public class Kick extends Command {
 
         this.name = "kick";
         this.arguments = "<user>";
+        this.help = "Kick a user from your guild";
         this.userPermissions = Permissions.Admin;
         this.botPermissions = Permissions.KickUser;
         this.category = Categories.Admin;

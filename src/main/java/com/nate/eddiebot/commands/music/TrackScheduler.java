@@ -74,7 +74,7 @@ public class TrackScheduler extends AudioEventAdapter {
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if (endReason.mayStartNext) {
 
-            if (queue.poll() != null) {
+            if(queue.poll() != null) {
                 if (repeating)
                     player.startTrack(lastTrack.makeClone(), false);
                 else
@@ -85,8 +85,8 @@ public class TrackScheduler extends AudioEventAdapter {
                         TimeUnit.MINUTES);
             }
         }
-
     }
+
 
     public boolean isRepeating() {
 
