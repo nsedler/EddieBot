@@ -9,4 +9,5 @@ public class Categories {
     public static Command.Category Misc = new Command.Category("Miscellaneous");
     public static Command.Category Music = new Command.Category("Music");
     public static Command.Category Owner = new Command.Category("Owner");
+    public static Command.Category Help = new Command.Category("Help");
 }

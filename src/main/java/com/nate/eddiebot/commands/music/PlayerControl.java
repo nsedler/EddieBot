@@ -42,10 +42,11 @@ public class PlayerControl extends Command {
 
     public PlayerControl() throws IndexOutOfBoundsException {
 
-        this.name = "music";
+        this.name = "play";
         this.aliases = new String[]{"play", "join", "skip", "leave", "fuckoff", "np", "nowplaying", "list", "pause", "stop", "shuffle", "pplay", "volume", "reset", "restart", "repeat"};
         this.help = "Shows all music commands";
         this.category = Categories.Music;
+        this.hidden = true;
 
         java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies").setLevel(Level.OFF);
 
@@ -77,29 +78,6 @@ public class PlayerControl extends Command {
         AudioPlayer player = mng.player;
         TrackScheduler scheduler = mng.scheduler;
 
-        if (".music".equalsIgnoreCase(command[0])) {
-
-            EmbedBuilder em = new EmbedBuilder();
-
-            em.setAuthor(String.valueOf(event.getSelfMember().getEffectiveName()), null, "https://seeklogo.com/images/P/pearl-jam-alive-logo-8FA34991E4-seeklogo.com.png");
-            em.setColor(new Color(0, 0, 255));
-
-            em.setTitle("__**Music Commands**__");
-            em.appendDescription("`.play <query> <link>` - Plays youtube songs\n\n");
-            em.appendDescription("`.pplay <link>` - Plays youtube playlists\n\n");
-            em.appendDescription("`.leave` - Leaves the voice channel\n\n");
-            em.appendDescription("`.pause` - Pauses current song\n\n");
-            em.appendDescription("`.stop` - Stops the current song and skips\n\n");
-            em.appendDescription("`.skip` - Skips current song and starts the next\n\n");
-            em.appendDescription("`.nowplaying` - Shows details on the current song\n\n");
-            em.appendDescription("`.list` - Shows queue\n\n");
-            em.appendDescription("`.volume <10> - <100>` - Sets the volume of EddieBot (Default is 35)\n\n");
-            em.appendDescription("`.restart` - Restarts the current song\n\n");
-            em.appendDescription("`.repeat` - Repeats the current song\n\n");
-            em.appendDescription("`.reset` - Resets the player");
-
-            event.reply(em.build());
-        }
         if (".join".equalsIgnoreCase(command[0])) {
 
             joinChannel(event);

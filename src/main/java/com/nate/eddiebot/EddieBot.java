@@ -73,9 +73,11 @@ public class EddieBot extends ListenerAdapter {
                 new Help(),
                 new Ping(),
                 new BotInfo(),
+                new InviteLink(),
 
                 // Music
-                new PlayerControl()
+                new PlayerControl(),
+                new MusicHelp()
         );
 
         try {

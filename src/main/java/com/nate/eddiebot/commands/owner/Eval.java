@@ -3,6 +3,7 @@ package com.nate.eddiebot.commands.owner;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.nate.eddiebot.helpful.Categories;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -28,9 +29,9 @@ public class Eval extends Command {
         se.put("bot", event.getJDA().getSelfUser());
 
         try {
-            event.reply(event.getClient().getSuccess() + " Evaluated Successfully:\n```\n" + se.eval(event.getArgs()) + " ```");
+            event.reply(EmbedUtils.embedMessage(event.getClient().getSuccess() + " Evaluated Successfully:\n```\n" + se.eval(event.getArgs()) + " ```"));
         } catch (Exception e) {
-            event.reply(event.getClient().getError() + " An exception was thrown:\n```\n" + e + " ```");
+            event.reply(EmbedUtils.embedMessage(event.getClient().getError() + " An exception was thrown:\n```\n" + e + " ```"));
         }
     }
 }

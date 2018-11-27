@@ -3,10 +3,13 @@ package com.nate.eddiebot.commands.essential;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.nate.eddiebot.helpful.Categories;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.awt.*;
 import java.lang.management.ManagementFactory;
+import java.time.Instant;
 
 public class BotInfo extends Command {
 
@@ -41,10 +44,10 @@ public class BotInfo extends Command {
         uptime = replaceLast(uptime, ", ", "");
         uptime = replaceLast(uptime, ",", " and");
 
-        EmbedBuilder em = new EmbedBuilder();
-
-        em.setAuthor(String.valueOf(event.getSelfMember().getEffectiveName()), null, "https://seeklogo.com/images/P/pearl-jam-alive-logo-8FA34991E4-seeklogo.com.png");
-        em.setColor(new Color(0, 0, 255));
+        EmbedBuilder em = new EmbedBuilder()
+                .setColor(new Color(0, 0, 255))
+                .setFooter("EddieBot", null)
+                .setTimestamp(Instant.now());
 
         em.addField("__Total Guilds__", String.valueOf(event.getJDA().getGuildCache().size()), false);
         em.addField("__Total Users__", String.valueOf(event.getJDA().getUserCache().size()), false);

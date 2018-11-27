@@ -20,11 +20,16 @@ public class Feedback extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
+        MessageEmbed em;
 
         User owner = event.getJDA().retrieveUserById(event.getClient().getOwnerId()).complete();
 
-        owner.openPrivateChannel().queue((channel) -> channel.sendMessage(event.getArgs() + " from " + event.getAuthor().getName()).queue());
-        MessageEmbed em = EmbedUtils.embedMessage("Message sent to " + owner.getName() + "!");
+        if(event.getArgs().isEmpty() || event.getArgs() == null)
+            em = EmbedUtils.embedMessage("You must include something in your feedback!");
+        else {
+            owner.openPrivateChannel().queue((channel) -> channel.sendMessage(event.getArgs() + " from " + event.getAuthor().getName()).queue());
+            em = EmbedUtils.embedMessage("Message sent to " + owner.getName() + "!");
+        }
         event.reply(em);
     }
 }
