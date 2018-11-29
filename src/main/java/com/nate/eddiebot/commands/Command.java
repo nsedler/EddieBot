@@ -1,27 +1,59 @@
 package com.nate.eddiebot.commands;
 
 import com.nate.eddiebot.EddieBot;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public abstract class Command {
 
-    protected final String name;
-    protected final String[] aliases;
-    protected final String help;
-    protected final String arguments;
-    protected final boolean ownerOnly;
-    protected final boolean hidden;
-    protected final boolean nsfw;
+    protected  String name;
+    protected  String[] aliases;
+    protected  String help;
+    protected  String arguments;
+    protected  boolean ownerOnly;
+    protected  boolean hidden;
+    protected  boolean nsfw;
+    protected  boolean guildOnly;
 
-    protected Command(String name, String[] aliases, String help, String arguments, boolean ownerOnly, boolean hidden, boolean nsfw){
+    protected Permission[] userPermissions = new Permission[0];
+    protected Permission[] botPermissions = new Permission[0];
 
-        this.name = name;
-        this.aliases = aliases;
-        this.help = help;
-        this.arguments = arguments;
-        this.ownerOnly = ownerOnly;
-        this.hidden = hidden;
-        this.nsfw = nsfw;
+    protected abstract void execute(BetterMessageEvent event);
+
+    public void run(BetterMessageEvent event){
+
+        if(this.check(event)) {
+            this.execute(event);
+        }
     }
 
-    protected abstract void execute(EddieBot bot, PassiveEvent event);
+    protected boolean check(BetterMessageEvent event){
+
+        if(event.getMember() != null){
+
+            Member callMember  = event.getMember();
+            for(Permission p : this.userPermissions){
+                if(!callMember.hasPermission(p)){
+                    return false;
+                }
+            }
+
+            Member selfBot = event.getGuild().getMember(EddieBot.getJda().getSelfUser());
+
+            for (Permission p : this.botPermissions) {
+                if (!selfBot.hasPermission(p)) {
+                    return false;
+                }
+            }
+        }
+
+        if (this.guildOnly && event.getMessage().getChannelType() != ChannelType.TEXT) {
+            return false;
+        }
+
+        return true;
+    }
 }

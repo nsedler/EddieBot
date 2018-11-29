@@ -1,6 +1,6 @@
 package com.nate.eddiebot.commands;
 
-import net.dv8tion.jda.core.events.Event;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
 
 /**
  * An interface defining an entity which accepts
@@ -19,7 +19,7 @@ public interface IPassive {
      *
      * @param event The event to receive.
      */
-    void accept(PassiveEvent event);
+    void accept(BetterMessageEvent event);
 
     /** @return {@code false} if the passive is no longer active */
     boolean dead();
