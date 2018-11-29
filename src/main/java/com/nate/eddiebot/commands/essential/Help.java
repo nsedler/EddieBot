@@ -16,7 +16,6 @@ public class Help extends Command {
         this.name = "help";
         this.help = "Helps with commands";
         this.category = Categories.Help;
-        this.hidden = true;
     }
 
     @Override
@@ -33,14 +32,16 @@ public class Help extends Command {
             if (command.getName().isEmpty() || command.getName().equals(" ")) continue;
             if (command.isHidden()) continue;
             if (command.isOwnerCommand()) continue;
-            if (!Objects.equals(category, command.getCategory())) {
+            if (command.getCategory().equals(Categories.Help)) {
+                if (!Objects.equals(category, command.getCategory())) {
 
-                category = command.getCategory();
-                fieldTitle += "__**" + category.getName() + "**__";
+                    category = command.getCategory();
+                    fieldTitle += "__**" + category.getName() + "**__";
 
+                }
+                fieldDesc += "`" + event.getClient().getPrefix() + command.getName() + (command.getArguments() == null ? "`" : " " + command.getArguments() + "`") + " - " + command.getHelp();
+                em.addField(fieldTitle, fieldDesc, false);
             }
-            fieldDesc += "`" + event.getClient().getPrefix() + command.getName() + (command.getArguments() == null ? "`" : " " + command.getArguments() + "`") + " - " + command.getHelp();
-            em.addField(fieldTitle, fieldDesc, false);
         }
         event.reply(em.build());
     }

@@ -13,7 +13,7 @@ public class MusicHelp extends Command {
     public MusicHelp(){
         this.name = "music";
         this.help = "Displays all music related commands";
-        this.category = Categories.Music;
+        this.category = Categories.Help;
     }
 
     @Override
