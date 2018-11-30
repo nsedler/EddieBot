@@ -9,7 +9,8 @@ import net.dv8tion.jda.core.entities.Member;
 import java.util.Arrays;
 
 /**
-*Commands for Eddie
+*Commands class for Eddie
+*This helps with running and executing code more productively 
 *
 *@Author Nate Sedler
 */
