@@ -5,10 +5,7 @@ import com.nate.eddiebot.commands.Command;
 import com.nate.eddiebot.commands.administrator.*;
 
 import com.nate.eddiebot.commands.IPassive;
-import com.nate.eddiebot.commands.essential.BotInfo;
-import com.nate.eddiebot.commands.essential.Help;
-import com.nate.eddiebot.commands.essential.InviteLink;
-import com.nate.eddiebot.commands.essential.Ping;
+import com.nate.eddiebot.commands.essential.*;
 import com.nate.eddiebot.commands.fun.*;
 import com.nate.eddiebot.commands.misc.Feedback;
 import com.nate.eddiebot.commands.misc.testing;
@@ -38,15 +35,17 @@ public class EddieBot extends ListenerAdapter {
 
     private static JDA JDA_CLIENT;
 
-    public static ArrayList<IPassive> Passives = new ArrayList<>(
+    private static Logger logger = LoggerFactory.getLogger(EddieBot.class);
+
+    private static ArrayList<IPassive> Passives = new ArrayList<>(
             Arrays.asList(
                     new BadWordFilter()
             )
     );
 
-    public static ArrayList<Command> Commands = new ArrayList<>(
+    private static ArrayList<Command> Commands = new ArrayList<>(
             Arrays.asList(
-                    new testing()
+                    new testing(), new NewHelp()
             )
     );
 
@@ -54,7 +53,6 @@ public class EddieBot extends ListenerAdapter {
 
         String token = System.getenv("token");
 
-        Logger logger = LoggerFactory.getLogger(EddieBot.class);
 
         WebUtils.setUserAgent("Mozilla/5.0 MenuDocs JDA Tutorial Bot/duncte123#1245");
         EmbedUtils.setEmbedBuilder(
@@ -63,7 +61,6 @@ public class EddieBot extends ListenerAdapter {
                         .setFooter("EddieBot", null)
                         .setTimestamp(Instant.now())
         );
-
 
 
         CommandClientBuilder client = new CommandClientBuilder();
@@ -106,7 +103,6 @@ public class EddieBot extends ListenerAdapter {
         );
 
 
-
         try {
             logger.info("Booting EddieBot");
             JDA_CLIENT = new JDABuilder(AccountType.BOT)
@@ -127,17 +123,31 @@ public class EddieBot extends ListenerAdapter {
         }
     }
 
-    public static void sendToCommands(BetterMessageEvent event){
+    public static void sendToCommands(BetterMessageEvent event) {
 
-        String message = event.getMessage().getContentDisplay();
-        if(!message.substring(0,  1).equalsIgnoreCase(".")) return;
+        String[] message = event.getMessage().getContentDisplay().split("\\s+");
 
-        for(Command c : Commands){
-            c.run(event);
+        if (event.getAuthor().isBot()) return;
+        if (!message[0].substring(0, 1).equalsIgnoreCase(".")) return;
+
+        String command = message[0].substring(1);
+
+        for (Command c : Commands) {
+
+            if (command.equalsIgnoreCase(c.getName()) || Arrays.stream(c.getAliases()).parallel().anyMatch(command::contains)) {
+                logger.info("Running: " + c.getName());
+                logger.info(c.getName() +"'s aliases are: " +  (c.getAliases() == null ? "none": Arrays.toString(c.getAliases())));
+                c.run(event);
+            }
+
         }
     }
 
     public static JDA getJda() {
         return EddieBot.JDA_CLIENT;
+    }
+
+    public static ArrayList<Command> getCommands() {
+        return EddieBot.Commands;
     }
 }

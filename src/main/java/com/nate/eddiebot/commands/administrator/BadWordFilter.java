@@ -9,8 +9,8 @@ public class BadWordFilter implements IPassive {
     @Override
     public void accept(BetterMessageEvent event) {
         if(event.getMessage().getContentDisplay().equalsIgnoreCase("123")){
-            event.reply("test");
-            System.out.println("true");
+            System.out.println("BadWord");
+            event.reply("BadWord");
         }
     }
 

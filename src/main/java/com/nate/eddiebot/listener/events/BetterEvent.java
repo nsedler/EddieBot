@@ -33,7 +33,7 @@ import net.dv8tion.jda.core.events.Event;
 public abstract class BetterEvent {
 
 
-    // get the event
+    // get the original event
     protected abstract Event getEvent();
 
     // get the author

@@ -38,6 +38,7 @@ public class BetterMessageEvent extends BetterEvent{
     private final User author;
     private final Message message;
     private final Member memberAuthor;
+    private final String[] arguments;
 
     /**
      * Constructor for a BetterMessageEvent.
@@ -53,11 +54,24 @@ public class BetterMessageEvent extends BetterEvent{
         this.event = event;
         this.author = this.message.getAuthor();
         this.memberAuthor = message.getMember();
+        this.arguments = message.getContentStripped().trim().split("\\s+", -1);
     }
 
     @Override
     public void reply(String message){
-        sendMessage(event.getChannel(), message);
+        switch (this.event.getChannelType()) {
+            case TEXT:
+                this.event.getTextChannel().sendMessage(message).queue();
+                break;
+            case PRIVATE:
+                this.author.openPrivateChannel().queue( (channel) ->
+                        channel.sendMessage(message).queue()
+                );
+                break;
+            default:
+                System.err.println("Could not locate event channel.");
+                break;
+        }
     }
 
     public void reply(MessageEmbed embed){
@@ -97,6 +111,9 @@ public class BetterMessageEvent extends BetterEvent{
         return this.event.getGuild();
     }
 
+    public String[] getArgs(){
+        return arguments;
+    }
 
     /** PRIVATE METHODS */
     private void sendMessage(MessageChannel chan, String message){
