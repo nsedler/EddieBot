@@ -19,7 +19,6 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
