@@ -8,12 +8,15 @@ public class NewHelp extends Command {
 
     public NewHelp(){
         this.name = "helpme";
+
+        this.hidden = true;
     }
 
     @Override
     protected void execute(BetterMessageEvent event) {
+
         for(Command c : EddieBot.getCommands()){
-            event.reply(c.getName());
+            event.reply(c.getName() + " : " + (c.getCategory() == null ? "" : c.getCategory().getName()));
         }
     }
 }

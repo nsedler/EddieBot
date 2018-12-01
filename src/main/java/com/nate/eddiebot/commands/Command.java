@@ -1,12 +1,15 @@
 package com.nate.eddiebot.commands;
 
+import com.jagrosh.jdautilities.command.CommandEvent;
 import com.nate.eddiebot.EddieBot;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Category;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Member;
 
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 /**
 *Commands class for Eddie
@@ -30,6 +33,12 @@ public abstract class Command {
      * A brief description of what the command does.
      */
     protected  String help = "no help found";
+
+    /**
+     * The {@link com.nate.eddiebot.commands.Command.Category Category} of the command.
+     * This can perform checks that's not already checked by default
+     */
+    protected Category category = null;
 
     /**
      * The arguments the command accepts.
@@ -154,12 +163,19 @@ public abstract class Command {
 
     /**
      * Gets the {@link com.nate.eddiebot.commands.Command#help Command.help} for the Command.
-     * @return
+     * @return the description of the command
      */
     public String getHelp(){
         return help;
     }
 
+    /**
+     * Gets the {@link com.nate.eddiebot.commands.Command#category Command.category} for the Command.
+     * @return the category of the command
+     */
+    public Category getCategory(){
+        return category;
+    }
     /**
      * Gets the {@link com.nate.eddiebot.commands.Command#aliases Command.aliases} for the Command.
      *
@@ -167,5 +183,27 @@ public abstract class Command {
      */
     public String[] getAliases() {
         return aliases;
+    }
+
+    public static class Category{
+
+        private final String name;
+        private final String failResponse;
+        private final Predicate<CommandEvent> predicate;
+
+        public Category(String name){
+            this.name = name;
+            this.failResponse = null;
+            this.predicate = null;
+        }
+
+        /**
+         * Gets the name of the category
+         *
+         * @return the name of the category
+         */
+        public String getName(){
+            return name;
+        }
     }
 }

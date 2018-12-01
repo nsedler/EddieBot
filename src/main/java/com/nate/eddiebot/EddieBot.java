@@ -19,7 +19,6 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -53,7 +52,6 @@ public class EddieBot extends ListenerAdapter {
 
         String token = System.getenv("token");
 
-
         WebUtils.setUserAgent("Mozilla/5.0 MenuDocs JDA Tutorial Bot/duncte123#1245");
         EmbedUtils.setEmbedBuilder(
                 () -> new EmbedBuilder()
@@ -61,7 +59,6 @@ public class EddieBot extends ListenerAdapter {
                         .setFooter("EddieBot", null)
                         .setTimestamp(Instant.now())
         );
-
 
         CommandClientBuilder client = new CommandClientBuilder();
         client.setOwnerId("185063150557593600");
@@ -135,8 +132,11 @@ public class EddieBot extends ListenerAdapter {
         for (Command c : Commands) {
 
             if (command.equalsIgnoreCase(c.getName()) || Arrays.stream(c.getAliases()).parallel().anyMatch(command::contains)) {
+                System.out.println("\n\n");
                 logger.info("Running: " + c.getName());
-                logger.info(c.getName() +"'s aliases are: " +  (c.getAliases() == null ? "none": Arrays.toString(c.getAliases())));
+                logger.info("\n" + (c.getAliases() == null ? "N/A" : Arrays.toString(c.getAliases())) + "\n"
+                        + (c.getHelp() == null ? "N/A" : c.getHelp() + "\n"
+                        + (c.getCategory() == null ? "N/A" : c.getCategory().getName())));
                 c.run(event);
             }
 
