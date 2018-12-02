@@ -9,11 +9,6 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public class EventDispatcher extends ListenerAdapter {
 
     @Override
-    public void onGenericMessage(GenericMessageEvent event) {
-        EddieBot.sendToPassives(new BetterMessageEvent(event));
-    }
-
-    @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         EddieBot.sendToCommands(new BetterMessageEvent(event));
     }
