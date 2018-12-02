@@ -16,10 +16,13 @@ package com.nate.eddiebot.listener.events;
  * limitations under the License.
  */
 
+import com.nate.eddiebot.EddieBot;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.priv.GenericPrivateMessageEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An wrapper class for {@link GenericMessageEvent}
@@ -39,6 +42,8 @@ public class BetterMessageEvent extends BetterEvent{
     private final Message message;
     private final Member memberAuthor;
     private final String[] arguments;
+
+    private static Logger logger = LoggerFactory.getLogger(BetterMessageEvent.class);
 
     /**
      * Constructor for a BetterMessageEvent.
@@ -69,7 +74,7 @@ public class BetterMessageEvent extends BetterEvent{
                 );
                 break;
             default:
-                System.err.println("Could not locate event channel.");
+                logger.info("No channel");
                 break;
         }
     }
@@ -96,7 +101,7 @@ public class BetterMessageEvent extends BetterEvent{
 
     @Override
     protected Event getEvent() {
-        return null;
+        return event;
     }
 
     public User getAuthor(){
@@ -113,6 +118,10 @@ public class BetterMessageEvent extends BetterEvent{
 
     public String[] getArgs(){
         return arguments;
+    }
+
+    public TextChannel getTextChannel(){
+        return event.getTextChannel();
     }
 
     /** PRIVATE METHODS */

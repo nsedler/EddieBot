@@ -44,7 +44,7 @@ public class EddieBot extends ListenerAdapter {
 
     private static ArrayList<Command> Commands = new ArrayList<>(
             Arrays.asList(
-                    new testing(), new NewHelp()
+                    new testing(), new NewHelp(), new NewPurge()
             )
     );
 
@@ -131,10 +131,11 @@ public class EddieBot extends ListenerAdapter {
 
         for (Command c : Commands) {
 
-            if (command.equalsIgnoreCase(c.getName()) || Arrays.stream(c.getAliases()).parallel().anyMatch(command::contains)) {
+            if (command.equalsIgnoreCase(c.getName()) || Arrays.stream(c.getAliases()).parallel().anyMatch(command::equalsIgnoreCase)) {
+
                 System.out.println("\n\n");
                 logger.info("Running: " + c.getName());
-                logger.info("\n" + (c.getAliases() == null ? "N/A" : Arrays.toString(c.getAliases())) + "\n"
+                logger.info("\n" + (c.getAliases().length == 0 ? "N/A" : Arrays.toString(c.getAliases())) + "\n"
                         + (c.getHelp() == null ? "N/A" : c.getHelp() + "\n"
                         + (c.getCategory() == null ? "N/A" : c.getCategory().getName())));
                 c.run(event);

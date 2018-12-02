@@ -26,6 +26,7 @@ public class Help extends Command {
                 .setFooter("EddieBot", null)
                 .setTimestamp(Instant.now());
 
+
         for (Command command : event.getClient().getCommands()) {
             String fieldTitle = "";
             String fieldDesc = "";

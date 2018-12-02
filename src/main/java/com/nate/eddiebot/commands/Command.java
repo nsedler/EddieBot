@@ -4,9 +4,9 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.nate.eddiebot.EddieBot;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Category;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -170,12 +170,21 @@ public abstract class Command {
     }
 
     /**
+     * Gets the {@link com.nate.eddiebot.commands.Command#arguments Command.arguments} for the Command.
+     * @return The arguments of the command
+     */
+    public String getArgs(){
+        return arguments;
+    }
+
+    /**
      * Gets the {@link com.nate.eddiebot.commands.Command#category Command.category} for the Command.
      * @return the category of the command
      */
     public Category getCategory(){
         return category;
     }
+
     /**
      * Gets the {@link com.nate.eddiebot.commands.Command#aliases Command.aliases} for the Command.
      *
@@ -183,6 +192,14 @@ public abstract class Command {
      */
     public String[] getAliases() {
         return aliases;
+    }
+
+    /**
+     * Gets the {@link com.nate.eddiebot.commands.Command#hidden Command.hidden} for the Command.
+     * @return if the command is hidden
+     */
+    public boolean isHidden(){
+        return hidden;
     }
 
     public static class Category{

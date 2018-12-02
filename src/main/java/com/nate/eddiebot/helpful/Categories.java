@@ -15,4 +15,5 @@ public class Categories {
 
     // my categories
     public static Category Testing = new Category("testing");
+    public static Category Administrator = new Category("Administrator");
 }
