@@ -1,28 +1,31 @@
 package com.nate.eddiebot.commands.essential;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.helpful.Categories;
-import me.duncte123.botcommons.messaging.EmbedUtils;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-
-import java.awt.*;
+import java.awt.Color;
 import java.lang.management.ManagementFactory;
 import java.time.Instant;
 
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.helpful.Categories;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
+
+import net.dv8tion.jda.core.EmbedBuilder;
+
+/**
+ * Brief description of Eddie 
+ * Gives Amount of guilds
+ * Amount of users
+ * Uptime
+ */
 public class BotInfo extends Command {
 
-    public BotInfo() {
-
-        this.name = "BotInfo";
-        this.aliases = new String[]{"info"};
-        this.help = "Shows basic info about EddieBot";
+    public BotInfo(){
+        this.name = "info";
+        this.help = "Get information about EddieBot";
         this.category = Categories.Misc;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
 
         final long duration = ManagementFactory.getRuntimeMXBean().getUptime();
 
@@ -49,9 +52,14 @@ public class BotInfo extends Command {
                 .setFooter("EddieBot", null)
                 .setTimestamp(Instant.now());
 
-        em.addField("__Total Guilds__", String.valueOf(event.getJDA().getGuildCache().size()), false);
-        em.addField("__Total Users__", String.valueOf(event.getJDA().getUserCache().size()), false);
-        em.addField("__Uptime__", uptime, false);
+        em.setTitle("About Eddie!");
+        em.setDescription("Eddie is a multi-purpose discord bot built using [JDA](https://github.com/DV8FromTheWorld/JDA)\n");
+        em.appendDescription("Eddie has a variety of command categories from fun to administrator!\n");
+        em.appendDescription("To get help, please type `.help`. Below there is some general information about Eddie!");
+
+        em.addField("__Total Guilds__", String.valueOf(event.getJDA().getGuildCache().size()), true);
+        em.addField("__Total Users__", String.valueOf(event.getJDA().getUserCache().size()), true);
+        em.addField("__Uptime__", uptime, true);
 
         event.reply(em.build());
     }
@@ -59,4 +67,5 @@ public class BotInfo extends Command {
     private static String replaceLast(final String text, final String regex, final String replacement) {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
     }
+    
 }

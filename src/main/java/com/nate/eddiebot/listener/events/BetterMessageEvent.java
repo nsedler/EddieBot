@@ -16,11 +16,13 @@ package com.nate.eddiebot.listener.events;
  * limitations under the License.
  */
 
-import com.nate.eddiebot.EddieBot;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.priv.GenericPrivateMessageEvent;
+
+import java.util.function.Consumer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,8 +81,20 @@ public class BetterMessageEvent extends BetterEvent{
         }
     }
 
+    public void reply(String message, Consumer<Message> success){
+        this.event.getChannel().sendMessage(message).queue(m -> success.accept(m));
+    }
+
     public void reply(MessageEmbed embed){
-        this.message.getChannel().sendMessage(embed).queue();
+        this.event.getChannel().sendMessage(embed).queue();
+    }
+
+    public void reply(MessageEmbed embed, Consumer<Message> success){
+        this.event.getChannel().sendMessage(embed).queue(m -> success.accept(m));
+    }
+
+    public void reply(Message message){
+        this.event.getTextChannel().sendMessage(message).queue();
     }
 
     @Override
@@ -123,13 +137,4 @@ public class BetterMessageEvent extends BetterEvent{
     public TextChannel getTextChannel(){
         return event.getTextChannel();
     }
-
-    /** PRIVATE METHODS */
-    private void sendMessage(MessageChannel chan, String message){
-        chan.sendMessage(message).queue();
-    }
-
-
-
-
 }

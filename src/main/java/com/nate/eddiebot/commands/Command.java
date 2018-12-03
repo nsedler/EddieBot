@@ -1,15 +1,12 @@
 package com.nate.eddiebot.commands;
 
-import com.jagrosh.jdautilities.command.CommandEvent;
 import com.nate.eddiebot.EddieBot;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.Arrays;
-import java.util.function.Predicate;
 
 /**
 *Commands class for Eddie
@@ -205,13 +202,9 @@ public abstract class Command {
     public static class Category{
 
         private final String name;
-        private final String failResponse;
-        private final Predicate<CommandEvent> predicate;
 
         public Category(String name){
             this.name = name;
-            this.failResponse = null;
-            this.predicate = null;
         }
 
         /**

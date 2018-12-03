@@ -4,7 +4,6 @@ import com.nate.eddiebot.commands.Command;
 import com.nate.eddiebot.helpful.Categories;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import me.duncte123.botcommons.messaging.EmbedUtils;
-import net.dv8tion.jda.core.entities.Category;
 
 public class testing extends Command {
 
