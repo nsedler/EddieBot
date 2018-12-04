@@ -3,8 +3,8 @@ package com.nate.eddiebot.commands.administrator;
 import java.util.concurrent.TimeUnit;
 
 import com.nate.eddiebot.commands.Command;
-import com.nate.eddiebot.helpful.Categories;
-import com.nate.eddiebot.helpful.Permissions;
+import com.nate.eddiebot.util.bot.Categories;
+import com.nate.eddiebot.util.bot.Permissions;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import net.dv8tion.jda.core.entities.MessageHistory;
 

@@ -1,7 +1,7 @@
 package com.nate.eddiebot.commands.misc;
 
 import com.nate.eddiebot.commands.Command;
-import com.nate.eddiebot.helpful.Categories;
+import com.nate.eddiebot.util.bot.Categories;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 

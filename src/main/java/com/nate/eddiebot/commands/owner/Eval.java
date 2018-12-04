@@ -2,7 +2,7 @@ package com.nate.eddiebot.commands.owner;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.helpful.Categories;
+import com.nate.eddiebot.util.bot.Categories;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 
 import javax.script.ScriptEngine;

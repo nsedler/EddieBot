@@ -2,7 +2,7 @@
 
 // import com.jagrosh.jdautilities.command.Command;
 // import com.jagrosh.jdautilities.command.CommandEvent;
-// import com.nate.eddiebot.helpful.Categories;
+// import com.nate.eddiebot.util.bot.Categories;
 // import me.duncte123.botcommons.messaging.EmbedUtils;
 // import net.dv8tion.jda.core.entities.MessageEmbed;
 // import net.dv8tion.jda.core.entities.User;

@@ -7,8 +7,6 @@ import java.util.concurrent.TimeUnit;
 import com.nate.eddiebot.commands.IPassive;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 
-import net.dv8tion.jda.core.entities.ChannelType;
-
 public class BadWordFilter implements IPassive {
 
 	private static ArrayList<String> swearWords = new ArrayList<>(

@@ -1,4 +1,4 @@
-package com.nate.eddiebot.helpful;
+package com.nate.eddiebot.util.bot;
 
 import net.dv8tion.jda.core.Permission;
 

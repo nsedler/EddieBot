@@ -199,6 +199,10 @@ public abstract class Command {
         return hidden;
     }
 
+    public boolean isOwnerCommand(){
+        return ownerOnly;
+    }
+
     public static class Category{
 
         private final String name;

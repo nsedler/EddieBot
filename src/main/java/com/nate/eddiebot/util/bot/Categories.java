@@ -1,4 +1,4 @@
-package com.nate.eddiebot.helpful;
+package com.nate.eddiebot.util.bot;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.nate.eddiebot.commands.Command.*;

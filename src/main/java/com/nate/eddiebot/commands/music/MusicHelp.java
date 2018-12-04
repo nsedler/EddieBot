@@ -2,7 +2,7 @@ package com.nate.eddiebot.commands.music;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.helpful.Categories;
+import com.nate.eddiebot.util.bot.Categories;
 import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.awt.*;
