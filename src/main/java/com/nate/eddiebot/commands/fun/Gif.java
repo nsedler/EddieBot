@@ -14,7 +14,7 @@ public class Gif extends Command {
         this.name = "gif";
         this.arguments = "<query>";
         this.help = "Searches a gif on giphy.com";
-        this.category = Categories.Fun;
+        this.category = Categories.Funs;
     }
 
     @Override

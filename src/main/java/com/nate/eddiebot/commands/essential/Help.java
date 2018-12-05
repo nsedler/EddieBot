@@ -33,7 +33,7 @@ public class Help extends Command {
             String fieldTitle = "";
             String fieldDesc = "";
 
-            if(c.isHidden()) continue;
+            if(c.isHidden() || c.isOwnerCommand()) continue;
             if (!Objects.equals(category, c.getCategory())) {
 
                 category = c.getCategory();

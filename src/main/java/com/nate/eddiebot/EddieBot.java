@@ -5,7 +5,10 @@ import com.nate.eddiebot.commands.administrator.*;
 
 import com.nate.eddiebot.commands.IPassive;
 import com.nate.eddiebot.commands.essential.*;
+import com.nate.eddiebot.commands.fun.ChuckNorris;
+import com.nate.eddiebot.commands.fun.TheOffice;
 import com.nate.eddiebot.commands.misc.testing;
+import com.nate.eddiebot.commands.owner.Kill;
 import com.nate.eddiebot.listener.EventDispatcher;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -41,7 +44,32 @@ public class EddieBot extends ListenerAdapter {
     // List of commands
     private static ArrayList<Command> Commands = new ArrayList<>(
             Arrays.asList(
-                    new testing(), new Help(), new Purge(), new Kick(), new InviteLink(), new BotInfo(), new Ping()
+
+            /*********************\
+            |*       Owner       *|
+            \*********************/
+                new Kill(),
+            /*********************\
+            |*       Admin       *|
+            \*********************/    
+                new Purge(), 
+                new Kick(),
+            /*********************\
+            |*        Info       *|
+            \*********************/   
+                new Help(),
+                new InviteLink(), 
+                new BotInfo(), 
+                new Ping(),
+            /*********************\
+            |*        Fun        *|
+            \*********************/  
+                new ChuckNorris(),
+                new TheOffice(),
+            /*********************\
+            |*      Random       *|
+            \*********************/  
+                new testing()
             )
     );
 

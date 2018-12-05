@@ -14,7 +14,7 @@ public class Eval extends Command {
     public Eval() {
         this.name = "eval";
         this.help = "evaluates stuffs";
-        this.category = Categories.Owner;
+        this.category = Categories.Owners;
         this.ownerCommand = true;
         this.hidden = true;
     }

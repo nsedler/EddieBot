@@ -13,7 +13,7 @@ public class Meow extends Command {
 
         this.name = "meow";
         this.help = "Gives a random pictures/videos of cats";
-        this.category = Categories.Fun;
+        this.category = Categories.Funs;
     }
 
     @Override

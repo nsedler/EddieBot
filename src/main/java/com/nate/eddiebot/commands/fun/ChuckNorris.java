@@ -1,32 +1,31 @@
 package com.nate.eddiebot.commands.fun;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import com.nate.eddiebot.util.bot.Categories;
-import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
-import net.dv8tion.jda.core.entities.MessageEmbed;
+import com.nate.eddiebot.util.bot.DefaultEmbed;
+import com.nate.eddiebot.util.web.GsonUtils;
+
+import net.dv8tion.jda.core.EmbedBuilder;
 
 public class ChuckNorris extends Command {
 
     public ChuckNorris() {
 
         this.name = "chuck";
-        this.help = "Chuck norris Jokes";
+        this.help = "Facts about Chuck Norris";
         this.category = Categories.Fun;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
 
         String sURL = "https://api.chucknorris.io/jokes/random";
 
-        WebUtils.ins.getJSONObject(sURL).async((json) -> {
+        EmbedBuilder x = DefaultEmbed.embedDefault();
 
-            String embed = json.getString("value");
-            MessageEmbed em = EmbedUtils.embedMessage(embed);
+        x.setDescription(GsonUtils.getJsonObject(sURL).get("value").getAsString());
 
-            event.reply(em);
-        });
-    }
+        event.reply(x.build());
+	}
 }

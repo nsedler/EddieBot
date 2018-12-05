@@ -14,7 +14,7 @@ public class Insult extends Command {
         this.name = "insult";
         this.arguments = "<user>";
         this.help = "Insults a user";
-        this.category = Categories.Fun;
+        this.category = Categories.Funs;
     }
 
     @Override

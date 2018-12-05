@@ -13,7 +13,7 @@ public class Joke extends Command {
 
         this.name = "joke";
         this.help = "Gives a random dad joke";
-        this.category = Categories.Fun;
+        this.category = Categories.Funs;
     }
 
     @Override
