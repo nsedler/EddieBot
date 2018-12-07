@@ -1,33 +1,36 @@
 package com.nate.eddiebot.commands.fun;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import com.nate.eddiebot.util.bot.Categories;
-import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
-import net.dv8tion.jda.core.entities.MessageEmbed;
+import com.nate.eddiebot.util.bot.DefaultEmbed;
+import com.nate.eddiebot.util.web.GsonUtils;
+import net.dv8tion.jda.core.EmbedBuilder;
 
+/**
+ * Adorable cats
+ *
+ * @author Nate Sedler
+ */
 public class Meow extends Command {
 
     public Meow() {
 
         this.name = "meow";
         this.help = "Gives a random pictures/videos of cats";
-        this.category = Categories.Funs;
+        this.category = Categories.Fun;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
 
-        String sURL = "https://aws.random.cat/meow"; //just a string
+        String sURL = "https://aws.random.cat/meow";
 
-        WebUtils.ins.getJSONObject(sURL).async((json) -> {
+        EmbedBuilder x = DefaultEmbed.embedDefault();
 
-            String embed = json.getString("file");
-            MessageEmbed em = EmbedUtils.embedImage(embed);
+        x.setImage(GsonUtils.getJsonObject(sURL).get("file").getAsString());
 
-            event.reply(em);
-        });
+        event.reply(x.build());
     }
 }
 

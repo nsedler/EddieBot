@@ -11,6 +11,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 
 /**
  * Gets the API ping and the host ping
+ *
+ * @author Nate Sedler
  */
 public class Ping extends Command {
 

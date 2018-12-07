@@ -8,6 +8,11 @@ import com.nate.eddiebot.util.web.GsonUtils;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 
+/**
+ * Facts about chuck norris
+ * 
+ * @author Nate Sedler
+ */
 public class ChuckNorris extends Command {
 
     public ChuckNorris() {
@@ -24,7 +29,7 @@ public class ChuckNorris extends Command {
 
         EmbedBuilder x = DefaultEmbed.embedDefault();
 
-        x.setDescription(GsonUtils.getJsonObject(sURL).get("value").getAsString());
+        x.appendDescription(GsonUtils.getJsonObject(sURL).get("value").getAsString());
 
         event.reply(x.build());
 	}

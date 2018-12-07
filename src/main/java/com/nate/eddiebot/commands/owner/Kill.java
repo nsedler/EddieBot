@@ -4,6 +4,11 @@ import com.nate.eddiebot.util.bot.Categories;
 import com.nate.eddiebot.commands.Command;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 
+/**
+ * Shutdowns the bot
+ *
+ * @author Nate Sedler
+ */
 public class Kill extends Command {
 
     public Kill() {

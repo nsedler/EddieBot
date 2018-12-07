@@ -1,34 +1,38 @@
 package com.nate.eddiebot.commands.fun;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import com.nate.eddiebot.util.bot.Categories;
-import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
-import net.dv8tion.jda.core.entities.MessageEmbed;
+import com.nate.eddiebot.util.bot.DefaultEmbed;
+import com.nate.eddiebot.util.web.GsonUtils;
 
+import net.dv8tion.jda.core.EmbedBuilder;
+
+/**
+ * Gets a random dad joke
+ * 
+ * @author Nate Sedler
+ */
 public class Joke extends Command {
 
     public Joke() {
 
         this.name = "joke";
         this.help = "Gives a random dad joke";
-        this.category = Categories.Funs;
+        this.category = Categories.Fun;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
 
         String sURL = "https://icanhazdadjoke.com/";
 
-        WebUtils.ins.getJSONObject(sURL).async((json) -> {
+        EmbedBuilder x = DefaultEmbed.embedDefault();
 
-            String embed = json.getString("joke");
-            MessageEmbed em = EmbedUtils.embedMessage(embed);
+        x.setDescription(GsonUtils.getJsonObject(sURL).get("joke").getAsString());
 
-            event.reply(em);
-        });
-    }
+        event.reply(x.build());
+	}
 }
 
 

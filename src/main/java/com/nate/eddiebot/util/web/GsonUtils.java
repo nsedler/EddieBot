@@ -1,7 +1,5 @@
 package com.nate.eddiebot.util.web;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -16,9 +14,6 @@ public class GsonUtils{
 
     private static RestWrapper rWrapper = new RestWrapper();
     private static JsonParser parser = new JsonParser();
-    private static Gson gson = new GsonBuilder()
-        .setLenient()
-        .create();
 
     /**
      * Gets the JsonObject info from a website

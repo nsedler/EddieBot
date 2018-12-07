@@ -7,6 +7,12 @@ import com.nate.eddiebot.listener.events.BetterMessageEvent;
 
 import net.dv8tion.jda.core.entities.Member;
 
+/**
+ * Kicks a mentioned user
+ * from the guild
+ *
+ * @author Nate Sedler
+ */
 public class Kick extends Command {
 
     public Kick(){

@@ -8,6 +8,11 @@ import com.nate.eddiebot.util.web.GsonUtils;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 
+/**
+ * Gets a random gif from The Office
+ *
+ * @author Nate Sedler
+ */
 public class TheOffice extends Command {
 
     public TheOffice() {

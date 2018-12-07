@@ -1,37 +1,39 @@
 package com.nate.eddiebot.commands.fun;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.util.bot.Categories;
-import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
-import net.dv8tion.jda.core.entities.MessageEmbed;
+import java.util.Arrays;
 
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
+import com.nate.eddiebot.util.bot.Categories;
+import com.nate.eddiebot.util.bot.DefaultEmbed;
+import com.nate.eddiebot.util.web.GsonUtils;
+
+import net.dv8tion.jda.core.EmbedBuilder;
+
+/**
+ * Returns a searched gif
+ * 
+ * @author Nate Sedler
+ */
 public class Gif extends Command {
 
     public Gif() {
-
         this.name = "gif";
-        this.arguments = "<query>";
-        this.help = "Searches a gif on giphy.com";
-        this.category = Categories.Funs;
+        this.help = "Search for a gif";
+        this.category = Categories.Fun;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
 
-        String[] command = event.getMessage().getContentDisplay().split(" ", 2);
+        String[] args = Arrays.copyOfRange(event.getArgs(), 1, event.getArgs().length);
+        String sURL = "https://api.giphy.com/v1/gifs/random?api_key=Bxx5K3s6bY2XymQ3zxsap4KDcNbDxLT6&tag=" + Arrays.toString(args); //just a string
 
-        command[1] = command[1].replace(" ", "+");
+        EmbedBuilder x = DefaultEmbed.embedDefault();
 
-        String sURL = "https://api.giphy.com/v1/gifs/random?api_key=Bxx5K3s6bY2XymQ3zxsap4KDcNbDxLT6&tag=" + command[1]; //just a string
+        x.setImage(GsonUtils.getJsonObject(sURL).get("data").getAsJsonObject().get("images").getAsJsonObject().get("downsized_large")
+                .getAsJsonObject().get("url").getAsString());
 
-        WebUtils.ins.getJSONObject(sURL).async((json) -> {
-
-            String embed = json.getJSONObject("data").getJSONObject("images").getJSONObject("downsized_large").getString("url");
-            MessageEmbed em = EmbedUtils.embedImage(embed);
-
-            event.reply(em);
-        });
+        event.reply(x.build());
     }
 }

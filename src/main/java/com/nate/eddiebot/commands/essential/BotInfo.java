@@ -15,6 +15,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
  * Gives Amount of guilds
  * Amount of users
  * Uptime
+ *
+ * @author Nate Sedler
  */
 public class BotInfo extends Command {
 

@@ -7,6 +7,12 @@ import java.util.concurrent.TimeUnit;
 import com.nate.eddiebot.commands.IPassive;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 
+/**
+ * Filters each message
+ * for a swear word if the channel topic is -swearFilter
+ *
+ * @author Nate Sedler
+ */
 public class BadWordFilter implements IPassive {
 
 	private static ArrayList<String> swearWords = new ArrayList<>(

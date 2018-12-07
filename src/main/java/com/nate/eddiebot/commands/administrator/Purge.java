@@ -8,9 +8,15 @@ import com.nate.eddiebot.util.bot.Permissions;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import net.dv8tion.jda.core.entities.MessageHistory;
 
+/**
+ * Clears x about of messages
+ * from a text-channel
+ *
+ * @author Nate Sedler
+ */
 public class Purge extends Command {
 
-    public Purge(){
+    public Purge() {
         this.name = "purge";
         this.arguments = "2 - 100";
         this.category = Categories.Administrator;
@@ -25,13 +31,13 @@ public class Purge extends Command {
 
         MessageHistory mh = new MessageHistory(event.getTextChannel());
 
-        try{
+        try {
 
-            if(toDelete >= 2 && toDelete <= 100){
+            if (toDelete >= 2 && toDelete <= 100) {
 
                 mh.retrievePast(toDelete + 1).queue(messages -> event.getMessage().getTextChannel().deleteMessages(messages).queue());
-                event.reply(event.getAuthor().getName() + " cleared " + toDelete + " messages from " + event.getTextChannel().getName(), 
-                (message) -> message.delete().queueAfter(5, TimeUnit.SECONDS));
+                event.reply(event.getAuthor().getName() + " cleared " + toDelete + " messages from " + event.getTextChannel().getName(),
+                        (message) -> message.delete().queueAfter(5, TimeUnit.SECONDS));
             } else {
 
                 event.reply("You must choose a number between 2 and 100!");

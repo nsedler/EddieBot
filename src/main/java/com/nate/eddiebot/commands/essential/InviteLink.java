@@ -9,6 +9,8 @@ import net.dv8tion.jda.core.Permission;
 
 /**
  * Gets an invite link for others to use
+ *
+ * @author Nate Sedler
  */
 public class InviteLink extends Command {
 

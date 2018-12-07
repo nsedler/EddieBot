@@ -5,8 +5,8 @@ import com.nate.eddiebot.commands.administrator.*;
 
 import com.nate.eddiebot.commands.IPassive;
 import com.nate.eddiebot.commands.essential.*;
-import com.nate.eddiebot.commands.fun.ChuckNorris;
-import com.nate.eddiebot.commands.fun.TheOffice;
+import com.nate.eddiebot.commands.fun.*;
+import com.nate.eddiebot.commands.misc.Feedback;
 import com.nate.eddiebot.commands.misc.testing;
 import com.nate.eddiebot.commands.owner.Kill;
 import com.nate.eddiebot.listener.EventDispatcher;
@@ -61,11 +61,17 @@ public class EddieBot extends ListenerAdapter {
                 new InviteLink(), 
                 new BotInfo(), 
                 new Ping(),
+                new Feedback(),
             /*********************\
             |*        Fun        *|
             \*********************/  
                 new ChuckNorris(),
                 new TheOffice(),
+                new Gif(),
+                new Insult(),
+                new Joke(),
+                new Meow(),
+                new Woof(),
             /*********************\
             |*      Random       *|
             \*********************/  

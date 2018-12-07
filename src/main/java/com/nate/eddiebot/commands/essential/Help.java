@@ -11,6 +11,8 @@ import java.util.Objects;
 
 /**
  * Replies with an embed of all commands unless they are for owners or are hidden
+ *
+ * @author Nate Sedler
  */
 public class Help extends Command {
 
