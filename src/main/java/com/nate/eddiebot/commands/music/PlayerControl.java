@@ -264,16 +264,6 @@ public class PlayerControl extends Command {
         em.setAuthor(botName, null, "https://seeklogo.com/images/P/pearl-jam-alive-logo-8FA34991E4-seeklogo.com.png");
         em.setColor(new Color(0, 0, 255));
 
-        try {
-            if (!TrackScheduler.trask.isCancelled()) {
-
-                TrackScheduler.trask.cancel(true);
-            }
-        } catch (NullPointerException e) {
-            // really don't care for this
-        }
-
-
         final String trackUrl;
 
         //Strip <>'s that prevent discord from embedding link resources
