@@ -2,6 +2,7 @@ package com.nate.eddiebot.commands.music;
 
 import com.nate.eddiebot.commands.Command;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
+import com.nate.eddiebot.util.bot.DefaultEmbed;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -259,10 +260,7 @@ public class PlayerControl extends Command {
 
     private void loadAndPlay(GuildMusicManager mng, final MessageChannel channel, String url, final boolean addPlaylist) {
 
-        EmbedBuilder em = new EmbedBuilder();
-
-        em.setAuthor(botName, null, "https://seeklogo.com/images/P/pearl-jam-alive-logo-8FA34991E4-seeklogo.com.png");
-        em.setColor(new Color(0, 0, 255));
+        EmbedBuilder em = DefaultEmbed.embedDefault();
 
         final String trackUrl;
 

@@ -18,6 +18,7 @@ public class Purge extends Command {
 
     public Purge() {
         this.name = "purge";
+        this.help = "Clears x amount of messages from the current text channel";
         this.arguments = "2 - 100";
         this.category = Categories.Administrator;
         this.botPermissions = Permissions.DeleteMessage;

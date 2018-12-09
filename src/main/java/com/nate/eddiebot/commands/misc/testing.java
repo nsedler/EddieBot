@@ -14,6 +14,7 @@ public class testing extends Command {
         this.name = "test";
         this.aliases = new String[] { "69", "420", "1337" };
         this.category = Categories.Testing;
+        this.hidden = true;
     }
 
     @Override

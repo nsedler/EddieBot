@@ -2,6 +2,7 @@ package com.nate.eddiebot.commands.music;
 
 import com.nate.eddiebot.commands.Command;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
+import com.nate.eddiebot.util.bot.Categories;
 import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.awt.*;
@@ -12,6 +13,7 @@ public class MusicHelp extends Command {
     public MusicHelp(){
         this.name = "music";
         this.help = "Displays all music related commands";
+        this.category = Categories.Music;
     }
 
     @Override

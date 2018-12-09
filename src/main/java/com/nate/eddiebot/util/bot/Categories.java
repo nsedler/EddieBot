@@ -10,5 +10,6 @@ public class Categories {
     public static Category Administrator = new Category("Administrator");
     public static Category Fun = new Category("Fun");
     public static Category Misc = new Category("Miscellaneous");
+    public static Category Music = new Category("Music");
 
 }

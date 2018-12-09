@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class Help extends Command {
 
-    public Help() {
+    public Help(){
         this.name = "help";
         this.hidden = true;
         this.guildOnly = false;
@@ -30,19 +30,18 @@ public class Help extends Command {
                 .setFooter("EddieBot", null)
                 .setTimestamp(Instant.now());
 
-        for (Command c : EddieBot.getCommands()) {
+        for(Command c : EddieBot.getCommands()){
 
             String fieldTitle = "";
             String fieldDesc = "";
 
-            if (c.isHidden() || c.isOwnerCommand()) continue;
-            System.out.println(c.getCategory());
+            if(c.isHidden() || c.isOwnerCommand()) continue;
             if (!Objects.equals(category, c.getCategory())) {
 
                 category = c.getCategory();
-                fieldTitle = "__**" + category.getName() + "**__";
+                fieldTitle += category == null ? "__**No Category**__" : "__**" + category.getName() + "**__";
             }
-            fieldDesc += "`." + c.getName() + (c.getArgs() == null ? "`" : " " + c.getArgs() + "`") + " - " + c.getHelp();
+            fieldDesc += "`."  + c.getName() + (c.getArgs() == null ? "`" : " " + c.getArgs() + "`") + " - " + c.getHelp();
             em.addField(fieldTitle, fieldDesc, false);
         }
         event.reply(em.build());
