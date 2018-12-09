@@ -1,7 +1,7 @@
 package com.nate.eddiebot.commands.music;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -29,6 +29,11 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 
+/**
+ * Not mine, most from YUI bot
+ *
+ * Handles all music related commands.
+ */
 public class PlayerControl extends Command {
 
     public static final int DEFAULT_VOLUME = 35; //(0 - 150, where 100 is default max volume)
@@ -45,7 +50,7 @@ public class PlayerControl extends Command {
         this.name = "play";
         this.aliases = new String[]{"play", "join", "skip", "leave", "fuckoff", "np", "nowplaying", "list", "pause", "stop", "shuffle", "pplay", "volume", "reset", "restart", "repeat"};
         this.help = "Shows all music commands";
-        this.category = Categories.Music;
+        this.category = Categories.Fun;
         this.hidden = true;
 
         java.util.logging.Logger.getLogger("org.apache.http.client.protocol.ResponseProcessCookies").setLevel(Level.OFF);
@@ -63,13 +68,9 @@ public class PlayerControl extends Command {
     }
 
     @Override
-    protected void execute(CommandEvent event) {
-
-        botName = event.getSelfMember().getEffectiveName();
+    protected void execute(BetterMessageEvent event) {
 
         guild = event.getGuild();
-        if (!event.isFromType(ChannelType.TEXT))
-            return;
 
         String[] command = event.getMessage().getContentDisplay().split(" ", 2);
 
@@ -100,60 +101,60 @@ public class PlayerControl extends Command {
                 if (player.isPaused()) {
 
                     player.setPaused(false);
-                    event.getChannel().sendMessage("Playback as been resumed.").queue();
+                    event.getTextChannel().sendMessage("Playback as been resumed.").queue();
                 } else if (player.getPlayingTrack() != null) {
 
-                    event.getChannel().sendMessage("Player is already playing!").queue();
+                    event.getTextChannel().sendMessage("Player is already playing!").queue();
                 } else if (scheduler.queue.isEmpty()) {
 
-                    event.getChannel().sendMessage("The current music queue is empty! Add something to the queue first!").queue();
+                    event.getTextChannel().sendMessage("The current music queue is empty! Add something to the queue first!").queue();
                 }
             } else {
 
                 if (command[0].contains("youtube.com")) {
 
-                    loadAndPlay(mng, event.getChannel(), command[1], false);
+                    loadAndPlay(mng, event.getTextChannel(), command[1], false);
                     joinChannel(event);
                 } else {
 
                     String input = "ytsearch: " + command[1];
 
-                    loadAndPlay(mng, event.getChannel(), input, false);
+                    loadAndPlay(mng, event.getTextChannel(), input, false);
                     joinChannel(event);
                 }
             }
         } else if (".pplay".equals(command[0]) && command.length == 2) {
 
             joinChannel(event);
-            loadAndPlay(mng, event.getChannel(), command[1], true);
+            loadAndPlay(mng, event.getTextChannel(), command[1], true);
         } else if (".skip".equals(command[0])) {
 
             scheduler.nextTrack();
-            event.getChannel().sendMessage("The current track was skipped.").queue();
+            event.getTextChannel().sendMessage("The current track was skipped.").queue();
         } else if (".pause".equals(command[0])) {
 
             if (player.getPlayingTrack() == null) {
 
-                event.getChannel().sendMessage("Cannot pause or resume player because no track is loaded for playing.").queue();
+                event.getTextChannel().sendMessage("Cannot pause or resume player because no track is loaded for playing.").queue();
                 return;
             }
 
             player.setPaused(!player.isPaused());
             if (player.isPaused())
-                event.getChannel().sendMessage("The player has been paused.").queue();
+                event.getTextChannel().sendMessage("The player has been paused.").queue();
             else
-                event.getChannel().sendMessage("The player has resumed playing.").queue();
+                event.getTextChannel().sendMessage("The player has resumed playing.").queue();
         } else if (".stop".equals(command[0])) {
 
             scheduler.queue.clear();
             player.stopTrack();
             player.setPaused(false);
-            event.getChannel().sendMessage("Playback has been completely stopped and the queue has been cleared.").queue();
+            event.getTextChannel().sendMessage("Playback has been completely stopped and the queue has been cleared.").queue();
         } else if (".volume".equals(command[0])) {
 
             if (command.length == 1) {
 
-                event.getChannel().sendMessage("Current player volume: **" + player.getVolume() + "**").queue();
+                event.getTextChannel().sendMessage("Current player volume: **" + player.getVolume() + "**").queue();
             } else {
 
                 try {
@@ -161,10 +162,10 @@ public class PlayerControl extends Command {
                     int newVolume = Math.max(10, Math.min(100, Integer.parseInt(command[1])));
                     int oldVolume = player.getVolume();
                     player.setVolume(newVolume);
-                    event.getChannel().sendMessage("Player volume changed from `" + oldVolume + "` to `" + newVolume + "`").queue();
+                    event.getTextChannel().sendMessage("Player volume changed from `" + oldVolume + "` to `" + newVolume + "`").queue();
                 } catch (NumberFormatException e) {
 
-                    event.getChannel().sendMessage("`" + command[1] + "` is not a valid integer. (10 - 100)").queue();
+                    event.getTextChannel().sendMessage("`" + command[1] + "` is not a valid integer. (10 - 100)").queue();
                 }
             }
         } else if (".restart".equals(command[0])) {
@@ -175,16 +176,16 @@ public class PlayerControl extends Command {
 
             if (track != null) {
 
-                event.getChannel().sendMessage("Restarting track: " + track.getInfo().title).queue();
+                event.getTextChannel().sendMessage("Restarting track: " + track.getInfo().title).queue();
                 player.playTrack(track.makeClone());
             } else {
 
-                event.getChannel().sendMessage("No track has been previously started, so the player cannot replay a track!").queue();
+                event.getTextChannel().sendMessage("No track has been previously started, so the player cannot replay a track!").queue();
             }
         } else if (".repeat".equals(command[0])) {
 
             scheduler.setRepeating(!scheduler.isRepeating());
-            event.getChannel().sendMessage("Player was set to: **" + (scheduler.isRepeating() ? "repeat" : "not repeat") + "**").queue();
+            event.getTextChannel().sendMessage("Player was set to: **" + (scheduler.isRepeating() ? "repeat" : "not repeat") + "**").queue();
         } else if (".reset".equals(command[0])) {
 
             synchronized (musicManagers) {
@@ -197,7 +198,7 @@ public class PlayerControl extends Command {
 
             mng = getMusicManager(guild);
             guild.getAudioManager().setSendingHandler(mng.sendHandler);
-            event.getChannel().sendMessage("The player has been completely reset!").queue();
+            event.getTextChannel().sendMessage("The player has been completely reset!").queue();
 
         } else if (".nowplaying".equals(command[0]) || ".np".equals(command[0])) {
 
@@ -211,9 +212,9 @@ public class PlayerControl extends Command {
                 String nowplaying = String.format("**Playing:** %s\n**Time:** [%s / %s]",
                         title, position, duration);
 
-                event.getChannel().sendMessage(nowplaying).queue();
+                event.getTextChannel().sendMessage(nowplaying).queue();
             } else
-                event.getChannel().sendMessage("The player is not currently playing anything!").queue();
+                event.getTextChannel().sendMessage("The player is not currently playing anything!").queue();
         } else if (".list".equals(command[0])) {
 
             Queue<AudioTrack> queue = scheduler.queue;
@@ -221,7 +222,7 @@ public class PlayerControl extends Command {
 
                 if (queue.isEmpty()) {
 
-                    event.getChannel().sendMessage("The queue is currently empty!").queue();
+                    event.getTextChannel().sendMessage("The queue is currently empty!").queue();
                 } else {
 
                     int trackCount = 0;
@@ -240,19 +241,19 @@ public class PlayerControl extends Command {
                     }
                     sb.append("\n").append("Total Queue Time Length: ").append(getTimestamp(queueLength));
 
-                    event.getChannel().sendMessage(sb.toString()).queue();
+                    event.getTextChannel().sendMessage(sb.toString()).queue();
                 }
             }
         } else if (".shuffle".equals(command[0])) {
 
             if (scheduler.queue.isEmpty()) {
 
-                event.getChannel().sendMessage("The queue is currently empty!").queue();
+                event.getTextChannel().sendMessage("The queue is currently empty!").queue();
                 return;
             }
 
             scheduler.shuffle();
-            event.getChannel().sendMessage("The queue has been shuffled!").queue();
+            event.getTextChannel().sendMessage("The queue has been shuffled!").queue();
         }
     }
 
@@ -368,7 +369,7 @@ public class PlayerControl extends Command {
             return String.format("%02d:%02d", minutes, seconds);
     }
 
-    private void joinChannel(CommandEvent event) {
+    private void joinChannel(BetterMessageEvent event) {
 
 
         VoiceChannel connectedChannel = event.getMember().getVoiceState().getChannel();
@@ -379,7 +380,7 @@ public class PlayerControl extends Command {
 
         if (chan == null) {
 
-            event.getChannel().sendMessage("You need to be in a voice channel.").queue();
+            event.getTextChannel().sendMessage("You need to be in a voice channel.").queue();
         } else {
 
             guild.getAudioManager().setSendingHandler(mng.sendHandler);
@@ -391,7 +392,7 @@ public class PlayerControl extends Command {
 
                 if (e.getPermission() == Permission.VOICE_CONNECT) {
 
-                    event.getChannel().sendMessage("Eddie does not have permission to connect to: " + chan.getName()).queue();
+                    event.getTextChannel().sendMessage("Eddie does not have permission to connect to: " + chan.getName()).queue();
                 }
             }
         }

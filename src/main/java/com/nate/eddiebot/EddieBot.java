@@ -1,6 +1,7 @@
 package com.nate.eddiebot;
 
 import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.commands.music.PlayerControl;
 import com.nate.eddiebot.commands.administrator.*;
 
 import com.nate.eddiebot.commands.IPassive;
@@ -8,11 +9,12 @@ import com.nate.eddiebot.commands.essential.*;
 import com.nate.eddiebot.commands.fun.*;
 import com.nate.eddiebot.commands.misc.Feedback;
 import com.nate.eddiebot.commands.misc.testing;
+import com.nate.eddiebot.commands.music.MusicHelp;
+import com.nate.eddiebot.commands.owner.Eval;
 import com.nate.eddiebot.commands.owner.Kill;
 import com.nate.eddiebot.listener.EventDispatcher;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -44,11 +46,11 @@ public class EddieBot extends ListenerAdapter {
     // List of commands
     private static ArrayList<Command> Commands = new ArrayList<>(
             Arrays.asList(
-
             /*********************\
             |*       Owner       *|
             \*********************/
                 new Kill(),
+                new Eval(),
             /*********************\
             |*       Admin       *|
             \*********************/    
@@ -62,6 +64,7 @@ public class EddieBot extends ListenerAdapter {
                 new BotInfo(), 
                 new Ping(),
                 new Feedback(),
+                new MusicHelp(),
             /*********************\
             |*        Fun        *|
             \*********************/  
@@ -72,6 +75,7 @@ public class EddieBot extends ListenerAdapter {
                 new Joke(),
                 new Meow(),
                 new Woof(),
+                new PlayerControl(),
             /*********************\
             |*      Random       *|
             \*********************/  
@@ -80,14 +84,13 @@ public class EddieBot extends ListenerAdapter {
     );
 
     /**
-     * Runs everyting I guess
+     * Runs everything I guess
      */
     public static void main(@Nullable String[] args) throws IllegalArgumentException {
 
         // u no get my stuff
         String token = System.getenv("token");
 
-        WebUtils.setUserAgent("Mozilla/5.0 MenuDocs JDA Tutorial Bot/duncte123#1245");
         EmbedUtils.setEmbedBuilder(
                 () -> new EmbedBuilder()
                         .setColor(new Color(0, 0, 255))
@@ -144,7 +147,6 @@ public class EddieBot extends ListenerAdapter {
                         + (c.getCategory() == null ? "N/A" : c.getCategory().getName())));
                 c.run(event);
             }
-
         }
     }
 

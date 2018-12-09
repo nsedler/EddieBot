@@ -1,8 +1,7 @@
 package com.nate.eddiebot.commands.music;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.util.bot.Categories;
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.awt.*;
@@ -13,11 +12,10 @@ public class MusicHelp extends Command {
     public MusicHelp(){
         this.name = "music";
         this.help = "Displays all music related commands";
-        this.category = Categories.Help;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
 
         EmbedBuilder em = new EmbedBuilder()
                 .setColor(new Color(0, 0, 255))
