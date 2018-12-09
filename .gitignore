@@ -7,7 +7,17 @@
 
 # gradle
 /build/classes
+/build/distributions
+/build/install
+/build/scripts
 /.gradle/
 /out/
 
 .class
+
+
+/.vscode/
+.classpath
+/.settings/
+/bin/
+.project

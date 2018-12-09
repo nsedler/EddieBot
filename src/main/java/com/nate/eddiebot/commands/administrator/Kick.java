@@ -1,31 +1,35 @@
 package com.nate.eddiebot.commands.administrator;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.helpful.Categories;
-import com.nate.eddiebot.helpful.Permissions;
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.util.bot.Categories;
+import com.nate.eddiebot.util.bot.Permissions;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
 
+import net.dv8tion.jda.core.entities.Member;
+
+/**
+ * Kicks a mentioned user
+ * from the guild
+ *
+ * @author Nate Sedler
+ */
 public class Kick extends Command {
 
-    public Kick() {
-
+    public Kick(){
         this.name = "kick";
-        this.arguments = "<user>";
+        this.arguments = "@user";
         this.help = "Kick a user from your guild";
+        this.category = Categories.Administrator;
         this.userPermissions = Permissions.Admin;
         this.botPermissions = Permissions.KickUser;
-        this.category = Categories.Admin;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
+        
+        Member toKick = event.getMessage().getMentionedMembers().get(0);
 
-        if (event.getMessage().getMentionedMembers() == null)
-            event.reply("You need to mention 1 or more user.");
-        else {
-
-            event.getGuild().getController().kick(event.getMessage().getMentionedMembers().get(0)).queue();
-            event.reply(event.getAuthor() + " kicked " + event.getMessage().getMentionedMembers().get(0).getEffectiveName());
-        }
-    }
+        event.getGuild().getController().kick(toKick).queue();
+        event.reply(event.getAuthor().getName() + " kicked " + toKick.getEffectiveName() + " from " + event.getGuild().getName());
+	}
 }

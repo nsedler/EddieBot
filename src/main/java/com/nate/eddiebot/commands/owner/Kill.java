@@ -1,9 +1,14 @@
 package com.nate.eddiebot.commands.owner;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.helpful.Categories;
+import com.nate.eddiebot.util.bot.Categories;
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
 
+/**
+ * Shutdowns the bot
+ *
+ * @author Nate Sedler
+ */
 public class Kill extends Command {
 
     public Kill() {
@@ -12,14 +17,13 @@ public class Kill extends Command {
         this.help = "Kills the bot";
         this.category = Categories.Owner;
         this.hidden = true;
-        this.ownerCommand = true;
+        this.ownerOnly = true;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
-
-        event.reply("Bye Bye!");
+    protected void execute(BetterMessageEvent event) {
+        event.reply("Shutting down...");
         event.getJDA().shutdownNow();
         System.exit(0);
-    }
+	}
 }

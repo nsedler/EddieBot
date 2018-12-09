@@ -1,7 +1,7 @@
 package com.nate.eddiebot;
 
-import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.commands.music.PlayerControl;
 import com.nate.eddiebot.commands.administrator.*;
 
 import com.nate.eddiebot.commands.IPassive;
@@ -10,13 +10,11 @@ import com.nate.eddiebot.commands.fun.*;
 import com.nate.eddiebot.commands.misc.Feedback;
 import com.nate.eddiebot.commands.misc.testing;
 import com.nate.eddiebot.commands.music.MusicHelp;
-import com.nate.eddiebot.commands.music.PlayerControl;
 import com.nate.eddiebot.commands.owner.Eval;
 import com.nate.eddiebot.commands.owner.Kill;
 import com.nate.eddiebot.listener.EventDispatcher;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -32,75 +30,73 @@ import java.util.Arrays;
 
 public class EddieBot extends ListenerAdapter {
 
+    // The JDA client
     private static JDA JDA_CLIENT;
 
+    // Logger for logging shit
     private static Logger logger = LoggerFactory.getLogger(EddieBot.class);
 
+    // List of passives
     private static ArrayList<IPassive> Passives = new ArrayList<>(
             Arrays.asList(
                     new BadWordFilter()
             )
     );
 
+    // List of commands
     private static ArrayList<Command> Commands = new ArrayList<>(
             Arrays.asList(
-                    new testing(), new NewHelp()
+            /*********************\
+            |*       Owner       *|
+            \*********************/
+                new Kill(),
+                new Eval(),
+            /*********************\
+            |*       Admin       *|
+            \*********************/    
+                new Purge(), 
+                new Kick(),
+            /*********************\
+            |*        Info       *|
+            \*********************/   
+                new Help(),
+                new InviteLink(), 
+                new BotInfo(), 
+                new Ping(),
+                new Feedback(),
+                new MusicHelp(),
+            /*********************\
+            |*        Fun        *|
+            \*********************/  
+                new ChuckNorris(),
+                new TheOffice(),
+                new Gif(),
+                new Insult(),
+                new Joke(),
+                new Meow(),
+                new Woof(),
+                new PlayerControl(),
+            /*********************\
+            |*      Random       *|
+            \*********************/  
+                new testing()
             )
     );
 
+    /**
+     * Runs everything I guess
+     */
     public static void main(@Nullable String[] args) throws IllegalArgumentException {
 
+        // u no get my stuff
         String token = System.getenv("token");
 
-
-        WebUtils.setUserAgent("Mozilla/5.0 MenuDocs JDA Tutorial Bot/duncte123#1245");
         EmbedUtils.setEmbedBuilder(
                 () -> new EmbedBuilder()
                         .setColor(new Color(0, 0, 255))
                         .setFooter("EddieBot", null)
                         .setTimestamp(Instant.now())
         );
-
-
-        CommandClientBuilder client = new CommandClientBuilder();
-        client.setOwnerId("185063150557593600");
-        client.setPrefix(".");
-        client.useHelpBuilder(false);
-        client.useDefaultGame();
-        client.addCommands(
-
-                // Owner
-                new Kill(),
-                new Eval(),
-
-                // Administrator
-                new Purge(),
-                new Jail(),
-                new Kick(),
-
-                // Fun
-                new ChuckNorris(),
-                new Gif(),
-                new Insult(),
-                new Joke(),
-                new Meow(),
-                new TheOffice(),
-                new Woof(),
-
-                // Misc
-                new Feedback(),
-
-                // Essential
-                new Help(),
-                new Ping(),
-                new BotInfo(),
-                new InviteLink(),
-
-                // Music
-                new PlayerControl(),
-                new MusicHelp()
-        );
-
 
         try {
             logger.info("Booting EddieBot");
@@ -116,12 +112,20 @@ public class EddieBot extends ListenerAdapter {
         }
     }
 
+    /**
+     * Sends all of the passives to the EventDispatcher
+     * @param event the custom message event I made
+     */
     public static void sendToPassives(BetterMessageEvent event) {
         for (IPassive p : Passives) {
             p.accept(event);
         }
     }
 
+    /**
+     * Sends all of the commands to the EventDispatcher
+     * @param event the custom message event I made
+     */
     public static void sendToCommands(BetterMessageEvent event) {
 
         String[] message = event.getMessage().getContentDisplay().split("\\s+");
@@ -133,19 +137,31 @@ public class EddieBot extends ListenerAdapter {
 
         for (Command c : Commands) {
 
-            if (command.equalsIgnoreCase(c.getName()) || Arrays.stream(c.getAliases()).parallel().anyMatch(command::contains)) {
+            // Gets all aliases for commands
+            if (command.equalsIgnoreCase(c.getName()) || Arrays.stream(c.getAliases()).parallel().anyMatch(command::equalsIgnoreCase)) {
+
+                System.out.println("\n\n");
                 logger.info("Running: " + c.getName());
-                logger.info(c.getName() +"'s aliases are: " +  (c.getAliases() == null ? "none": Arrays.toString(c.getAliases())));
+                logger.info("\n" + (c.getAliases().length == 0 ? "N/A" : Arrays.toString(c.getAliases())) + "\n"
+                        + (c.getHelp() == null ? "N/A" : c.getHelp() + "\n"
+                        + (c.getCategory() == null ? "N/A" : c.getCategory().getName())));
                 c.run(event);
             }
-
         }
     }
 
+    /**
+     * Gets the jda client
+     * @return the jda client
+     */
     public static JDA getJda() {
         return EddieBot.JDA_CLIENT;
     }
 
+    /**
+     * Gets the list of commands
+     * @return list of commands
+     */
     public static ArrayList<Command> getCommands() {
         return EddieBot.Commands;
     }

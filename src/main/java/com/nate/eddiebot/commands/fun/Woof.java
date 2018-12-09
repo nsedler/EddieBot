@@ -1,12 +1,18 @@
 package com.nate.eddiebot.commands.fun;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.helpful.Categories;
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
+import com.nate.eddiebot.util.bot.Categories;
+import com.nate.eddiebot.util.bot.DefaultEmbed;
+import com.nate.eddiebot.util.web.GsonUtils;
 import me.duncte123.botcommons.messaging.EmbedUtils;
-import me.duncte123.botcommons.web.WebUtils;
-import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.EmbedBuilder;
 
+/**
+ * Adorable dogs
+ *
+ * @author Nate Sedler
+ */
 public class Woof extends Command {
 
     public Woof() {
@@ -17,16 +23,16 @@ public class Woof extends Command {
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
 
-        String sURL = "https://random.dog/woof.json"; //just a string
+        String sURL = "https://random.dog/woof.json";
 
-        WebUtils.ins.getJSONObject(sURL).async((json) -> {
+        EmbedBuilder x = DefaultEmbed.embedDefault();
 
-            String embed = json.getString("url");
-            MessageEmbed em = EmbedUtils.embedImage(embed);
+        x.setImage(GsonUtils.getJsonObject(sURL).get("url").getAsString());
 
-            event.reply(em);
-        });
+        EmbedUtils.embedImage(GsonUtils.getJsonObject(sURL).get("url").getAsString());
+
+        event.reply(EmbedUtils.embedImage(GsonUtils.getJsonObject(sURL).get("url").getAsString()));
     }
 }

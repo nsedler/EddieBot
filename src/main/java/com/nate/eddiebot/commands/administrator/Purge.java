@@ -1,48 +1,50 @@
 package com.nate.eddiebot.commands.administrator;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-import com.nate.eddiebot.helpful.Categories;
-import com.nate.eddiebot.helpful.Permissions;
-import net.dv8tion.jda.core.entities.Message;
-
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.nate.eddiebot.commands.Command;
+import com.nate.eddiebot.util.bot.Categories;
+import com.nate.eddiebot.util.bot.Permissions;
+import com.nate.eddiebot.listener.events.BetterMessageEvent;
+import net.dv8tion.jda.core.entities.MessageHistory;
+
+/**
+ * Clears x about of messages
+ * from a text-channel
+ *
+ * @author Nate Sedler
+ */
 public class Purge extends Command {
 
     public Purge() {
-
         this.name = "purge";
-        this.arguments = "<number>";
-        this.help = "Purges the x amount of messages";
-        this.category = Categories.Admin;
+        this.arguments = "2 - 100";
+        this.category = Categories.Administrator;
         this.botPermissions = Permissions.DeleteMessage;
         this.userPermissions = Permissions.Admin;
     }
 
     @Override
-    protected void execute(CommandEvent event) {
+    protected void execute(BetterMessageEvent event) {
+
+        int toDelete = Integer.parseInt(event.getArgs()[1]);
+
+        MessageHistory mh = new MessageHistory(event.getTextChannel());
 
         try {
-            if (Integer.parseInt(event.getArgs()) <= 100 && Integer.parseInt(event.getArgs()) >= 2) {
 
-                List<Message> msg = event.getTextChannel().getHistory().retrievePast(Integer.parseInt(event.getArgs())).complete();
-                event.getTextChannel().deleteMessages(msg).queue();
-                // deletes the message after 10 seconds
-                event.reply(event.getAuthor().getName() + " purged " + event.getArgs() + " messages from " + event.getTextChannel().getName(), (message) -> message.delete().queueAfter(10, TimeUnit.SECONDS));
+            if (toDelete >= 2 && toDelete <= 100) {
+
+                mh.retrievePast(toDelete + 1).queue(messages -> event.getMessage().getTextChannel().deleteMessages(messages).queue());
+                event.reply(event.getAuthor().getName() + " cleared " + toDelete + " messages from " + event.getTextChannel().getName(),
+                        (message) -> message.delete().queueAfter(5, TimeUnit.SECONDS));
             } else {
 
-                event.reply("The number must be between 2 and 100.");
+                event.reply("You must choose a number between 2 and 100!");
             }
         } catch (NumberFormatException e) {
             // if they type something wrong
             event.reply("Uh oh! Looks like you typed something wrong! Try .purge 10");
         }
-
     }
 }
-
-
-
-

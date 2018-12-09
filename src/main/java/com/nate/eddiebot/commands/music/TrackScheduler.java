@@ -9,32 +9,20 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
- * This class schedules tracks for the music player. It contains the queue of tracks.
+ * This class schedules tracks for the audio player. It contains the queue of tracks.
  */
 public class TrackScheduler extends AudioEventAdapter {
-
     private boolean repeating = false;
-    private final AudioPlayer player;
-    public final Queue<AudioTrack> queue;
-    public AudioTrack lastTrack;
-
-    private LeaveVoiceChannel lv = new LeaveVoiceChannel();
-
-    public static ScheduledExecutorService scheduledExecutorService = Executors
-            .newSingleThreadScheduledExecutor();
-    public static ScheduledFuture<?> trask;
+    final AudioPlayer player;
+    final Queue<AudioTrack> queue;
+    AudioTrack lastTrack;
 
     /**
-     * @param player The music player this scheduler uses
+     * @param player The audio player this scheduler uses
      */
     public TrackScheduler(AudioPlayer player) {
-
         this.player = player;
         this.queue = new LinkedList<>();
     }
@@ -46,14 +34,11 @@ public class TrackScheduler extends AudioEventAdapter {
      */
     public void queue(AudioTrack track) {
 
-
         // Calling startTrack with the noInterrupt set to true will start the track only if nothing is currently playing. If
         // something is playing, it returns false and does nothing. In that case the player was already playing so this
         // track goes to the queue instead.
         if (!player.startTrack(track, true)) {
-
             queue.offer(track);
-            trask.cancel(true);
         }
     }
 
@@ -61,7 +46,6 @@ public class TrackScheduler extends AudioEventAdapter {
      * Start the next track, stopping the current one if it is playing.
      */
     public void nextTrack() {
-
         // Start the next track, regardless of if something is already playing or not. In case queue was empty, we are
         // giving null to startTrack, which is a valid argument and will simply stop the player.
         player.startTrack(queue.poll(), false);
@@ -69,38 +53,26 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-
         this.lastTrack = track;
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if (endReason.mayStartNext) {
-
-            if(queue.poll() != null) {
-                if (repeating)
-                    player.startTrack(lastTrack.makeClone(), false);
-                else
-                    nextTrack();
-            } else {
-
-                trask = scheduledExecutorService.scheduleAtFixedRate(lv, 3, 3,
-                        TimeUnit.MINUTES);
-            }
+            if (repeating)
+                player.startTrack(lastTrack.makeClone(), false);
+            else
+                nextTrack();
         }
+
     }
 
-
     public boolean isRepeating() {
-
         return repeating;
     }
 
     public void setRepeating(boolean repeating) {
-
         this.repeating = repeating;
     }
 
     public void shuffle() {
-
         Collections.shuffle((List<?>) queue);
     }
-
 }
