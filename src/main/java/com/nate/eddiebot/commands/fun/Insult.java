@@ -205,12 +205,13 @@ public class Insult extends Command {
             "If you were anymore inbred you'd be a sandwich." };
 
     private Random rng = new Random();
-    private int index = rng.nextInt(insults.length);
 
     @Override
     protected void execute(BetterMessageEvent event) {
 
-        User loser = null;
+        User loser;
+
+        int index = rng.nextInt(insults.length);
 
         try{
             loser = event.getMessage().getMentionedUsers().get(0);

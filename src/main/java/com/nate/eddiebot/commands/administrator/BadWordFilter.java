@@ -23,27 +23,30 @@ public class BadWordFilter implements IPassive {
 
     @Override
     public void accept(BetterMessageEvent event) {
-        
-        try{
 
-            if(event.getTextChannel().getTopic().equalsIgnoreCase("-swearFilter")){
-                
-                for(String word : swearWords){
-        
-                    String[] message = event.getMessage().getContentDisplay().toLowerCase().split("\\s+");
-        
-                    for(String msgs : message){
+        if (event.getAuthor().isBot()) {
+            try {
 
-                        if(msgs.equals(word)){
-                                
-                            event.getMessage().delete().queue();
-                            event.reply("<@" + event.getAuthor().getId() + ">! how dare you said such words in this server!", 
-                            (msg) -> msg.delete().queueAfter(5, TimeUnit.SECONDS));
+                if (event.getTextChannel().getTopic().equalsIgnoreCase("-swearFilter")) {
+
+                    for (String word : swearWords) {
+
+                        String[] message = event.getMessage().getContentDisplay().toLowerCase().split("\\s+");
+
+                        for (String msgs : message) {
+
+                            if (msgs.equals(word)) {
+
+                                event.getMessage().delete().queue();
+                                event.reply("<@" + event.getAuthor().getId() + ">! how dare you said such words in this server!",
+                                        (msg) -> msg.delete().queueAfter(5, TimeUnit.SECONDS));
+                            }
                         }
                     }
                 }
+            } catch (NullPointerException e) {
             }
-        } catch(NullPointerException e) {}
+        }
     }
         
     @Override
