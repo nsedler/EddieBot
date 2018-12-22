@@ -10,6 +10,7 @@ import com.nate.eddiebot.commands.fun.*;
 import com.nate.eddiebot.commands.misc.Feedback;
 import com.nate.eddiebot.commands.misc.testing;
 import com.nate.eddiebot.commands.music.MusicHelp;
+import com.nate.eddiebot.commands.owner.BanUser;
 import com.nate.eddiebot.commands.owner.Eval;
 import com.nate.eddiebot.commands.owner.Kill;
 import com.nate.eddiebot.listener.EventDispatcher;
@@ -43,6 +44,12 @@ public class EddieBot extends ListenerAdapter {
             )
     );
 
+    public static ArrayList<Long> blockedUserIds = new ArrayList<>(
+            Arrays.asList(
+                    Long.valueOf("185063150557593600")
+            )
+    );
+
     // List of commands
     private static ArrayList<Command> Commands = new ArrayList<>(
             Arrays.asList(
@@ -51,6 +58,7 @@ public class EddieBot extends ListenerAdapter {
             \*********************/
                 new Kill(),
                 new Eval(),
+                new BanUser(),
             /*********************\
             |*       Admin       *|
             \*********************/    

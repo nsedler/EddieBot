@@ -1,11 +1,9 @@
-# intellij files
 /.idea/
 *.iml
 *.ipr
 *.iws
 /out/
 
-# gradle
 /build/classes
 /build/distributions
 /build/install
@@ -14,7 +12,6 @@
 /out/
 
 .class
-
 
 /.vscode/
 .classpath

@@ -2,6 +2,7 @@ package com.nate.eddiebot.commands;
 
 import com.nate.eddiebot.EddieBot;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
+import com.nate.eddiebot.util.bot.BannedUsers;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Member;
@@ -109,6 +110,13 @@ public abstract class Command {
     protected boolean check(BetterMessageEvent event) {
 
         if (event.getMember() != null) {
+
+            BannedUsers bUsers = new BannedUsers();
+            if(bUsers.readBannedUsers().contains(String.valueOf(event.getAuthor().getIdLong()))){
+                event.getMessage().delete().queue();
+                event.reply("The devs have decided it's best if you not use Eddie.");
+                return false;
+            }
 
             // checks if the user has correct perms to use command
             Member callMember = event.getMember();
