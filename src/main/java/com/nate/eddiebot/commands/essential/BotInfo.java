@@ -57,7 +57,7 @@ public class BotInfo extends Command {
         em.setTitle("About Eddie!");
         em.setDescription("Eddie is a multi-purpose discord bot built using [JDA](https://github.com/DV8FromTheWorld/JDA)\n");
         em.appendDescription("Eddie has a variety of command categories from fun to administrator!\n");
-        em.appendDescription("To get help, please type `.help`. Below there is some general information about [Eddie](https://github.com/nsedler/EddieBot!");
+        em.appendDescription("To get help, please type `.help`. Below there is some general information about [Eddie](https://github.com/nsedler/EddieBot)!");
 
         em.addField("__Total Guilds__", String.valueOf(event.getJDA().getGuildCache().size()), true);
         em.addField("__Total Users__", String.valueOf(event.getJDA().getUserCache().size()), true);

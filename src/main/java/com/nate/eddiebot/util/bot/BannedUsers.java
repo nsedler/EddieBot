@@ -20,6 +20,7 @@ public class BannedUsers {
             for (String line; (line = bReader.readLine()) != null;) {
                 lines.add(line);
             }
+            bReader.close();
 
         }catch(FileNotFoundException e){
             // process errors
@@ -52,6 +53,7 @@ public class BannedUsers {
                 if(line.equals(String.valueOf(userID)))
                     return false;
             }
+            bReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

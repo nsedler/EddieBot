@@ -110,6 +110,12 @@ public abstract class Command {
     protected boolean check(BetterMessageEvent event) {
 
         if (event.getMember() != null) {
+            Long userID = event.getAuthor().getIdLong();
+            // checks if the user of the command is the owner of the bot
+            if (this.ownerOnly && !userID.equals(Long.valueOf("185063150557593600"))) {
+                event.reply("This command is for owners only.");
+                return false;
+            }
 
             BannedUsers bUsers = new BannedUsers();
             if(bUsers.readBannedUsers().contains(String.valueOf(event.getAuthor().getIdLong()))){
@@ -133,12 +139,6 @@ public abstract class Command {
                 if (!selfBot.hasPermission(p)) {
                     return false;
                 }
-            }
-
-            // checks if the user of the command is the owner of the bot
-            if (this.ownerOnly && !event.getMember().isOwner()) {
-                event.reply("This command is for owners only.");
-                return false;
             }
 
             // checks if the channel is marked NSFW
