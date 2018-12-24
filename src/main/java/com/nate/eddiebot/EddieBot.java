@@ -19,6 +19,7 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.core.requests.RestAction;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +98,7 @@ public class EddieBot extends ListenerAdapter {
     public static void main(@Nullable String[] args) throws IllegalArgumentException {
 
         // u no get my stuff
-        String token = System.getenv("token");
+        String token = System.getenv("tokenMAIN");
 
         EmbedUtils.setEmbedBuilder(
                 () -> new EmbedBuilder()
@@ -106,6 +107,8 @@ public class EddieBot extends ListenerAdapter {
                         .setTimestamp(Instant.now())
         );
 
+        RestAction.setPassContext(true); // enable context by default
+        RestAction.DEFAULT_FAILURE = Throwable::printStackTrace;
         try {
             logger.info("Booting EddieBot");
             JDA_CLIENT = new JDABuilder(AccountType.BOT)
@@ -118,6 +121,9 @@ public class EddieBot extends ListenerAdapter {
         } catch (LoginException | InterruptedException e) {
             logger.info("Provide the correct token please");
         }
+
+
+
     }
 
     /**

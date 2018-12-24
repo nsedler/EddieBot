@@ -19,6 +19,7 @@ package com.nate.eddiebot.listener.events;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.priv.GenericPrivateMessageEvent;
 
 import java.util.function.Consumer;
@@ -39,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 public class BetterMessageEvent extends BetterEvent{
 
-    private final GenericMessageEvent event;
+    private final MessageReceivedEvent event;
     private final User author;
     private final Message message;
     private final Member memberAuthor;
@@ -52,15 +53,13 @@ public class BetterMessageEvent extends BetterEvent{
      *  @param  event
      *         The initial GenericMessageEvent
      */
-
-    public BetterMessageEvent(GenericMessageEvent event){
+    public BetterMessageEvent(MessageReceivedEvent event){
 
         super(event);
-
-        this.message = event.getChannel().getMessageById(event.getMessageId()).complete();
+        this.message = event.getMessage();
         this.event = event;
-        this.author = this.message.getAuthor();
-        this.memberAuthor = message.getMember();
+        this.author = event.getAuthor();
+        this.memberAuthor = event.getMember();
         this.arguments = message.getContentStripped().trim().split("\\s+", -1);
     }
 
