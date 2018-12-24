@@ -145,7 +145,7 @@ public class EddieBot extends ListenerAdapter {
         String[] message = event.getMessage().getContentDisplay().split("\\s+");
 
         if (event.getAuthor().isBot()) return;
-        if (!message[0].substring(0, 1).equalsIgnoreCase(".")) return;
+        if (message[0].charAt(0) != '.') return;
 
         String command = message[0].substring(1);
 
