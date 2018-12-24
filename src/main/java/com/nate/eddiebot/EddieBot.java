@@ -98,7 +98,7 @@ public class EddieBot extends ListenerAdapter {
     public static void main(@Nullable String[] args) throws IllegalArgumentException {
 
         // u no get my stuff
-        String token = System.getenv("tokenMAIN");
+        String token = System.getenv("token");
 
         EmbedUtils.setEmbedBuilder(
                 () -> new EmbedBuilder()
