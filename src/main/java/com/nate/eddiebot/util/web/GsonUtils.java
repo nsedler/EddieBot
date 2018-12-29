@@ -12,7 +12,6 @@ import com.google.gson.JsonParser;
  */
 public class GsonUtils{
 
-    private static RestWrapper rWrapper = new RestWrapper();
     private static JsonParser parser = new JsonParser();
 
     /**
@@ -23,7 +22,7 @@ public class GsonUtils{
      */
     public static JsonObject getJsonObject(String url) {
 
-        JsonElement jElement = parser.parse(rWrapper.getJSON(url));
+        JsonElement jElement = parser.parse(RestWrapper.getJSON(url));
 
         if(jElement.isJsonObject()){
             return jElement.getAsJsonObject();

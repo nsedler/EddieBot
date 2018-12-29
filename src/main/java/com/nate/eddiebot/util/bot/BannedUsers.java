@@ -6,10 +6,22 @@ import java.util.List;
 
 public class BannedUsers {
 
+    /**
+     * Gets the text file filled with user ids
+     * 
+     * @return The text file filled with user ids
+     * @author Nate Sedler
+     */
     private File getFile() {
         return new File("BannedUsersIDs.txt");
     }
 
+    /**
+     * Reads through the text file from getFile()
+     * 
+     * @return A String list with all banned users
+     * @author Nate Sedler
+     */
     public List<String> readBannedUsers() {
 
         List<String> lines = new ArrayList<String>();
@@ -28,9 +40,13 @@ public class BannedUsers {
             // process errors
         }
         return lines;
-
     }
 
+    /**
+     * Adds a banned users id to the BannedUsersIDs.txt file 
+     *
+     * @author Nate Sedler
+     */
     public void addBannedUser(Long userID) {
 
         try {
@@ -43,7 +59,46 @@ public class BannedUsers {
             System.err.println("IOException: " + e.getMessage());
         }
     }
+    
+    /**
+     * Removes a banned users if from the BannedUsersIDs.txt file
+     * 
+     * @author Nate Sedler
+     */
+    public void removeBannedUser(Long userID){
+        
+        List<String> ids = new ArrayList<String>();
 
+        try{
+
+        	BufferedReader bReader = new BufferedReader(new FileReader(getFile()));
+
+            for (String line; (line = bReader.readLine()) != null;) {
+                ids.add(line);
+            }
+
+            ids.removeIf(e -> e.equals(String.valueOf(userID)));
+
+            FileWriter fw = new FileWriter(getFile().getPath(), false);
+
+            for(String id : ids){
+                fw.write(id + "\n");
+                fw.close();
+            }
+            bReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Checks if a users id is already inside the BannedUsersIDs.txt file
+     * 
+     * @return If the id is inside BannedUsersIDs.txt
+     * @author Nate Sedler
+     */
     private boolean checkUser(Long userID){
 
         try {

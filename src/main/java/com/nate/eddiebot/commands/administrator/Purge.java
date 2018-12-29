@@ -7,6 +7,7 @@ import com.nate.eddiebot.util.bot.Categories;
 import com.nate.eddiebot.util.bot.Permissions;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import net.dv8tion.jda.core.entities.MessageHistory;
+import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
 
 /**
  * Clears x about of messages
@@ -46,6 +47,8 @@ public class Purge extends Command {
         } catch (NumberFormatException e) {
             // if they type something wrong
             event.reply("Uh oh! Looks like you typed something wrong! Try .purge 10");
+        } catch(InsufficientPermissionException e){
+            event.reply("I need to be able to delete messages!");
         }
     }
 }

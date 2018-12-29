@@ -1,7 +1,5 @@
 package com.nate.eddiebot.util.web;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.HttpUrl; 
@@ -17,14 +15,6 @@ import okhttp3.Response;
  * @author Nate Sedler
  */
 public class RestWrapper {
-
-    public static void main(String[] args) throws IOException {
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("message", "who are you?");
-
-        System.out.println(getJSON("https://icanhazdadjoke.com/"));
-    }
     
     private static OkHttpClient client = new OkHttpClient();
 
