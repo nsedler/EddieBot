@@ -45,6 +45,7 @@ public class BadWordFilter implements IPassive {
                     }
                 }
             } catch (NullPointerException e) {
+                e.printStackTrace();
             }
         }
     }

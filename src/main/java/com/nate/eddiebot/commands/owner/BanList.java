@@ -34,6 +34,5 @@ public class BanList extends Command {
         } catch(IllegalArgumentException e){
             event.reply("No one is banned from Eddie!");
         }
-
 	}
 }

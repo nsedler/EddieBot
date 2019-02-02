@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
@@ -107,7 +108,11 @@ public class BetterMessageEvent extends BetterEvent{
     }
 
     public String[] getArgs(){
-        return arguments;
+        return Arrays.copyOfRange(arguments, 1, arguments.length);
+    }
+
+    public ChannelType getChannelType(){
+        return event.getChannelType();
     }
 
     public TextChannel getTextChannel(){

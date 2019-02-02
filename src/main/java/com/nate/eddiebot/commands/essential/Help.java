@@ -3,6 +3,7 @@ package com.nate.eddiebot.commands.essential;
 import com.nate.eddiebot.EddieBot;
 import com.nate.eddiebot.commands.Command;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
+import com.nate.eddiebot.util.bot.DefaultEmbed;
 import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.awt.*;
@@ -25,10 +26,7 @@ public class Help extends Command {
     @Override
     protected void execute(BetterMessageEvent event) {
 
-        EmbedBuilder em = new EmbedBuilder()
-                .setColor(new Color(0, 0, 255))
-                .setFooter("EddieBot", null)
-                .setTimestamp(Instant.now());
+        EmbedBuilder x = DefaultEmbed.embedDefault();
 
         for(Command c : EddieBot.getCommands()){
 
@@ -42,8 +40,8 @@ public class Help extends Command {
                 fieldTitle += category == null ? "__**No Category**__" : "__**" + category.getName() + "**__";
             }
             fieldDesc += "`."  + c.getName() + (c.getArgs() == null ? "`" : " " + c.getArgs() + "`") + " - " + c.getHelp();
-            em.addField(fieldTitle, fieldDesc, false);
+            x.addField(fieldTitle, fieldDesc, false);
         }
-        event.reply(em.build());
+        event.reply(x.build());
     }
 }

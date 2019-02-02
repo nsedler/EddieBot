@@ -11,7 +11,7 @@ import com.nate.eddiebot.util.bot.BannedUsers;
  */
 public class BanUser extends Command {
 
-	public BanUser(){
+	public BanUser() {
 		this.name = "idBan";
 		this.ownerOnly = true;
 		this.hidden = true;
@@ -23,19 +23,17 @@ public class BanUser extends Command {
 		BannedUsers bUsers = new BannedUsers();
 		Long banId = null;
 
-		try{
-			event.getJDA().getUserById(banId).getName();
-		try{
-
+		try {
 			banId = Long.parseLong(event.getArgs()[1]);
-			bUsers.addBannedUser(banId);
-
-			event.reply("The devs banned " + event.getJDA().getUserById(banId).getName());
-		} catch(NumberFormatException e){
-			event.reply("You need to give and ID, not a name!");
-		}
-		} catch(NullPointerException e){
-			event.reply("You must give a valid ID!");
+			try {
+				event.getJDA().getUserById(banId).getName();
+				bUsers.addBannedUser(banId);
+				event.reply("The devs banned " + event.getJDA().getUserById(banId).getName());
+			} catch (NullPointerException e) {
+				event.reply("test123");
+			}
+		} catch (NumberFormatException e) {
+			event.reply("You need to give and ID, not a name!You must give a valid ID!");
 		}
 	}
 }

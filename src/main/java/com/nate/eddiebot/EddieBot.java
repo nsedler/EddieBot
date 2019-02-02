@@ -1,36 +1,42 @@
 package com.nate.eddiebot;
 
-import com.nate.eddiebot.commands.Command;
-import com.nate.eddiebot.commands.music.PlayerControl;
-import com.nate.eddiebot.commands.administrator.*;
+import java.awt.Color;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+import javax.security.auth.login.LoginException;
+
+import com.nate.eddiebot.commands.Command;
 import com.nate.eddiebot.commands.IPassive;
-import com.nate.eddiebot.commands.essential.*;
+import com.nate.eddiebot.commands.administrator.BadWordFilter;
+import com.nate.eddiebot.commands.administrator.Kick;
+import com.nate.eddiebot.commands.administrator.Purge;
+import com.nate.eddiebot.commands.essential.BotInfo;
+import com.nate.eddiebot.commands.essential.Help;
+import com.nate.eddiebot.commands.essential.InviteLink;
+import com.nate.eddiebot.commands.essential.Ping;
 import com.nate.eddiebot.commands.fun.*;
 import com.nate.eddiebot.commands.misc.Feedback;
-import com.nate.eddiebot.commands.misc.testing;
 import com.nate.eddiebot.commands.music.MusicHelp;
-import com.nate.eddiebot.commands.owner.BanList;
-import com.nate.eddiebot.commands.owner.BanUser;
-import com.nate.eddiebot.commands.owner.Eval;
-import com.nate.eddiebot.commands.owner.Kill;
-import com.nate.eddiebot.commands.owner.RemoveBan;
+import com.nate.eddiebot.commands.music.PlayerControl;
+import com.nate.eddiebot.commands.owner.*;
 import com.nate.eddiebot.listener.EventDispatcher;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
-import me.duncte123.botcommons.messaging.EmbedUtils;
-import net.dv8tion.jda.core.*;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import net.dv8tion.jda.core.requests.RestAction;
+
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.LoginException;
-import java.awt.*;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
+import me.duncte123.botcommons.messaging.EmbedUtils;
+import net.dv8tion.jda.core.AccountType;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.core.requests.RestAction;
 
 public class EddieBot extends ListenerAdapter {
 
@@ -47,12 +53,6 @@ public class EddieBot extends ListenerAdapter {
 			)
 	);
 
-	public static ArrayList<Long> blockedUserIds = new ArrayList<>(
-			Arrays.asList(
-					Long.valueOf("185063150557593600")
-			)
-	);
-
 	// List of commands
 	private static ArrayList<Command> Commands = new ArrayList<>(
 			Arrays.asList(
@@ -64,6 +64,7 @@ public class EddieBot extends ListenerAdapter {
 				new BanUser(),
 				new BanList(),
 				new RemoveBan(),
+				new GuildList(),
 			/*********************\
 			|*       Admin       *|
 			\*********************/    
@@ -78,21 +79,18 @@ public class EddieBot extends ListenerAdapter {
 				new Ping(),
 				new Feedback(),
 				new MusicHelp(),
+				new WhoIs(),
 			/*********************\
 			|*        Fun        *|
 			\*********************/  
-				new ChuckNorris(),
+				new ChuckNorris(), 
 				new TheOffice(),
 				new Gif(),
 				new Insult(),
 				new Joke(),
 				new Meow(),
 				new Woof(),
-				new PlayerControl(),
-			/*********************\
-			|*      Random       *|
-			\*********************/  
-				new testing()
+				new PlayerControl()
 			)
 	);
 
@@ -125,9 +123,6 @@ public class EddieBot extends ListenerAdapter {
 		} catch (LoginException | InterruptedException e) {
 			logger.info("Provide the correct token please");
 		}
-
-
-
 	}
 
 	/**

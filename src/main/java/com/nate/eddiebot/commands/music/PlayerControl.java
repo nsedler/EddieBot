@@ -42,7 +42,6 @@ public class PlayerControl extends Command {
     private final Map<String, GuildMusicManager> musicManagers;
 
     public static Guild guild;
-    String botName;
 
 
     public PlayerControl() throws IndexOutOfBoundsException {

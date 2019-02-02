@@ -26,7 +26,7 @@ public class Gif extends Command {
     @Override
     protected void execute(BetterMessageEvent event) {
 
-        String[] args = Arrays.copyOfRange(event.getArgs(), 1, event.getArgs().length);
+        String[] args = event.getArgs();
         String sURL = "https://api.giphy.com/v1/gifs/random?api_key=Bxx5K3s6bY2XymQ3zxsap4KDcNbDxLT6&tag=" + Arrays.toString(args); //just a string
 
         EmbedBuilder x = DefaultEmbed.embedDefault();

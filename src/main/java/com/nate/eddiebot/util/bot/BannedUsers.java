@@ -4,116 +4,117 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Switch to json so that I can unban from both names and ids
+
 public class BannedUsers {
 
-    /**
-     * Gets the text file filled with user ids
-     * 
-     * @return The text file filled with user ids
-     * @author Nate Sedler
-     */
-    private File getFile() {
-        return new File("BannedUsersIDs.txt");
-    }
+	/**
+	 * Gets the text file filled with user ids
+	 *
+	 * @return The text file filled with user ids
+	 * @author Nate Sedler
+	 */
+	private File getFile() {
+		return new File("BannedUsersIDs.txt");
+	}
 
-    /**
-     * Reads through the text file from getFile()
-     * 
-     * @return A String list with all banned users
-     * @author Nate Sedler
-     */
-    public List<String> readBannedUsers() {
+	/**
+	 * Reads through the text file from getFile()
+	 *
+	 * @return A String list with all banned users
+	 * @author Nate Sedler
+	 */
+	public List<String> readBannedUsers() {
 
-        List<String> lines = new ArrayList<String>();
+		List<String> lines = new ArrayList<String>();
 
-        try{
+		try{
 
-            BufferedReader bReader = new BufferedReader(new FileReader(getFile()));
-            for (String line; (line = bReader.readLine()) != null;) {
-                lines.add(line);
-            }
-            bReader.close();
+			BufferedReader bReader = new BufferedReader(new FileReader(getFile()));
+			for (String line; (line = bReader.readLine()) != null;) {
+				lines.add(line);
+			}
+			bReader.close();
+		}catch(FileNotFoundException e){
+			// process errors
+		}catch(IOException e){
+			// process errors
+		}
+		return lines;
+	}
 
-        }catch(FileNotFoundException e){
-            // process errors
-        }catch(IOException e){
-            // process errors
-        }
-        return lines;
-    }
+	/**
+	 * Adds a banned users id to the BannedUsersIDs.txt file
+	 *
+	 * @author Nate Sedler
+	 */
+	public void addBannedUser(Long userID) {
 
-    /**
-     * Adds a banned users id to the BannedUsersIDs.txt file 
-     *
-     * @author Nate Sedler
-     */
-    public void addBannedUser(Long userID) {
+		try {
+			FileWriter fw = new FileWriter(getFile().getPath(), true);
+			if(checkUser(userID)) {
+				fw.write(userID + "\n");
+				fw.close();
+			}
+		} catch (IOException e) {
+			System.err.println("IOException: " + e.getMessage());
+		}
+	}
 
-        try {
-            FileWriter fw = new FileWriter(getFile().getPath(), true);
-            if(checkUser(userID)) {
-                fw.write(userID + "\n");
-                fw.close();
-            }
-        } catch (IOException e) {
-            System.err.println("IOException: " + e.getMessage());
-        }
-    }
-    
-    /**
-     * Removes a banned users if from the BannedUsersIDs.txt file
-     * 
-     * @author Nate Sedler
-     */
-    public void removeBannedUser(Long userID){
-        
-        List<String> ids = new ArrayList<String>();
+	/**
+	 * Removes a banned users if from the BannedUsersIDs.txt file
+	 *
+	 * @author Nate Sedler
+	 */
+	public void removeBannedUser(Long userID){
 
-        try{
+		List<String> ids = new ArrayList<String>();
 
-        	BufferedReader bReader = new BufferedReader(new FileReader(getFile()));
+		try{
 
-            for (String line; (line = bReader.readLine()) != null;) {
-                ids.add(line);
-            }
+			BufferedReader bReader = new BufferedReader(new FileReader(getFile()));
 
-            ids.removeIf(e -> e.equals(String.valueOf(userID)));
+			for (String line; (line = bReader.readLine()) != null;) {
+				ids.add(line);
+			}
 
-            FileWriter fw = new FileWriter(getFile().getPath(), false);
+			ids.removeIf(e -> e.equals(String.valueOf(userID)));
 
-            for(String id : ids){
-                fw.write(id + "\n");
-                fw.close();
-            }
-            bReader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+			FileWriter fw = new FileWriter(getFile().getPath(), false);
 
-    /**
-     * Checks if a users id is already inside the BannedUsersIDs.txt file
-     * 
-     * @return If the id is inside BannedUsersIDs.txt
-     * @author Nate Sedler
-     */
-    private boolean checkUser(Long userID){
+			for(String id : ids){
+				fw.write(id + "\n");
+				fw.close();
+			}
+			bReader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-        try {
-            BufferedReader bReader = new BufferedReader(new FileReader(getFile()));
+	/**
+	 * Checks if a users id is already inside the BannedUsersIDs.txt file
+	 *
+	 * @return If the id is inside BannedUsersIDs.txt
+	 * @author Nate Sedler
+	 */
+	private boolean checkUser(Long userID){
 
-            for (String line; (line = bReader.readLine()) != null;) {
-                if(line.equals(String.valueOf(userID)))
-                    return false;
-            }
-            bReader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
+		try {
+			BufferedReader bReader = new BufferedReader(new FileReader(getFile()));
+
+			for (String line; (line = bReader.readLine()) != null;) {
+				if(line.equals(String.valueOf(userID)))
+					return false;
+			}
+			bReader.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
 }
