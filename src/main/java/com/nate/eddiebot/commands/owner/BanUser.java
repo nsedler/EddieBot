@@ -1,8 +1,10 @@
 package com.nate.eddiebot.commands.owner;
 
+import com.nate.eddiebot.EddieBot;
 import com.nate.eddiebot.commands.Command;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import com.nate.eddiebot.util.bot.BannedUsers;
+import com.nate.eddiebot.util.bot.BannedUsersNEW;
 
 /**
  * Bans a user from using Eddie
@@ -20,20 +22,11 @@ public class BanUser extends Command {
 	@Override
 	protected void execute(BetterMessageEvent event) {
 
-		BannedUsers bUsers = new BannedUsers();
-		Long banId = null;
+		BannedUsersNEW bUsersNEW = EddieBot.bUsersNew;
 
-		try {
-			banId = Long.parseLong(event.getArgs()[1]);
-			try {
-				event.getJDA().getUserById(banId).getName();
-				bUsers.addBannedUser(banId);
-				event.reply("The devs banned " + event.getJDA().getUserById(banId).getName());
-			} catch (NullPointerException e) {
-				event.reply("test123");
-			}
-		} catch (NumberFormatException e) {
-			event.reply("You need to give and ID, not a name!You must give a valid ID!");
-		}
+		bUsersNEW.addUser(Long.parseLong(event.getArgs()[0]), event.getJDA().getUserById(event.getArgs()[0]).getName());
+
+		event.reply("The devs banned " + event.getJDA().getUserById(event.getArgs()[0]).getName());
+		System.out.println(bUsersNEW.toString());
 	}
 }

@@ -24,6 +24,8 @@ import com.nate.eddiebot.commands.owner.*;
 import com.nate.eddiebot.listener.EventDispatcher;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 
+import com.nate.eddiebot.util.bot.BannedUsers;
+import com.nate.eddiebot.util.bot.BannedUsersNEW;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +54,8 @@ public class EddieBot extends ListenerAdapter {
 					new BadWordFilter()
 			)
 	);
+
+	public static BannedUsersNEW bUsersNew = new BannedUsersNEW();
 
 	// List of commands
 	private static ArrayList<Command> Commands = new ArrayList<>(
@@ -178,4 +182,5 @@ public class EddieBot extends ListenerAdapter {
 	public static ArrayList<Command> getCommands() {
 		return EddieBot.Commands;
 	}
+
 }

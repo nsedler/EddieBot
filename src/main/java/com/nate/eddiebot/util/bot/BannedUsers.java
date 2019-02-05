@@ -8,6 +8,8 @@ import java.util.List;
 
 public class BannedUsers {
 
+
+
 	/**
 	 * Gets the text file filled with user ids
 	 *

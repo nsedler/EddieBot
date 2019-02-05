@@ -3,6 +3,7 @@ package com.nate.eddiebot.commands;
 import com.nate.eddiebot.EddieBot;
 import com.nate.eddiebot.listener.events.BetterMessageEvent;
 import com.nate.eddiebot.util.bot.BannedUsers;
+import com.nate.eddiebot.util.bot.BannedUsersNEW;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Member;
@@ -118,16 +119,27 @@ public abstract class Command {
 				return false;
 			}
 
-			BannedUsers bUsers = new BannedUsers();
-			if(bUsers.readBannedUsers().contains(String.valueOf(event.getAuthor().getIdLong()))){
-				try{
+			BannedUsersNEW bUsersNew = new BannedUsersNEW();
+
+			if(bUsersNew.getMap().containsKey(event.getMember().getUser().getIdLong())) {
+				try {
 					event.getMessage().delete().queue();
 				} catch(InsufficientPermissionException e){
-					// we don't need to delete the message 
+					// haha yea
 				}
 				event.reply("The devs have decided it's best if you not use Eddie.");
-				return false;
 			}
+
+//			BannedUsers bUsers = new BannedUsers();
+//			if(bUsers.readBannedUsers().contains(String.valueOf(event.getAuthor().getIdLong()))){
+//				try{
+//					event.getMessage().delete().queue();
+//				} catch(InsufficientPermissionException e){
+//					// we don't need to delete the message
+//				}
+//				event.reply("The devs have decided it's best if you not use Eddie.");
+//				return false;
+//			}
 
 			// checks if the user has correct perms to use command
 			Member callMember = event.getMember();

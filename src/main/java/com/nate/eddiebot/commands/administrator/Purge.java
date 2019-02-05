@@ -29,7 +29,7 @@ public class Purge extends Command {
     @Override
     protected void execute(BetterMessageEvent event) {
 
-        int toDelete = Integer.parseInt(event.getArgs()[1]);
+        int toDelete = Integer.parseInt(event.getArgs()[0]);
 
         MessageHistory mh = new MessageHistory(event.getTextChannel());
 
