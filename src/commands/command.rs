@@ -1,18 +1,10 @@
-use serenity::{
-    model::{ channel::Message},
-    prelude::*,
-};
+use serenity::{model::channel::Message, prelude::*};
 
 pub struct Command {
-    cmd: String,
-    aliases: Vec<String>,
-    help: String
-}
-
-impl Command {
-    pub fn new(cmd: String, aliases: Vec<String>, help: String) -> Command {
-        return Command { cmd, aliases, help }
-    }
+    pub cmd: String,
+    pub aliases: Vec<String>,
+    pub help: String,
+    pub execute: Box<dyn Fn(Context, Message)>
 }
 
 pub trait Execute {
