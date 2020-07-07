@@ -1,3 +1,4 @@
+use crate::commands::command::Execute;
 use serenity::{
     model::{ channel::Message, gateway::Ready },
     prelude::*,
@@ -15,9 +16,9 @@ impl EventHandler for Handler {
     // events can be dispatched simultaneously.
     fn message(&self, ctx: Context, msg: Message) {
         let x = commands::test_cmd::test();
-        println!("{:#?}", x);
+        
         match msg.content.as_ref()  {
-            "!ping" => commands::fun::ping(ctx, msg),
+            "!ping" => x.execute(ctx, msg),
             "!say" => {commands::fun::say(ctx, msg); println!("test");},
             _ => ()
         };

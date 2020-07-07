@@ -1,0 +1,21 @@
+Hello I am trying to write a command object for a discord bot I am working on
+I am having trouble implementing it however since rust doesn't have real objects.
+
+I want every command to have 3 options, `cmd: String, aliases: Vec<string>, help: String`.  So i made a struct like this:
+```rust
+pub struct Command {
+    cmd: String,
+    aliases: Vec<String>,
+    help: String
+}
+```
+
+And every command should be executed using the `execute` funcion so I made a trait like this:
+```rust
+pub trait Execute {
+    fn execute(&self, ctx: Context, msg: Message);
+}
+```
+
+I also have a `Command::new()` function that returns a Command struct.  I'm not sure how I can dynamically create new Commands and impl the Execute trait.
+Any help would be appreciated, sorry if this quetion is worded poorly or I missed out on some details I should have included, if I have please mention me.

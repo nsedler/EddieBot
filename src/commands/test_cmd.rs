@@ -5,7 +5,8 @@ use serenity::{
     prelude::*,
 };
 
-pub fn test() {
+pub fn test() -> Command {
+
     let y: Command = Command::new(
         String::from("test"),
         vec![String::from("")],
@@ -19,4 +20,6 @@ pub fn test() {
             }
         }
     }
+
+    return y;
 }
