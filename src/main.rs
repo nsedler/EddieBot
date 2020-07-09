@@ -1,8 +1,8 @@
+use crate::commands::command::Command;
 use serenity::{
     model::{channel::Message, gateway::Ready},
     prelude::*,
 };
-use std::process;
 
 mod commands;
 
@@ -10,13 +10,18 @@ struct Handler;
 
 impl EventHandler for Handler {
     fn message(&self, ctx: Context, msg: Message) {
-        let command_list = [commands::test_cmd::ping()];
+        let command_list: Vec<Box<dyn Command>> = vec![
+            Box::new(commands::test_cmd::Ping {}),
+            Box::new(commands::quit_cmd::Quit {}),
+        ];
 
-        match msg.content.as_ref() {
-            "!ping" => (command_list[0].execute)(ctx, msg),
-            "!quit" => process::exit(69),
-            &_ => ()
-        };
+        let message: &String = &msg.content;
+
+        for cmd in command_list.iter() {
+            if message == &format!("!{}", cmd.cmd()) {
+                cmd.execute(&ctx, &msg).expect("testing");
+            }
+        }
     }
     fn ready(&self, _: Context, ready: Ready) {
         println!(
@@ -27,7 +32,6 @@ impl EventHandler for Handler {
 }
 
 fn main() {
-
     // Configure the client with your Discord bot token in the environment.
     let token = String::from("NTAzMzU1ODIxMTY2NjkwMzA2.XwDHxQ.r8i9475BzMbrNxJUUxw5oz54Ihc");
 

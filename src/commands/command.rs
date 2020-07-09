@@ -1,12 +1,9 @@
 use serenity::{model::channel::Message, prelude::*};
+use std::io;
 
-pub struct Command {
-    pub cmd: String,
-    pub aliases: Vec<String>,
-    pub help: String,
-    pub execute: Box<dyn Fn(Context, Message)>
-}
-
-pub trait Execute {
-    fn execute(&self, ctx: Context, msg: Message);
+pub trait Command {
+    fn cmd(&self) -> &str;
+    fn aliases(&self) -> Vec<&str>;
+    fn help(&self) -> &str;
+    fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()>;
 }
