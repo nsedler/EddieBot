@@ -1,6 +1,10 @@
 use crate::commands::command::Command;
 use serenity::{
-    model::{channel::Message, gateway::Ready},
+    model::{
+        channel::Message,
+        gateway::{Activity, Ready},
+        user::OnlineStatus,
+    },
     prelude::*,
 };
 
@@ -19,11 +23,24 @@ impl EventHandler for Handler {
 
         for cmd in command_list.iter() {
             if message == &format!("!{}", cmd.cmd()) {
-                cmd.execute(&ctx, &msg).expect("testing");
+                if msg.author.id.to_string() == "185063150557593600" && cmd.owner_cmd() {
+                    cmd.execute(&ctx, &msg).expect("Owner check Passed | Error");
+                } else {
+                    msg.channel_id
+                        .say(&ctx.http, "You must be an owner to use this command!")
+                        .expect("Owner check failed | ERROR");
+                }
             }
         }
     }
-    fn ready(&self, _: Context, ready: Ready) {
+    fn ready(&self, ctx: Context, ready: Ready) {
+        ctx.set_presence(
+            Some(Activity::streaming(
+                "purple 😲",
+                "https://www.twitch.tv/nsedler",
+            )),
+            OnlineStatus::Idle,
+        );
         println!(
             "{} is connected on version: {}",
             ready.user.name, ready.version

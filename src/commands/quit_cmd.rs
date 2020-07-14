@@ -15,11 +15,18 @@ impl Command for Quit {
     fn help(&self) -> &str {
         "shutsdown the bot"
     }
+    fn owner_cmd(&self) -> bool {
+        true
+    }
+    fn perms_cmd(&self) -> Option<std::vec::Vec<serenity::model::permissions::Permissions>> {
+        None
+    }
+    #[allow(unreachable_code)]
     fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {
-        process::exit(69);
         msg.channel_id
             .say(&ctx.http, "Bye bye...".to_string())
             .expect("Error executing command");
+        process::exit(69);
         Ok(())
     }
 }
