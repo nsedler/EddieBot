@@ -1,4 +1,7 @@
-use serenity::{model::{channel::Message, Permissions}, prelude::*};
+use serenity::{
+    model::{channel::Message, Permissions},
+    prelude::*,
+};
 use std::io;
 
 pub trait Command {
