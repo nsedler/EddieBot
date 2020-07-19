@@ -17,11 +17,6 @@ impl Command for Ping {
     fn owner_cmd(&self) -> bool {
         true
     }
-    fn perms_cmd(
-        &self,
-    ) -> Option<std::vec::Vec<serenity::model::permissions::Permissions>> {
-        None
-    }
     fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {
         msg.channel_id
             .say(&ctx.http, "Pong!".to_string())

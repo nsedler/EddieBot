@@ -1,14 +1,11 @@
 use crate::commands::command::Command;
 use chrono::Local;
 use chrono::Timelike;
-use serenity::cache::CacheRwLock;
-use serenity::model::guild::Member;
 use serenity::{
     model::{
         channel::Message,
         gateway::{Activity, Ready},
         user::OnlineStatus,
-        Permissions,
     },
     prelude::*,
 };
@@ -37,29 +34,50 @@ impl EventHandler for Handler {
                 msg.author.name,
                 msg.content
             );
-
-            let y = user_perms(msg.member(&ctx.cache).unwrap(), &ctx.cache);
-            println!("{:?}", y);
         }
 
         let command_list: Vec<Box<dyn Command>> = vec![
             Box::new(commands::test_cmd::Ping {}),
             Box::new(commands::quit_cmd::Quit {}),
+            Box::new(commands::moderation::ban::Ban {}),
+            Box::new(commands::moderation::ban::Bans {}),
+            Box::new(commands::moderation::ban::Unban {}),
         ];
 
-        let message: &String = &msg.content;
+        let message: Vec<&str> = msg.content.split(" ").collect();
 
         // TODO: Add permsion check.  Loop through users roles, and that roles perms and check -
         // > if it matches the perms_cmd then good
         // This should probably be done in a seperate function
         for cmd in command_list.iter() {
-            if message == &format!("!{}", cmd.cmd()) {
-                if *msg.author.id.as_u64() == 185063150557593600 as u64 && cmd.owner_cmd() {
-                    cmd.execute(&ctx, &msg).expect("Owner check Passed | Error");
+            if message[0] == &format!("!{}", cmd.cmd()) {
+                println!(
+                    "[EddieBot Command] {}#{} ran {} command in guild: {} at: {}",
+                    msg.author.name,
+                    msg.author.discriminator,
+                    cmd.cmd(),
+                    msg.guild_id
+                        .unwrap()
+                        .to_partial_guild(&ctx.http)
+                        .unwrap()
+                        .name,
+                    format!(
+                        "{}:{}:{}",
+                        Local::now().time().hour12().1,
+                        msg.timestamp.time().minute(),
+                        msg.timestamp.time().second()
+                    ),
+                );
+                if cmd.owner_cmd() {
+                    if *msg.author.id.as_u64() == 185063150557593600 as u64 {
+                        cmd.execute(&ctx, &msg).expect("Owner check Passed | Error");
+                    } else {
+                        msg.channel_id
+                            .say(&ctx.http, "You must be an owner to use this command!")
+                            .expect("Owner check failed | ERROR");
+                    }
                 } else {
-                    msg.channel_id
-                        .say(&ctx.http, "You must be an owner to use this command!")
-                        .expect("Owner check failed | ERROR");
+                    cmd.execute(&ctx, &msg).expect("Regular command | Error");
                 }
             }
         }
@@ -79,17 +97,6 @@ impl EventHandler for Handler {
             ready.user.name, ready.version
         );
     }
-}
-
-fn user_perms(memb: Member, cache: impl AsRef<CacheRwLock>) -> Vec<Permissions> {
-    let mut roles: Vec<Permissions> = vec![];
-    for role in memb.roles {
-        let r = role.to_role_cached(&cache).unwrap().permissions;
-        if !roles.contains(&r) {
-            roles.push(r);
-        }
-    }
-    return roles;
 }
 
 fn main() {
