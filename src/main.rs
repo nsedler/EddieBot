@@ -16,8 +16,8 @@ struct Handler;
 
 impl EventHandler for Handler {
     fn message(&self, ctx: Context, msg: Message) {
+
         if !msg.is_own(&ctx) {
-            // println!("{:?}", msg.guild_id.unwrap().channels(&ctx.http));
             println!(
                 "[EddieBot] {} | {} | {} | {}",
                 msg.guild_id
@@ -81,8 +81,6 @@ impl EventHandler for Handler {
                 }
             }
         }
-
-        // println!("{}", msg.author);
     }
     fn ready(&self, ctx: Context, ready: Ready) {
         ctx.set_presence(
@@ -101,7 +99,7 @@ impl EventHandler for Handler {
 
 fn main() {
     // Configure the client with your Discord bot token in the environment.
-    let token = String::from("NTAzMzU1ODIxMTY2NjkwMzA2.XwDHxQ.r8i9475BzMbrNxJUUxw5oz54Ihc");
+    let token = String::from("Token here");
 
     // Create a new instance of the Client, logging in as a bot. This will
     // automatically prepend your bot token with "Bot ", which is a requirement

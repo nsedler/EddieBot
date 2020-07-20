@@ -1,7 +1,7 @@
+use serenity::model::id::UserId;
 use crate::commands::command::Command;
 use serenity::{model::channel::Message, prelude::*};
 use std::io;
-use std::process;
 
 pub struct Ban {}
 
@@ -56,10 +56,9 @@ impl Command for Unban {
         false
     }
     fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {
-        let user_id = msg.content.split(" ").collect::<Vec<&str>>()[1];
-        // TODO parse user_id into UserId
-        // msg.guild_id.unwrap().to_partial_guild(&ctx.http).unwrap().unban(&ctx.http, user_id);
-        println!("{}", user_id);
+        let user_id = msg.content.split(" ").collect::<Vec<&str>>()[1].parse::<u64>().unwrap();
+        msg.guild_id.unwrap().to_partial_guild(&ctx.http).unwrap().unban(&ctx.http, user_id).expect("cannot find id");
+        msg.channel_id.say(&ctx.http, format!("`{}` has been unbanned", &user_id)).expect("Error at sending unban message");
         Ok(())
     }
 }
@@ -87,11 +86,14 @@ impl Command for Bans {
             .unwrap()
             .bans(&ctx.http)
             .unwrap();
-        let mut banned_user: String = String::new();
+        let mut banned_user: String = String::from("\n");
         for (i, user) in all_bans.iter().enumerate() {
             let temp_str = format!(
                 "{}: Name:{}#{} ID: {} \n",
-                i + 1, user.user.name, user.user.discriminator, user.user.id
+                i + 1,
+                user.user.name,
+                user.user.discriminator,
+                user.user.id
             );
             banned_user.push_str(&temp_str);
         }
