@@ -1,3 +1,5 @@
+extern crate dotenv;
+
 use crate::commands::command::Command;
 use chrono::Local;
 use chrono::Timelike;
@@ -9,6 +11,8 @@ use serenity::{
     },
     prelude::*,
 };
+
+use dotenv::dotenv;
 
 mod commands;
 
@@ -98,8 +102,9 @@ impl EventHandler for Handler {
 }
 
 fn main() {
+    dotenv().ok();
     // Configure the client with your Discord bot token in the environment.
-    let token = String::from("Token here");
+    let token = String::from(dotenv::var("token").expect("Error at dotenv token"));
 
     // Create a new instance of the Client, logging in as a bot. This will
     // automatically prepend your bot token with "Bot ", which is a requirement
