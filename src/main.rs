@@ -46,6 +46,7 @@ impl EventHandler for Handler {
             Box::new(commands::moderation::ban::Ban {}),
             Box::new(commands::moderation::ban::Bans {}),
             Box::new(commands::moderation::ban::Unban {}),
+            Box::new(commands::moderation::kick::Kick {}),
         ];
 
         let message: Vec<&str> = msg.content.split(" ").collect();
