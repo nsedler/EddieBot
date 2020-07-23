@@ -19,22 +19,26 @@ impl Command for Kick {
         false
     }
     fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {
+
         let kicked = &msg.mentions;
         let guild = msg.guild_id.unwrap().to_partial_guild(&ctx.http).unwrap();
+        let mut kicked_users = String::new();
+
+        for user in kicked {
+            kicked_users.push_str(
+                format!("{}#{} Id: {}\n", user.name, user.discriminator, user.id).as_str(),
+            );
+            guild
+                .kick(&ctx.http, user)
+                .expect(format!("Err at kicking player{}", user.name).as_str());
+        }
+        
         msg.channel_id
             .say(
                 &ctx.http,
-                format!(
-                    "User `{}#{}` has been cicked from {}",
-                    kicked[0].name, kicked[0].discriminator, guild.name
-                ),
+                format!("{} has been kicked from the guild.", kicked_users),
             )
             .expect("Ban command failed");
-        for user in kicked {
-            guild
-                .kick(&ctx.http, user)
-                .expect(format!("Err at kicking player{}", user.name));
-        }
         Ok(())
     }
 }

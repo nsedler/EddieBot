@@ -1,5 +1,9 @@
-use serenity::model::id::UserId;
 use crate::commands::command::Command;
+use serenity::framework::standard::CommandError;
+use serenity::model::id::UserId;
+use serenity::model::ModelError::DeleteMessageDaysAmount;
+use serenity::model::ModelError::InvalidPermissions;
+use serenity::Error;
 use serenity::{model::channel::Message, prelude::*};
 use std::io;
 
@@ -20,22 +24,60 @@ impl Command for Ban {
     }
     fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {
         let banned = &msg.mentions;
-        msg.channel_id
-            .say(
-                &ctx.http,
-                format!(
-                    "User `{}#{}` is now banned",
-                    banned[0].name, banned[0].discriminator
-                ),
-            )
-            .expect("Ban command failed");
+        let guild = msg.guild_id.unwrap().to_partial_guild(&ctx.http).unwrap();
 
-        msg.guild_id
-            .unwrap()
-            .to_partial_guild(&ctx.http)
-            .unwrap()
-            .ban(&ctx.http, &banned[0], 7)
-            .expect("Cannot ban user");
+        if !banned.is_empty() {
+            let ban_result = guild.ban(&ctx.http, &banned[0], 7);
+
+            match ban_result {
+                Err(Error::Model(ModelError::InvalidPermissions(permissions))) => {
+                    msg.channel_id
+                        .say(
+                            &ctx.http,
+                            format!(
+                                "I don't have the correct permissions, 
+                    I am missing the following permissions `{:?}",
+                                permissions
+                            ),
+                        )
+                        .expect("Incorrect Permssions message failed");
+                }
+                Err(err) => {
+                    msg.channel_id
+                        .say(
+                            &ctx.http,
+                            format!("An unknown error has caused this command to fail: {}", err),
+                        )
+                        .expect("Failed at unknown error");
+                }
+                Ok(_) => {}
+            }
+        } else {
+            msg.channel_id
+                .say(
+                    &ctx.http,
+                    "You must mention a user that you want to be banned",
+                )
+                .expect("No User Mentioned Failed");
+        }
+
+        // if banned.is_empty() {
+        //     msg.channel_id
+        //         .say(&ctx.http, "You must mention a user that you wish to be banned.")
+        //         .expect("Error at no mentioned banned user");
+        // } else {
+        //     &guild.ban(&ctx.http, &banned[0], 7);
+        //     msg.channel_id
+        //         .say(
+        //             &ctx.http,
+        //             format!(
+        //                 "User `{}#{}` is now banned",
+        //                 banned[0].name, banned[0].discriminator
+        //             ),
+        //         )
+        //         .expect("Ban command failed");
+        // }
+
         Ok(())
     }
 }
@@ -56,9 +98,18 @@ impl Command for Unban {
         false
     }
     fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {
-        let user_id = msg.content.split(" ").collect::<Vec<&str>>()[1].parse::<u64>().unwrap();
-        msg.guild_id.unwrap().to_partial_guild(&ctx.http).unwrap().unban(&ctx.http, user_id).expect("cannot find id");
-        msg.channel_id.say(&ctx.http, format!("`{}` has been unbanned", &user_id)).expect("Error at sending unban message");
+        let user_id = msg.content.split(" ").collect::<Vec<&str>>()[1]
+            .parse::<u64>()
+            .unwrap();
+        msg.guild_id
+            .unwrap()
+            .to_partial_guild(&ctx.http)
+            .unwrap()
+            .unban(&ctx.http, user_id)
+            .expect("cannot find id");
+        msg.channel_id
+            .say(&ctx.http, format!("`{}` has been unbanned", &user_id))
+            .expect("Error at sending unban message");
         Ok(())
     }
 }
