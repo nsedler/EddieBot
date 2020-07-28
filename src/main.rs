@@ -41,12 +41,11 @@ impl EventHandler for Handler {
         }
 
         let command_list: Vec<Box<dyn Command>> = vec![
-            Box::new(commands::test_cmd::Ping {}),
-            Box::new(commands::quit_cmd::Quit {}),
             Box::new(commands::moderation::ban::Ban {}),
             Box::new(commands::moderation::ban::Bans {}),
             Box::new(commands::moderation::ban::Unban {}),
             Box::new(commands::moderation::kick::Kick {}),
+            Box::new(commands::moderation::mute::Mute {}),
         ];
 
         let message: Vec<&str> = msg.content.split(" ").collect();

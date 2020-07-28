@@ -36,5 +36,36 @@
 				"\t}",
 			"}"
 		]
-	}
+	},
+
+	"Cmds": {
+		"prefix": "cmd",
+		"body": [
+		  "use crate::commands::command::Command;",
+		  "use serenity::{model::channel::Message, prelude::*};",
+		  "use std::io;",
+		  "",
+		  "pub struct ${1:CmdName} {}",
+		  "",
+		  "impl Command for ${1:CmdName} {",
+		  "    fn cmd(&self) -> &str {",
+		  "        \"${2:cmd}\"",
+		  "    }",
+		  "    fn aliases(&self) -> Vec<&str> {",
+		  "        Vec::new()",
+		  "    }",
+		  "    fn help(&self) -> &str {",
+		  "        \"${3:description}\"",
+		  "    }",
+		  "    fn owner_cmd(&self) -> bool {",
+		  "        ${4:owner_cmd}",
+		  "    }",
+		  "    fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {",
+		  "        Ok(())",
+		  "    }",
+		  "}",
+		  ""
+		],
+		"description": "Cmds"
+	  }
 }
