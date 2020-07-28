@@ -1,8 +1,4 @@
 use crate::commands::command::Command;
-use serenity::framework::standard::CommandError;
-use serenity::model::id::UserId;
-use serenity::model::ModelError::DeleteMessageDaysAmount;
-use serenity::model::ModelError::InvalidPermissions;
 use serenity::Error;
 use serenity::{model::channel::Message, prelude::*};
 use std::io;
@@ -24,19 +20,18 @@ impl Command for Ban {
     }
     fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {
         let banned = &msg.mentions;
-        let guild = msg.guild_id.unwrap().to_partial_guild(&ctx.http).unwrap();
+        let guild = msg.guild(&ctx).unwrap().read().clone();
 
         if !banned.is_empty() {
-            let ban_result = guild.ban(&ctx.http, &banned[0], 7);
+            let ban_result = guild.ban(ctx, &banned[0], &String::from("Banned"));
 
             match ban_result {
                 Err(Error::Model(ModelError::InvalidPermissions(permissions))) => {
-                    msg.channel_id
+                    msg.channel_id  
                         .say(
                             &ctx.http,
                             format!(
-                                "I don't have the correct permissions, 
-                    I am missing the following permissions `{:?}",
+                                "I don't have the correct permissions, I am missing the following permissions `{:?}`",
                                 permissions
                             ),
                         )
@@ -61,23 +56,6 @@ impl Command for Ban {
                 .expect("No User Mentioned Failed");
         }
 
-        // if banned.is_empty() {
-        //     msg.channel_id
-        //         .say(&ctx.http, "You must mention a user that you wish to be banned.")
-        //         .expect("Error at no mentioned banned user");
-        // } else {
-        //     &guild.ban(&ctx.http, &banned[0], 7);
-        //     msg.channel_id
-        //         .say(
-        //             &ctx.http,
-        //             format!(
-        //                 "User `{}#{}` is now banned",
-        //                 banned[0].name, banned[0].discriminator
-        //             ),
-        //         )
-        //         .expect("Ban command failed");
-        // }
-
         Ok(())
     }
 }
@@ -101,12 +79,29 @@ impl Command for Unban {
         let user_id = msg.content.split(" ").collect::<Vec<&str>>()[1]
             .parse::<u64>()
             .unwrap();
-        msg.guild_id
-            .unwrap()
-            .to_partial_guild(&ctx.http)
-            .unwrap()
-            .unban(&ctx.http, user_id)
-            .expect("cannot find id");
+        let guild = msg.guild(&ctx).unwrap().read().clone();
+        
+        let unban_result = guild
+            .unban(&ctx.http, user_id);
+
+        match unban_result {
+            Err(Error::Model(ModelError::InvalidPermissions(permissions))) => {
+                msg.channel_id  
+                    .say(
+                        &ctx.http,
+                        format!(
+                            "I don't have the correct permissions, I am missing the following permissions `{:?}`",
+                            permissions
+                        ),
+                    )
+                    .expect("Incorrect Permssions message failed");
+            }
+            Err(err) => {
+                msg.channel_id.say(&ctx.http, format!("An unknown error occured: `{}`", err)).expect("err expected?");
+            }
+            Ok(_) => {}
+        }
+
         msg.channel_id
             .say(&ctx.http, format!("`{}` has been unbanned", &user_id))
             .expect("Error at sending unban message");
@@ -130,29 +125,51 @@ impl Command for Bans {
         false
     }
     fn execute(&self, ctx: &Context, msg: &Message) -> io::Result<()> {
-        let all_bans = msg
-            .guild_id
-            .unwrap()
-            .to_partial_guild(&ctx.http)
-            .unwrap()
-            .bans(&ctx.http)
-            .unwrap();
-        let mut banned_user: String = String::from("\n");
-        for (i, user) in all_bans.iter().enumerate() {
-            let temp_str = format!(
-                "{}: Name:{}#{} ID: {} \n",
-                i + 1,
-                user.user.name,
-                user.user.discriminator,
-                user.user.id
-            );
-            banned_user.push_str(&temp_str);
-        }
+        let guild = msg.guild(&ctx).unwrap().read().clone();
 
-        println!("{}", banned_user);
-        msg.channel_id
-            .say(&ctx.http, banned_user)
-            .expect("Bans command failed");
+        let all_bans = guild.bans(&ctx.http);
+
+        let mut banned_user: String = String::from("\n");
+        match all_bans {
+            Err(Error::Model(ModelError::InvalidPermissions(permissions))) => {
+                msg.channel_id  
+                    .say(
+                        &ctx.http,
+                        format!(
+                            "I don't have the correct permissions, I am missing the following permissions `{:?}`",
+                            permissions
+                        ),
+                    )
+                    .expect("Incorrect Permssions message failed");
+            }
+            Err(err) => {
+                msg.channel_id  
+                    .say(
+                        &ctx.http,
+                        format!(
+                            "I don't have the correct permissions, I am missing the following permissions `{:?}`",
+                            err
+                        ),
+                    )
+                    .expect("Incorrect Permssions message failed");
+            }
+            Ok(_) => {
+                for (i, user) in all_bans.unwrap().iter().enumerate() {
+                    let temp_str = format!(
+                        "{}: Name:{}#{} ID: {} \n",
+                        i + 1,
+                        user.user.name,
+                        user.user.discriminator,
+                        user.user.id
+                    );
+                    banned_user.push_str(&temp_str);
+                }
+                msg.channel_id
+                    .say(&ctx.http, banned_user)
+                    .expect("Bans command failed");
+            }
+        }
+        
         Ok(())
     }
 }
