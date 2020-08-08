@@ -1,4 +1,5 @@
 extern crate dotenv;
+extern crate lazy_static;
 
 use crate::commands::command::Command;
 use chrono::Local;
@@ -12,9 +13,20 @@ use serenity::{
     prelude::*,
 };
 
+use lazy_static::lazy_static;
 use dotenv::dotenv;
 
 mod commands;
+
+lazy_static! {
+    pub static ref COMMAND_LIST: Vec<Box<dyn Send + Sync + Command>> = vec![
+        Box::new(commands::moderation::ban::Ban {}),
+        Box::new(commands::moderation::ban::Bans {}),
+        Box::new(commands::moderation::ban::Unban {}),
+        Box::new(commands::moderation::kick::Kick {}),
+        Box::new(commands::moderation::mute::Mute {}),
+    ];
+}
 
 struct Handler;
 
@@ -40,20 +52,12 @@ impl EventHandler for Handler {
             );
         }
 
-        let command_list: Vec<Box<dyn Command>> = vec![
-            Box::new(commands::moderation::ban::Ban {}),
-            Box::new(commands::moderation::ban::Bans {}),
-            Box::new(commands::moderation::ban::Unban {}),
-            Box::new(commands::moderation::kick::Kick {}),
-            Box::new(commands::moderation::mute::Mute {}),
-        ];
-
         let message: Vec<&str> = msg.content.split(" ").collect();
 
         // TODO: Add permsion check.  Loop through users roles, and that roles perms and check -
         // > if it matches the perms_cmd then good
         // This should probably be done in a seperate function
-        for cmd in command_list.iter() {
+        for cmd in COMMAND_LIST.iter() {
             if message[0] == &format!("!{}", cmd.cmd()) {
                 println!(
                     "[EddieBot Command] {}#{} ran {} command in guild: {} at: {}",
